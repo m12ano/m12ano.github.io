@@ -34,6 +34,8 @@
             letter-spacing: -0.3px;
             overflow-x: hidden;
             position: relative;
+            /* Rimuove il flash blu sui click nei browser mobile */
+            -webkit-tap-highlight-color: transparent; 
         }
 
         h1 {
@@ -167,6 +169,8 @@
             animation: pulse 1.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
             filter: drop-shadow(0 0 25px rgba(157, 78, 221, 0.6));
             transition: transform 0.05s ease;
+            /* Sicurezza aggiuntiva specifica per il cuorone */
+            -webkit-tap-highlight-color: transparent; 
         }
 
         .heart:before, .heart:after {
@@ -335,6 +339,9 @@
         .btn-title { font-size: 0.95rem; }
         .price { font-size: 0.75rem; color: var(--accent-neon); font-weight: 400; }
         .game-btn:disabled .price { color: rgba(255, 255, 255, 0.2); }
+        .game-btn, .menu-trigger, .audio-control-btn {
+         -webkit-tap-highlight-color: transparent;
+}
     </style>
 </head>
 <body>
