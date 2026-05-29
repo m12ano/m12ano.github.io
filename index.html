@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>M12ANO 💜</title>
     <!-- ICONA DEL SITO (Cerca il file favicon.ico nella cartella principale) -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -20,313 +20,337 @@
             --heart-color: #9d4edd;
         }
 
+        /* --- TEMI SBLOCCABILI --- */
+        body.theme-pink {
+            --bg-gradient: linear-gradient(135deg, #2b081d, #470c2e);
+            --panel-border: rgba(255, 112, 166, 0.3);
+            --text-muted: #ff70a6;
+            --accent-neon: #ffccd5;
+            --accent-purple: #ff477e;
+            --btn-hover: #ff70a6;
+            --heart-color: #ff477e;
+        }
+
+        body.theme-mint {
+            --bg-gradient: linear-gradient(135deg, #041a16, #0b2e27);
+            --panel-border: rgba(46, 196, 182, 0.3);
+            --text-muted: #2ec4b6;
+            --accent-neon: #cbf3f0;
+            --accent-purple: #0f9f90;
+            --btn-hover: #2ec4b6;
+            --heart-color: #2ec4b6;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
             text-align: center;
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            padding: 10px;
+            padding-bottom: 80px; /* Spazio per la barra fissa */
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             letter-spacing: -0.3px;
-            overflow-x: hidden;
+            overflow: hidden; /* IMPEDISCE LO SCROLL DELLA PAGINA INTERA */
             position: relative;
-            /* Rimuove il flash blu sui click nei browser mobile */
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent; 
+            transition: background 0.5s ease;
+            
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
+        /* --- INTESTAZIONE COMPATTA PER RISPARMIARE SPAZIO --- */
         h1 {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-top: 20px;
-            margin-bottom: 5px;
-            background: linear-gradient(45deg, #e0aaff, #9d4edd);
+            margin: 5px 0 2px 0;
+            background: linear-gradient(45deg, var(--accent-neon), var(--text-muted));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             z-index: 10;
         }
 
         .subtitle {
-            font-size: 0.95rem;
-            color: #c77dff;
-            margin-bottom: 15px;
+            font-size: 0.8rem;
+            color: var(--accent-neon);
+            margin-bottom: 8px;
             opacity: 0.8;
             z-index: 10;
         }
 
-        /* --- PULSANTE AUDIO MUTE --- */
-        .audio-control-btn {
+        .controls-wrapper {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 8px;
+            z-index: 10;
+        }
+
+        .audio-control-btn, .fullscreen-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--panel-border);
             color: var(--text-main);
-            padding: 8px 16px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             transition: all 0.2s ease;
-            margin-bottom: 20px;
-            z-index: 10;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .audio-control-btn:hover {
+        .fullscreen-btn { display: none; }
+
+        .audio-control-btn:hover, .fullscreen-btn:hover {
             background: rgba(157, 78, 221, 0.2);
             border-color: var(--accent-neon);
-            box-shadow: 0 0 10px rgba(157, 78, 221, 0.3);
         }
 
-        /* --- DISPLAY PUNTEGGI & LIVELLI --- */
+        /* --- CONTENITORE COMPATTO DI PUNTEGGIO E LIVELLI --- */
         .counter-container {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 20px 40px;
-            border-radius: 24px;
+            padding: 12px 25px;
+            border-radius: 18px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            margin-bottom: 20px;
-            min-width: 260px;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
             z-index: 10;
         }
 
         #score {
-            font-size: 3.5rem;
+            font-size: 2.4rem;
             font-weight: 800;
             color: var(--text-main);
             display: block;
-            line-height: 1;
-            margin-bottom: 8px;
+            line-height: 1.1;
+            margin-bottom: 2px;
             text-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
         }
 
         #pps-display {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             display: block;
         }
 
         .level-section {
             border-top: 1px solid rgba(157, 78, 221, 0.2);
-            padding-top: 12px;
-            margin-top: 10px;
+            padding-top: 6px;
+            margin-top: 4px;
         }
 
         #level-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--accent-neon);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: block;
         }
 
         .progress-bar-container {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
-            height: 8px;
+            height: 6px;
             width: 100%;
             overflow: hidden;
             border: 1px solid rgba(157, 78, 221, 0.1);
         }
 
         #progress-bar {
-            background: linear-gradient(90deg, #7b2cbf, #e0aaff);
+            background: linear-gradient(90deg, var(--accent-purple), var(--accent-neon));
             height: 100%;
             width: 0%;
             transition: width 0.3s ease;
-            box-shadow: 0 0 10px rgba(224, 170, 255, 0.5);
         }
 
-        /* --- CUORE VIOLA ANIMATO --- */
+        .tab-view {
+            width: 100%;
+            max-width: 450px;
+            display: none;
+            z-index: 10;
+            flex-grow: 1; /* Prende lo spazio rimanente senza strabordare */
+        }
+
+        .tab-view.active-view { 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* --- AREA CLICKER ADATTIVA --- */
         .clicker-container {
-            margin: 50px 0;
-            height: 150px;
+            flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
+            min-height: 180px;
         }
 
-        .heart {
+        .shape-heart, .shape-star, .shape-diamond {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        /* Stile 1: Cuore standard */
+        .shape-heart {
             background-color: var(--heart-color);
             display: inline-block;
-            height: 100px;
+            height: 90px;
             position: relative;
             transform: rotate(-45deg);
-            width: 100px;
-            cursor: pointer;
+            width: 90px;
             animation: pulse 1.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
-            filter: drop-shadow(0 0 25px rgba(157, 78, 221, 0.6));
+            filter: drop-shadow(0 0 20px var(--heart-color));
             transition: transform 0.05s ease;
-            /* Sicurezza aggiuntiva specifica per il cuorone */
-            -webkit-tap-highlight-color: transparent; 
         }
-
-        .heart:before, .heart:after {
+        .shape-heart:before, .shape-heart:after {
             content: "";
             background-color: var(--heart-color);
             border-radius: 50%;
-            height: 100px;
+            height: 90px;
             position: absolute;
-            width: 100px;
+            width: 90px;
         }
-        .heart:before { top: -50px; left: 0; }
-        .heart:after { top: 0; left: 50px; }
-        .heart:active {
-            animation: none;
-            transform: rotate(-45deg) scale(0.85);
+        .shape-heart:before { top: -45px; left: 0; }
+        .shape-heart:after { top: 0; left: 45px; }
+        .shape-heart:active { animation: none; transform: rotate(-45deg) scale(0.85); }
+
+        /* Stile 2: Stella */
+        .shape-star {
+            position: relative;
+            display: inline-block;
+            color: var(--heart-color);
+            width: 0px;
+            height: 0px;
+            border-right: 90px solid transparent;
+            border-bottom: 63px solid var(--heart-color);
+            border-left: 90px solid transparent;
+            transform: rotate(35deg) scale(0.7);
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
         }
+        .shape-star:before {
+            border-bottom: 72px solid var(--heart-color);
+            border-left: 27px solid transparent;
+            border-right: 27px solid transparent;
+            position: absolute;
+            height: 0;
+            width: 0;
+            top: -40px;
+            left: -58px;
+            content: '';
+            transform: rotate(-35deg);
+        }
+        .shape-star:after {
+            position: absolute;
+            display: block;
+            color: var(--heart-color);
+            top: 2px;
+            left: -94px;
+            width: 0px;
+            height: 0px;
+            border-right: 90px solid transparent;
+            border-bottom: 63px solid var(--heart-color);
+            border-left: 90px solid transparent;
+            transform: rotate(-70deg);
+            content: '';
+        }
+        .shape-star:active { animation: none; transform: rotate(35deg) scale(0.55); }
+
+        /* Stile 3: Diamante */
+        .shape-diamond {
+            width: 75px;
+            height: 75px;
+            background: var(--heart-color);
+            transform: rotate(45deg);
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+            transition: transform 0.05s ease;
+        }
+        .shape-diamond:active { animation: none; transform: rotate(45deg) scale(0.75); }
 
         @keyframes pulse {
             0% { transform: rotate(-45deg) scale(0.95); }
-            40% { transform: rotate(-45deg) scale(1.1); }
-            60% { transform: rotate(-45deg) scale(1.02); }
-            80% { transform: rotate(-45deg) scale(1.15); }
+            40% { transform: rotate(-45deg) scale(1.08); }
+            60% { transform: rotate(-45deg) scale(1.01); }
+            80% { transform: rotate(-45deg) scale(1.12); }
             100% { transform: rotate(-45deg) scale(0.95); }
         }
 
-        /* --- CONTENITORE BACKGROUND CUORI --- */
-        #bg-hearts-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+        @keyframes pulseSimple {
+            0% { transform: scale(0.95) rotate(var(--base-rot, 0deg)); }
+            50% { transform: scale(1.08) rotate(var(--base-rot, 0deg)); }
+            100% { transform: scale(0.95) rotate(var(--base-rot, 0deg)); }
         }
+        .shape-diamond { --base-rot: 45deg; }
+        .shape-star { --base-rot: 35deg; }
 
-        .ambient-heart {
-            position: absolute;
-            color: rgba(157, 78, 221, 0.35);
-            font-size: 1.2rem;
-            bottom: -20px;
-            animation: floatBackground linear infinite;
-            filter: drop-shadow(0 0 5px rgba(157, 78, 221, 0.2));
-        }
-
-        @keyframes floatBackground {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% {
-                transform: translateY(-105vh) translateX(var(--random-x, 20px)) rotate(var(--random-rot, 360deg));
-                opacity: 0;
-            }
-        }
-
-        /* --- STILE NUMERI FLUTTUANTI AL CLICK E SBLOCCHI --- */
-        .floating-number {
-            position: fixed;
-            color: var(--accent-neon);
-            font-size: 1.4rem;
-            font-weight: 800;
-            pointer-events: none;
-            text-shadow: 0 0 10px rgba(224, 170, 255, 0.8);
-            animation: floatUp 0.8s ease-out forwards;
-            z-index: 9999;
-        }
-
-        .floating-number.reward-style {
-            color: #ffb7ff;
-            font-size: 1.6rem;
-            text-shadow: 0 0 15px rgba(255, 183, 255, 0.9);
-        }
-
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-80px) scale(1.2); }
-        }
-
-        /* --- INTERFACCIA MENU A TENDINA --- */
-        .menu-container {
-            width: 100%;
-            max-width: 450px;
-            margin-top: 15px;
-            z-index: 10;
-        }
-
-        .dropdown-menu {
-            background: var(--panel-bg);
+        /* --- SCROLL INTERNO LIMITATO AI SOLI MENU DI GIOCO --- */
+        .menu-list-container {
+            background: rgba(20, 10, 35, 0.6);
             border: 1px solid var(--panel-border);
-            border-radius: 16px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            padding: 12px;
+            max-height: 42vh; /* Blocca l'altezza massima del menu */
+            overflow-y: auto; /* Permette lo scroll solo dentro il box */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            box-sizing: border-box;
         }
 
-        .menu-trigger {
-            width: 100%;
-            background: none;
-            border: none;
+        .menu-title-header {
+            font-size: 1rem;
+            font-weight: 700;
             color: var(--text-main);
-            padding: 16px 20px;
-            font-size: 1.05rem;
-            font-weight: 600;
+            margin-bottom: 10px;
             text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            margin: 0;
-        }
-
-        .menu-trigger:hover { background: rgba(157, 78, 221, 0.08); }
-        .menu-trigger::after {
-            content: '▼';
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            transition: transform 0.3s ease;
-        }
-
-        .dropdown-menu.active .menu-trigger::after { transform: rotate(180deg); }
-
-        .menu-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            padding: 0 20px;
-            background: rgba(0, 0, 0, 0.15);
+            padding-left: 5px;
+            border-left: 3px solid var(--accent-neon);
         }
 
         .game-btn {
-            background: rgba(123, 44, 191, 0.3);
-            border: 1px solid rgba(157, 78, 221, 0.4);
+            background: rgba(123, 44, 191, 0.25);
+            border: 1px solid rgba(157, 78, 221, 0.3);
             color: var(--text-main);
-            padding: 14px 16px;
+            padding: 10px 14px;
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             text-align: left;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             transition: all 0.2s ease;
+            box-sizing: border-box;
         }
-
-        .game-btn:first-child { margin-top: 15px; }
 
         .game-btn:hover:not(:disabled) {
             background: var(--btn-hover);
             border-color: var(--accent-neon);
-            box-shadow: 0 0 15px rgba(157, 78, 221, 0.4);
         }
 
         .game-btn:disabled {
@@ -336,33 +360,92 @@
             cursor: not-allowed;
         }
 
-        .btn-title { font-size: 0.95rem; }
-        .price { font-size: 0.75rem; color: var(--accent-neon); font-weight: 400; }
-        .game-btn:disabled .price { color: rgba(255, 255, 255, 0.2); }
-        .game-btn, .menu-trigger, .audio-control-btn {
-         -webkit-tap-highlight-color: transparent;
-}
+        .btn-title { font-size: 0.88rem; display: flex; justify-content: space-between; width: 100%; }
+        .btn-qty { font-size: 0.75rem; color: var(--accent-neon); opacity: 0.8; }
+        .price { font-size: 0.72rem; color: var(--accent-neon); font-weight: 400; }
+
+        /* --- BARRA DI NAVIGAZIONE IN BASSO BLOCCATA --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: rgba(15, 8, 29, 0.95);
+            border-top: 1px solid var(--panel-border);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            color: rgba(243, 232, 255, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+        }
+
+        .nav-item .nav-icon { font-size: 1.1rem; }
+        .nav-item.active-nav { color: var(--accent-neon); }
+
+        #bg-hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+        .ambient-heart { position: absolute; color: rgba(157, 78, 221, 0.35); font-size: 1.2rem; bottom: -20px; animation: floatBackground linear infinite; }
+
+        @keyframes floatBackground {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-105vh) translateX(var(--random-x, 20px)) rotate(var(--random-rot, 360deg)); opacity: 0; }
+        }
+
+        .floating-number {
+            position: fixed;
+            color: var(--accent-neon);
+            font-size: 1.2rem;
+            font-weight: 800;
+            pointer-events: none;
+            text-shadow: 0 0 10px var(--accent-neon);
+            animation: floatUp 0.8s ease-out forwards;
+            z-index: 9999;
+        }
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-60px) scale(1.1); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- TRACCIA AUDIO IN LOOP (Cerca il file audio.mp3 nella cartella principale) -->
     <audio id="bg-music" src="audio.mp3" loop></audio>
-
     <div id="bg-hearts-container"></div>
 
     <h1>M12ANO 💜</h1>
     <div class="subtitle">Accumula punti e sblocca premi reali</div>
 
-    <!-- BOTTONE PER DISABILITARE/ABILITARE MUSICA -->
-    <button id="audio-toggle" class="audio-control-btn" onclick="toggleMusicAudio()">
-        <span id="audio-icon">🔇</span> <span id="audio-text">Audio Off</span>
-    </button>
+    <div class="controls-wrapper">
+        <button id="audio-toggle" class="audio-control-btn" onclick="toggleMusicAudio()">
+            <span id="audio-icon">🔇</span> <span id="audio-text">Audio Spento</span>
+        </button>
+        <button id="fullscreen-toggle" class="fullscreen-btn" onclick="toggleFullscreen()">
+            <span>📱</span> <span>Schermo Intero</span>
+        </button>
+    </div>
 
     <div class="counter-container">
         <span id="score">0</span>
         <span id="pps-display">Punti al secondo: 0</span>
-        
         <div class="level-section">
             <span id="level-title">Livello 1: Primi Sguardi 👀</span>
             <div class="progress-bar-container">
@@ -371,209 +454,434 @@
         </div>
     </div>
 
-    <div class="clicker-container">
-        <div class="heart" id="main-button" onclick="clickMainButton(event)"></div>
-    </div>
-
-    <div class="menu-container">
-        <!-- TENDINA POTENZIAMENTI -->
-        <div class="dropdown-menu" id="menu-upgrades">
-            <button class="menu-trigger" onclick="toggleMenu('menu-upgrades')">Potenziamenti</button>
-            <div class="menu-content">
-                <button id="click_up" class="game-btn" onclick="buyClickUpgrade()">
-                    <span class="btn-title">Sguardo Intenso 👀 (Potenza Click)</span>
-                    <span class="price">Costa: 25 | (+1 per Click)</span>
-                </button>
-                <button id="up1" class="game-btn" onclick="buyUpgrade('up1', 50, 1)">
-                    <span class="btn-title">Pensiero Fisso 💭</span>
-                    <span class="price">Costa: 50 | (+1 P/s)</span>
-                </button>
-                <button id="up2" class="game-btn" onclick="buyUpgrade('up2', 500, 10)">
-                    <span class="btn-title">Battito Accelerato 💜</span>
-                    <span class="price">Costa: 500 | (+10 P/s)</span>
-                </button>
-                <button id="up3" class="game-btn" onclick="buyUpgrade('up3', 2500, 50)">
-                    <span class="btn-title">Sintonia Mentale 🧠</span>
-                    <span class="price">Costa: 2.500 | (+50 P/s)</span>
-                </button>
-                <button id="up4" class="game-btn" onclick="buyUpgrade('up4', 15000, 400)">
-                    <span class="btn-title">Intesa Perfetta 🔮</span>
-                    <span class="price">Costa: 15.000 | (+400 P/s)</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- TENDINA PREMI REALI -->
-        <div class="dropdown-menu" id="menu-rewards">
-            <button class="menu-trigger" onclick="toggleMenu('menu-rewards')">Riscatta Premi</button>
-            <div class="menu-content">
-                <button id="premio1" class="game-btn" onclick="claimReward('premio1', 1000, 'Abbraccio 🤗')">
-                    <span class="btn-title">Abbraccio</span>
-                    <span class="price">Costa: 1.000</span>
-                </button>
-                <button id="premio2" class="game-btn" onclick="claimReward('premio2', 10000, 'Ascoltiamo Nayt insieme 🎧')">
-                    <span class="btn-title">Ascoltiamo Nayt insieme</span>
-                    <span class="price">Costa: 10.000</span>
-                </button>
-            </div>
+    <!-- ==================== TAB 1: GIOCO PRINCIPALE ==================== -->
+    <div id="view-game" class="tab-view active-view">
+        <div class="clicker-container">
+            <div class="shape-heart" id="main-button" onclick="clickMainButton(event)"></div>
         </div>
     </div>
+
+    <!-- ==================== TAB 2: POTENZIAMENTI ==================== -->
+    <div id="view-upgrades" class="tab-view">
+        <div class="menu-list-container">
+            <div class="menu-title-header">Miglioramenti Base</div>
+            <button id="click_up" class="game-btn" onclick="buyClickUpgrade()">
+                <span class="btn-title">Sguardo Intenso 👀 <span class="btn-qty" id="qty-click_up">Liv. 0</span></span>
+                <span class="price" id="price-click_up">Costa: 25</span>
+            </button>
+            <button id="up1" class="game-btn" onclick="buyUpgrade('up1', 50, 4)">
+                <span class="btn-title">Pensiero Fisso 💭 <span class="btn-qty" id="qty-up1">x0</span></span>
+                <span class="price">Costa: 50 | (+4 P/s)</span>
+            </button>
+            <button id="up2" class="game-btn" onclick="buyUpgrade('up2', 350, 25)">
+                <span class="btn-title">Notifica Inaspettata 📱 <span class="btn-qty" id="qty-up2">x0</span></span>
+                <span class="price">Costa: 350 | (+25 P/s)</span>
+            </button>
+            <button id="up3" class="game-btn" onclick="buyUpgrade('up3', 1200, 120)">
+                <span class="btn-title">Battito Accelerato 💜 <span class="btn-qty" id="qty-up3">x0</span></span>
+                <span class="price">Costa: 1.200 | (+120 P/s)</span>
+            </button>
+            <button id="up4" class="game-btn" onclick="buyUpgrade('up4', 4000, 550)">
+                <span class="btn-title">Sintonia Mentale 🧠 <span class="btn-qty" id="qty-up4">x0</span></span>
+                <span class="price">Costa: 4.000 | (+550 P/s)</span>
+            </button>
+            <button id="up5" class="game-btn" onclick="buyUpgrade('up5', 15000, 2600)">
+                <span class="btn-title">Playlist Condivisa 🎧 <span class="btn-qty" id="qty-up5">x0</span></span>
+                <span class="price">Costa: 15.000 | (+2.600 P/s)</span>
+            </button>
+            <button id="up6" class="game-btn" onclick="buyUpgrade('up6', 55000, 14000)">
+                <span class="btn-title">Intesa Perfetta 🔮 <span class="btn-qty" id="qty-up6">x0</span></span>
+                <span class="price">Costa: 55.000 | (+14.000 P/s)</span>
+            </button>
+            <button id="up7" class="game-btn" onclick="buyUpgrade('up7', 200000, 75000)">
+                <span class="btn-title">Ore a Parlare 🗣️ <span class="btn-qty" id="qty-up7">x0</span></span>
+                <span class="price">Costa: 200.000 | (+75.000 P/s)</span>
+            </button>
+            <button id="up8" class="game-btn" onclick="buyUpgrade('up8', 850000, 430000)">
+                <span class="btn-title">Abbraccio Profondo 🫂 <span class="btn-qty" id="qty-up8">x0</span></span>
+                <span class="price">Costa: 850.000 | (+430.000 P/s)</span>
+            </button>
+            <button id="up9" class="game-btn" onclick="buyUpgrade('up9', 4000000, 2500000)">
+                <span class="btn-title">Destino Incrociato 🗺️ <span class="btn-qty" id="qty-up9">x0</span></span>
+                <span class="price">Costa: 4.000.000 | (+2.500.000 P/s)</span>
+            </button>
+
+            <!-- POTENZIAMENTI AVANZATI (ENDGAME) -->
+            <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">Livelli Avanzati</div>
+            
+            <button id="click_up_galaxy" class="game-btn" style="border: 1px solid #e0aaff; background: rgba(157, 78, 221, 0.4);" onclick="buyGalaxyClickUpgrade()">
+                <span class="btn-title">✨ Click del Multiverso ✨ <span class="btn-qty" id="qty-click_up_galaxy">Liv. 0</span></span>
+                <span class="price" id="price-click_up_galaxy">Costa: 8.000.000.000 | (+5 Mld al Click)</span>
+            </button>
+
+            <button id="click_up_mega" class="game-btn" onclick="buyMegaClickUpgrade()">
+                <span class="btn-title">Sguardo Supremo 🎆 <span class="btn-qty" id="qty-click_up_mega">Liv. 0</span></span>
+                <span class="price" id="price-click_up_mega">Costa: 1.500.000.000 | (+150 Mln al Click)</span>
+            </button>
+
+            <button id="up10" class="game-btn" onclick="buyUpgrade('up10', 25000000, 18000000)">
+                <span class="btn-title">Connessione Profonda 🌐 <span class="btn-qty" id="qty-up10">x0</span></span>
+                <span class="price">Costa: 25.000.000 | (+18 Mln P/s)</span>
+            </button>
+            <button id="up11" class="game-btn" onclick="buyUpgrade('up11', 180000000, 110000000)">
+                <span class="btn-title">Realtà Condivisa 🌌 <span class="btn-qty" id="qty-up11">x0</span></span>
+                <span class="price">Costa: 180.000.000 | (+110 Mln P/s)</span>
+            </button>
+            <button id="up12" class="game-btn" onclick="buyUpgrade('up12', 1200000000, 750000000)">
+                <span class="btn-title">Universo M12ANO 🔮 <span class="btn-qty" id="qty-up12">x0</span></span>
+                <span class="price">Costa: 1.200.000.000 | (+750 Mln P/s)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 3: PERSONALIZZAZIONI ESTETICHE ==================== -->
+    <div id="view-custom" class="tab-view">
+        <div class="menu-list-container">
+            <div class="menu-title-header">Temi Visivi dello Sfondo</div>
+            <button id="skin-default" class="game-btn" onclick="setTheme('default', 0)">
+                <span class="btn-title">Fondo Viola Classico 🌌 <span class="btn-qty" id="qty-skin-default">Selezionato</span></span>
+                <span class="price">Gratis</span>
+            </button>
+            <button id="skin-pink" class="game-btn" onclick="setTheme('pink', 2500)">
+                <span class="btn-title">Neon Rosa Cupido 🌸 <span class="btn-qty" id="qty-skin-pink">Pronto</span></span>
+                <span class="price">Costa: 2.500</span>
+            </button>
+            <button id="skin-mint" class="game-btn" onclick="setTheme('mint', 15000)">
+                <span class="btn-title">Cyber Menta Smeraldo 🧪 <span class="btn-qty" id="qty-skin-mint">Pronto</span></span>
+                <span class="price">Costa: 15.000</span>
+            </button>
+
+            <div class="menu-title-header" style="margin-top:15px;">Forma del Pulsante</div>
+            <button id="shape-heart-btn" class="game-btn" onclick="setShape('heart', 0)">
+                <span class="btn-title">Cuore Pulsante 💜 <span class="btn-qty" id="qty-shape-heart">In Uso</span></span>
+                <span class="price">Gratis</span>
+            </button>
+            <button id="shape-star-btn" class="game-btn" onclick="setShape('star', 5000)">
+                <span class="btn-title">Stella Cadente ⭐ <span class="btn-qty" id="qty-shape-star">Pronto</span></span>
+                <span class="price">Costa: 5.000</span>
+            </button>
+            <button id="shape-diamond-btn" class="game-btn" onclick="setShape('diamond', 50000)">
+                <span class="btn-title">Diamante Prezioso 💎 <span class="btn-qty" id="qty-shape-diamond">Pronto</span></span>
+                <span class="price">Costa: 50.000</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== TAB 4: PREMI REALI ==================== -->
+    <div id="view-rewards" class="tab-view">
+        <div class="menu-list-container">
+            <div class="menu-title-header">I Tuoi Premi Reali</div>
+            <button id="premio1" class="game-btn" onclick="claimReward('premio1', 100000)">
+                <span class="btn-title">Abbraccio 🤗 <span class="btn-qty" id="qty-premio1">Riscattati: 0</span></span>
+                <span class="price">Costa: 100.000</span>
+            </button>
+            <button id="premio2" class="game-btn" onclick="claimReward('premio2', 100000000)">
+                <span class="btn-title">Ascoltiamo Nayt insieme 🎧 <span class="btn-qty" id="qty-premio2">Riscattati: 0</span></span>
+                <span class="price">Costa: 100 mln</span>
+            </button>
+            <button id="premio3" class="game-btn" onclick="claimReward('premio3', 100000000000)">
+                <span class="btn-title">patatine fritte 🌌 <span class="btn-qty" id="qty-premio3">Riscattati: 0</span></span>
+                <span class="price">Costa: 100 mld</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== BARRA DI NAVIGAZIONE MOBILE ==================== -->
+    <nav class="bottom-nav">
+        <button class="nav-item active-nav" onclick="switchTab('view-game', this)">
+            <span class="nav-icon">💜</span>
+            <span>Clicker</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('view-upgrades', this)">
+            <span class="nav-icon">⚡</span>
+            <span>Potenzia</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('view-custom', this)">
+            <span class="nav-icon">✨</span>
+            <span>Stile</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('view-rewards', this)">
+            <span class="nav-icon">🎁</span>
+            <span>Premi</span>
+        </button>
+    </nav>
 
     <script>
         /* --- LOGICA DI GIOCO --- */
-
         let score = parseFloat(localStorage.getItem('clicker_score')) || 0;
-        let pps = parseFloat(localStorage.getItem('clicker_pps')) || 0;
+        let pps = 0; // Viene calcolato dinamicamente all'inizio
         let totalScoreEarned = parseFloat(localStorage.getItem('clicker_total_earned')) || 0;
         let clickPower = parseInt(localStorage.getItem('clicker_click_power')) || 1;
         
-        let upgrades = JSON.parse(localStorage.getItem('clicker_upgrades')) || { up1: 0, up2: 0, up3: 0, up4: 0, click_up: 0 };
-        let rewardsClaimed = JSON.parse(localStorage.getItem('clicker_rewards_claimed')) || { premio1: 0, premio2: 0 };
+        let upgrades = JSON.parse(localStorage.getItem('clicker_upgrades')) || { 
+            click_up: 0, click_up_mega: 0, click_up_galaxy: 0, up1: 0, up2: 0, up3: 0, up4: 0, up5: 0, up6: 0, up7: 0, up8: 0, up9: 0, up10: 0, up11: 0, up12: 0 
+        };
+        let rewardsClaimed = JSON.parse(localStorage.getItem('clicker_rewards_claimed')) || { 
+            premio1: 0, premio2: 0, premio3: 0 
+        };
+
+        let unlockedCustoms = JSON.parse(localStorage.getItem('clicker_unlocked_customs')) || {
+            theme_default: true, theme_pink: false, theme_mint: false,
+            shape_heart: true, shape_star: false, shape_diamond: false
+        };
+        let activeTheme = localStorage.getItem('clicker_active_theme') || 'default';
+        let activeShape = localStorage.getItem('clicker_active_shape') || 'heart';
         
-        // Stato audio (salvato anche in local storage)
         let isMusicMuted = localStorage.getItem('clicker_music_muted') === 'true';
 
-        const levelTitles = [
-            "Primi Sguardi 👀",
-            "Spotted Vda ✨",
-            "stessi pensieri 💬",
-            "BFF 💭",
-            "Vite simili 💜",
-            "Legame Speciale 🔐",
-            "Custode del mio Cuore 🏆"
+        /* --- I TUOI 20 LIVELLI UNICI ORIGINALI --- */
+        const baseLevelTitles = [
+            "Primi Sguardi 👀",       
+            "Spotted Vda ✨",         
+            "stessi pensieri 💬",     
+            "BFF 💭",                
+            "Vite simili 💜",         
+            "Legame Speciale 🔐",     
+            "Playlist In Loop 🎧",    
+            "Ore di Notte 🌙",        
+            "Sintonia Magnetica 🧲",  
+            "Custode dei Segreti 🗝️", 
+            "Intesa Mentale 🌌",      
+            "Telepatia Pura 🧠",      
+            "Connessione Stellare ☄️", 
+            "Oltre le Parole 🕊️",      
+            "Anime Sintonizzate 🧬",  
+            "Destini Incrociati 🗺️",  
+            "Realtà Condivisa ✨",     
+            "Spazio M12ANO 🔮",       
+            "Universo Indivisibile 🌌",
+            "Linked forever ♾️"       
         ];
 
+        /* --- GENERATORE DINAMICO PER GLI ALTRI 50 LIVELLI (TOTALE 70) --- */
+        function getLevelTitle(levelIndex) {
+            if (levelIndex < baseLevelTitles.length) {
+                return baseLevelTitles[levelIndex];
+            }
+            
+            // Pool di parole per assemblare dinamicamente i livelli successivi dal 21 al 70
+            const concepts = ["Sintonia", "Intesa", "Dimensione", "Frequenza", "Connessione", "Ecosistema", "Universo", "Galassia", "Alchimia", "Telepatia"];
+            const attributes = ["Profonda", "Suprema", "Condivisa", "Stellare", "Indissolubile", "Eterna", "Magnetica", "Assoluta", "Astrale"];
+            const icons = ["🌌", "🔮", "✨", "🧬", "💜", "♾️", "🪐", "🛡️", "🔗", "💬"];
+            
+            // Algoritmo deterministico per generare nomi coerenti in base al numero del livello
+            let concept = concepts[(levelIndex) % concepts.length];
+            let attr = attributes[(levelIndex + 2) % attributes.length];
+            let icon = icons[(levelIndex) % icons.length];
+            let subIteration = Math.floor((levelIndex - 20) / 10) + 2;
+            
+            return `${concept} ${attr} v${subIteration} ${icon}`;
+        }
+        
+        const upgradeConfig = {
+            up1: { baseCost: 50, pps: 4 }, 
+            up2: { baseCost: 350, pps: 25 }, 
+            up3: { baseCost: 1200, pps: 120 },
+            up4: { baseCost: 4000, pps: 550 }, 
+            up5: { baseCost: 15000, pps: 2600 }, 
+            up6: { baseCost: 55000, pps: 14000 },
+            up7: { baseCost: 200000, pps: 75000 }, 
+            up8: { baseCost: 850000, pps: 430000 }, 
+            up9: { baseCost: 4000000, pps: 2500000 },
+            up10: { baseCost: 25000000, pps: 18000000 },
+            up11: { baseCost: 180000000, pps: 110000000 },
+            up12: { baseCost: 1200000000, pps: 750000000 }
+        };
+
+        // INIZIALIZZAZIONE STATO DI GIOCO CORRETTA
         initAmbientHearts();
+        applyVisualStyleOnLoad();
+        recalculateClickPower();
+        recalculatePPS(); 
         updateUI();
         updateAudioButtonUI();
 
-        // Gestione e inizializzazione Audio
-        function initMusic() {
-            const music = document.getElementById('bg-music');
-            if (!isMusicMuted) {
-                music.play().catch(err => {
-                    console.log("In attesa di interazione utente per avviare l'audio.");
-                });
+        function formatNumber(num) {
+            if (num >= 1000000000000) { 
+                return (num / 1000000000000).toFixed(2).replace('.', ',') + ' Trl';
+            }
+            if (num >= 1000000000) { 
+                return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';
+            }
+            return Math.floor(num).toLocaleString('it-IT');
+        }
+
+        function switchTab(viewId, navButton) {
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active-view'));
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active-nav'));
+            document.getElementById(viewId).classList.add('active-view');
+            navButton.classList.add('active-nav');
+        }
+
+        function applyVisualStyleOnLoad() {
+            document.body.className = '';
+            if (activeTheme !== 'default') document.body.classList.add('theme-' + activeTheme);
+            const btn = document.getElementById('main-button');
+            btn.className = 'shape-' + activeShape;
+        }
+
+        function recalculateClickPower() {
+            let basePower = 1;
+            let clickUpCount = upgrades['click_up'] || 0;
+            for(let i=0; i<clickUpCount; i++) {
+                let cost = Math.round(25 * Math.pow(1.25, i));
+                basePower += Math.max(1, Math.round(cost / 100));
+            }
+            basePower += (upgrades['click_up_mega'] || 0) * 150000000;
+            basePower += (upgrades['click_up_galaxy'] || 0) * 5000000000;
+            clickPower = basePower;
+        }
+
+        function recalculatePPS() {
+            let currentPPS = 0;
+            for (let id in upgradeConfig) {
+                currentPPS += (upgrades[id] || 0) * upgradeConfig[id].pps;
+            }
+            pps = currentPPS;
+        }
+
+        function setTheme(themeName, cost) {
+            let key = 'theme_' + themeName;
+            if (unlockedCustoms[key]) {
+                activeTheme = themeName;
+                localStorage.setItem('clicker_active_theme', activeTheme);
+                applyVisualStyleOnLoad();
+                updateUI();
+            } else if (score >= cost) {
+                score -= cost;
+                unlockedCustoms[key] = true;
+                activeTheme = themeName;
+                localStorage.setItem('clicker_active_theme', activeTheme);
+                applyVisualStyleOnLoad();
+                updateUI();
+                saveGame();
             }
         }
 
-        // Tenta di avviare al primo click sulla pagina
+        function setShape(shapeName, cost) {
+            let key = 'shape_' + shapeName;
+            if (unlockedCustoms[key]) {
+                activeShape = shapeName;
+                localStorage.setItem('clicker_active_shape', activeShape);
+                applyVisualStyleOnLoad();
+                updateUI();
+            } else if (score >= cost) {
+                score -= cost;
+                unlockedCustoms[key] = true;
+                activeShape = shapeName;
+                localStorage.setItem('clicker_active_shape', activeShape);
+                applyVisualStyleOnLoad();
+                updateUI();
+                saveGame();
+            }
+        }
+
+        function initMusic() {
+            const music = document.getElementById('bg-music');
+            if (!isMusicMuted) music.play().catch(err => {});
+        }
         document.body.addEventListener('click', initMusic, { once: true });
 
         function toggleMusicAudio() {
             const music = document.getElementById('bg-music');
             isMusicMuted = !isMusicMuted;
             localStorage.setItem('clicker_music_muted', isMusicMuted);
-
-            if (isMusicMuted) {
-                music.pause();
-            } else {
-                music.play().catch(err => console.log("Riproduzione ripresa dopo interazione."));
-            }
+            if (isMusicMuted) music.pause(); else music.play().catch(err => {});
             updateAudioButtonUI();
         }
 
         function updateAudioButtonUI() {
             const icon = document.getElementById('audio-icon');
             const text = document.getElementById('audio-text');
-            if (isMusicMuted) {
-                icon.innerText = '🔇';
-                text.innerText = 'Audio Spento';
-            } else {
-                icon.innerText = '🔊';
-                text.innerText = 'Audio Acceso';
-            }
+            if (isMusicMuted) { icon.innerText = '🔇'; text.innerText = 'Audio'; }
+            else { icon.innerText = '🔊'; text.innerText = 'Audio'; }
         }
 
-        function toggleMenu(menuId) {
-            const menu = document.getElementById(menuId);
-            const content = menu.querySelector('.menu-content');
-            
-            document.querySelectorAll('.dropdown-menu').forEach(item => {
-                if(item.id !== menuId) {
-                    item.classList.remove('active');
-                    item.querySelector('.menu-content').style.maxHeight = null;
-                }
-            });
+        if (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen) {
+            document.getElementById('fullscreen-toggle').style.display = 'flex';
+        }
 
-            menu.classList.toggle('active');
-            if (menu.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + "px";
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                const docEl = document.documentElement;
+                if (docEl.requestFullscreen) docEl.requestFullscreen();
+                else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
             } else {
-                content.style.maxHeight = null;
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
             }
         }
 
         function clickMainButton(e) {
             score += clickPower;
             totalScoreEarned += clickPower;
-            
-            createFloatingNumber(e, `+${clickPower}`, false);
+            createFloatingNumber(e, `+${formatNumber(clickPower)}`);
             updateUI();
             saveGame();
         }
 
-        function createFloatingNumber(e, text, isReward = false) {
+        function createFloatingNumber(e, text) {
             const floating = document.createElement('div');
-            floating.className = 'floating-number' + (isReward ? ' reward-style' : '');
+            floating.className = 'floating-number';
             floating.innerText = text;
-
             let x, y;
-            if (e && e.clientX) {
-                x = e.clientX;
-                y = e.clientY;
-            } else {
+            if (e && e.clientX) { x = e.clientX; y = e.clientY; } else {
                 const rect = document.getElementById('main-button').getBoundingClientRect();
-                x = rect.left + rect.width / 2;
-                y = rect.top + rect.height / 2;
+                x = rect.left + rect.width / 2; y = rect.top + rect.height / 2;
             }
-
-            floating.style.left = `${x - 15}px`;
-            floating.style.top = `${y - 15}px`;
-
+            floating.style.left = `${x - 15}px`; floating.style.top = `${y - 15}px`;
             document.body.appendChild(floating);
             setTimeout(() => { floating.remove(); }, 800);
         }
 
         function buyClickUpgrade() {
             let currentCost = Math.round(25 * Math.pow(1.25, upgrades['click_up'] || 0));
-
             if (score >= currentCost) {
                 score -= currentCost;
                 upgrades['click_up'] = (upgrades['click_up'] || 0) + 1;
-                clickPower += 1;
-                
+                recalculateClickPower();
                 updateUI();
                 saveGame();
-                
-                const activeMenu = document.querySelector('.dropdown-menu.active .menu-content');
-                if(activeMenu) activeMenu.style.maxHeight = activeMenu.scrollHeight + "px";
+            }
+        }
+
+        function buyMegaClickUpgrade() {
+            let currentCost = Math.round(1500000000 * Math.pow(1.35, upgrades['click_up_mega'] || 0));
+            if (score >= currentCost) {
+                score -= currentCost;
+                upgrades['click_up_mega'] = (upgrades['click_up_mega'] || 0) + 1;
+                recalculateClickPower();
+                updateUI();
+                saveGame();
+            }
+        }
+
+        function buyGalaxyClickUpgrade() {
+            let currentCost = Math.round(8000000000 * Math.pow(1.45, upgrades['click_up_galaxy'] || 0));
+            if (score >= currentCost) {
+                score -= currentCost;
+                upgrades['click_up_galaxy'] = (upgrades['click_up_galaxy'] || 0) + 1;
+                recalculateClickPower();
+                updateUI();
+                saveGame();
             }
         }
 
         function buyUpgrade(id, baseCost, ppsValue) {
             let currentCost = Math.round(baseCost * Math.pow(1.15, upgrades[id] || 0));
-
             if (score >= currentCost) {
                 score -= currentCost;
                 upgrades[id] = (upgrades[id] || 0) + 1;
-                pps += ppsValue;
-                
+                recalculatePPS();
                 updateUI();
                 saveGame();
-                
-                const activeMenu = document.querySelector('.dropdown-menu.active .menu-content');
-                if(activeMenu) activeMenu.style.maxHeight = activeMenu.scrollHeight + "px";
             }
         }
 
-        function claimReward(id, cost, rewardName) {
+        function claimReward(id, cost) {
             if (score >= cost) {
                 score -= cost;
                 rewardsClaimed[id] = (rewardsClaimed[id] || 0) + 1;
-                
-                createFloatingNumber(null, `Sbloccato! 💜`, true);
-                
                 updateUI();
                 saveGame();
             }
@@ -581,43 +889,31 @@
 
         function initAmbientHearts() {
             setInterval(() => {
-                let totalUpgrades = (upgrades['up1'] || 0) + (upgrades['up2'] || 0) + 
-                                    (upgrades['up3'] || 0) + (upgrades['up4'] || 0) + 
-                                    (upgrades['click_up'] || 0) + (rewardsClaimed['premio1'] || 0) + 
-                                    (rewardsClaimed['premio2'] || 0);
-                                    
+                let totalUpgrades = Object.values(upgrades).reduce((a, b) => a + b, 0);
                 if (totalUpgrades === 0) return;
-
-                let spawnAmount = Math.min(Math.ceil(totalUpgrades / 3), 4);
-                for (let i = 0; i < spawnAmount; i++) {
-                    createAmbientHeart();
-                }
+                let spawnAmount = Math.min(Math.ceil(totalUpgrades / 4), 4);
+                for (let i = 0; i < spawnAmount; i++) createAmbientHeart();
             }, 1200);
         }
 
         function createAmbientHeart() {
             const container = document.getElementById('bg-hearts-container');
-            if (container.childElementCount > 40) return; 
-
+            if (container.childElementCount > 25) return; 
             const heart = document.createElement('div');
             heart.className = 'ambient-heart';
-            heart.innerHTML = '💜';
-
+            heart.innerHTML = activeShape === 'heart' ? '💜' : (activeShape === 'star' ? '⭐' : '💎');
             heart.style.left = Math.random() * 100 + 'vw';
-            let size = (Math.random() * 14) + 10;
+            let size = (Math.random() * 10) + 10;
             heart.style.fontSize = size + 'px';
-
-            heart.style.setProperty('--random-x', (Math.random() * 80 - 40) + 'px');
+            heart.style.setProperty('--random-x', (Math.random() * 60 - 30) + 'px');
             heart.style.setProperty('--random-rot', (Math.random() * 180 + 90) + 'deg');
-
             let duration = (Math.random() * 4) + 4;
             heart.style.animationDuration = duration + 's';
-
             container.appendChild(heart);
             setTimeout(() => { heart.remove(); }, duration * 1000);
         }
 
-        // Loop Punti al Secondo
+        // LOOP DI PRODUZIONE AUTOMATICA (Esegui ogni 100ms)
         setInterval(function() {
             if (pps > 0) {
                 let ppsFraction = pps / 10;
@@ -630,50 +926,91 @@
         setInterval(saveGame, 5000);
 
         function updateUI() {
-            document.getElementById('score').innerText = Math.floor(score).toLocaleString('it-IT');
-            document.getElementById('pps-display').innerText = `Punti al secondo: ${pps.toFixed(1)}`;
+            document.getElementById('score').innerText = formatNumber(score);
+            document.getElementById('pps-display').innerText = `Punti al secondo: ${formatNumber(pps)}`;
 
-            let currentLevel = Math.floor(Math.log(totalScoreEarned / 100 + 1) / Math.log(2.5)) + 1;
+            // Formula calibrata per supportare fino a 70 livelli totali in modo uniforme
+            let currentLevel = Math.floor(Math.log(totalScoreEarned / 100 + 1) / Math.log(1.58)) + 1;
             if (currentLevel < 1) currentLevel = 1;
-
-            let pointsForCurrentLevel = 100 * (Math.pow(2.5, currentLevel - 1) - 1);
-            let pointsForNextLevel = 100 * (Math.pow(2.5, currentLevel) - 1);
+            if (currentLevel > 70) currentLevel = 70; // Hard cap a livello 70
             
+            let pointsForCurrentLevel = 100 * (Math.pow(1.58, currentLevel - 1) - 1);
+            let pointsForNextLevel = 100 * (Math.pow(1.58, currentLevel) - 1);
             let levelProgress = ((totalScoreEarned - pointsForCurrentLevel) / (pointsForNextLevel - pointsForCurrentLevel)) * 100;
-            if(levelProgress > 100) levelProgress = 100;
-            if(levelProgress < 0) levelProgress = 0;
+            
+            // Carica o genera il titolo del livello
+            let levelTitleText = getLevelTitle(currentLevel - 1);
+            document.getElementById('level-title').innerText = `Livello ${currentLevel}: ${levelTitleText}`;
+            document.getElementById('progress-bar').style.width = `${Math.min(100, Math.max(0, levelProgress))}%`;
 
-            let titleText = levelTitles[currentLevel - 1] || "Linked forever ♾️";
-            document.getElementById('level-title').innerText = `Livello ${currentLevel}: ${titleText}`;
-            document.getElementById('progress-bar').style.width = `${levelProgress}%`;
-
-            // UI Potenziamenti
             let costClickUp = Math.round(25 * Math.pow(1.25, upgrades['click_up'] || 0));
-            document.getElementById('click_up').querySelector('.price').innerText = `Costa: ${costClickUp} | (+1/Click) [Liv: ${upgrades['click_up'] || 0} (Valore click: +${clickPower})]`;
-            document.getElementById('click_up').disabled = (score < costClickUp);
+            let nextClickBonus = Math.max(1, Math.round(costClickUp / 100));
+            let btnClick = document.getElementById('click_up');
+            btnClick.querySelector('.price').innerText = `Costa: ${formatNumber(costClickUp)} | (+${formatNumber(nextClickBonus)} al Click)`;
+            document.getElementById('qty-click_up').innerText = `Liv. ${upgrades['click_up'] || 0}`;
+            btnClick.disabled = (score < costClickUp);
 
-            let costUp1 = Math.round(50 * Math.pow(1.15, upgrades['up1'] || 0));
-            document.getElementById('up1').querySelector('.price').innerText = `Costa: ${costUp1} | (+1 P/s) [Posseduti: ${upgrades['up1'] || 0}]`;
-            document.getElementById('up1').disabled = (score < costUp1);
+            let costGalaxyClick = Math.round(8000000000 * Math.pow(1.45, upgrades['click_up_galaxy'] || 0));
+            let btnGalaxyClick = document.getElementById('click_up_galaxy');
+            btnGalaxyClick.querySelector('.price').innerText = `Costa: ${formatNumber(costGalaxyClick)} | (+5 Mld al Click)`;
+            document.getElementById('qty-click_up_galaxy').innerText = `Liv. ${upgrades['click_up_galaxy'] || 0}`;
+            btnGalaxyClick.disabled = (score < costGalaxyClick);
 
-            let costUp2 = Math.round(500 * Math.pow(1.15, upgrades['up2'] || 0));
-            document.getElementById('up2').querySelector('.price').innerText = `Costa: ${costUp2} | (+10 P/s) [Posseduti: ${upgrades['up2'] || 0}]`;
-            document.getElementById('up2').disabled = (score < costUp2);
+            let costMegaClick = Math.round(1500000000 * Math.pow(1.35, upgrades['click_up_mega'] || 0));
+            let btnMegaClick = document.getElementById('click_up_mega');
+            btnMegaClick.querySelector('.price').innerText = `Costa: ${formatNumber(costMegaClick)} | (+150 Mln al Click)`;
+            document.getElementById('qty-click_up_mega').innerText = `Liv. ${upgrades['click_up_mega'] || 0}`;
+            btnMegaClick.disabled = (score < costMegaClick);
 
-            let costUp3 = Math.round(2500 * Math.pow(1.15, upgrades['up3'] || 0));
-            document.getElementById('up3').querySelector('.price').innerText = `Costa: ${costUp3} | (+50 P/s) [Posseduti: ${upgrades['up3'] || 0}]`;
-            document.getElementById('up3').disabled = (score < costUp3);
+            for (let id in upgradeConfig) {
+                let btn = document.getElementById(id);
+                if (btn) {
+                    let currentCost = Math.round(upgradeConfig[id].baseCost * Math.pow(1.15, upgrades[id] || 0));
+                    btn.querySelector('.price').innerText = `Costa: ${formatNumber(currentCost)} | (+${formatNumber(upgradeConfig[id].pps)} P/s)`;
+                    document.getElementById(`qty-${id}`).innerText = `x${upgrades[id] || 0}`;
+                    btn.disabled = (score < currentCost);
+                }
+            }
 
-            let costUp4 = Math.round(15000 * Math.pow(1.15, upgrades['up4'] || 0));
-            document.getElementById('up4').querySelector('.price').innerText = `Costa: ${costUp4} | (+400 P/s) [Posseduti: ${upgrades['up4'] || 0}]`;
-            document.getElementById('up4').disabled = (score < costUp4);
+            const customItems = [
+                { id: 'skin-default', key: 'theme_default', cost: 0, lbl: 'Selezionato', labelNo: 'Sbloccato', act: activeTheme === 'default' },
+                { id: 'skin-pink', key: 'theme_pink', cost: 2500, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'pink' },
+                { id: 'skin-mint', key: 'theme_mint', cost: 15000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'mint' },
+                { id: 'shape-heart-btn', key: 'shape_heart', cost: 0, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'heart' },
+                { id: 'shape-star-btn', key: 'shape_star', cost: 5000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'star' },
+                { id: 'shape-diamond-btn', key: 'shape_diamond', cost: 50000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'diamond' }
+            ];
 
-            // UI Premi Reali
-            document.getElementById('premio1').querySelector('.price').innerText = `Costa: 1.000 | [Riscattati: ${rewardsClaimed['premio1'] || 0}]`;
-            document.getElementById('premio1').disabled = (score < 1000);
+            customItems.forEach(item => {
+                let btn = document.getElementById(item.id);
+                if (btn) {
+                    let qtySpan = btn.querySelector('.btn-qty');
+                    let priceSpan = btn.querySelector('.price');
+                    
+                    if (item.act) {
+                        qtySpan.innerText = item.lbl;
+                        priceSpan.innerText = "Attivo";
+                        btn.disabled = false;
+                    } else if (unlockedCustoms[item.key]) {
+                        qtySpan.innerText = "Sbloccato";
+                        priceSpan.innerText = item.labelNo;
+                        btn.disabled = false;
+                    } else {
+                        qtySpan.innerText = "Bloccato 🔒";
+                        priceSpan.innerText = `Costa: ${formatNumber(item.cost)}`;
+                        btn.disabled = (score < item.cost);
+                    }
+                }
+            });
 
-            document.getElementById('premio2').querySelector('.price').innerText = `Costa: 10.000 | [Riscattati: ${rewardsClaimed['premio2'] || 0}]`;
-            document.getElementById('premio2').disabled = (score < 10000);
+            const rewardsList = { premio1: 1000, premio2: 10000, premio3: 100000 };
+            for (let id in rewardsList) {
+                let btn = document.getElementById(id);
+                if (btn) {
+                    document.getElementById(`qty-${id}`).innerText = `Riscattati: ${rewardsClaimed[id] || 0}`;
+                    btn.disabled = (score < rewardsList[id]);
+                }
+            }
         }
 
         function saveGame() {
@@ -683,6 +1020,7 @@
             localStorage.setItem('clicker_click_power', clickPower);
             localStorage.setItem('clicker_upgrades', JSON.stringify(upgrades));
             localStorage.setItem('clicker_rewards_claimed', JSON.stringify(rewardsClaimed));
+            localStorage.setItem('clicker_unlocked_customs', JSON.stringify(unlockedCustoms));
         }
     </script>
 </body>
