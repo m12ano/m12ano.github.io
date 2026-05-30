@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>M12ANO 💜</title>
-    <!-- ICONA DEL SITO (Cerca il file favicon.ico nella cartella principale) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f081d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         /* --- DESIGN PROFESSIONALE VIOLA --- */
@@ -312,7 +316,7 @@
             border: 1px solid var(--panel-border);
             border-radius: 20px;
             padding: 12px;
-            max-height: 42vh; /* Blocca l'altezza massima del menu */
+            max-height: 42vh; /* Ptivilegia l'altezza massima del menu */
             overflow-y: auto; /* Permette lo scroll solo dentro il box */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -454,14 +458,12 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 1: GIOCO PRINCIPALE ==================== -->
     <div id="view-game" class="tab-view active-view">
         <div class="clicker-container">
             <div class="shape-heart" id="main-button" onclick="clickMainButton(event)"></div>
         </div>
     </div>
 
-    <!-- ==================== TAB 2: POTENZIAMENTI ==================== -->
     <div id="view-upgrades" class="tab-view">
         <div class="menu-list-container">
             <div class="menu-title-header">Miglioramenti Base</div>
@@ -506,7 +508,6 @@
                 <span class="price">Costa: 4.000.000 | (+2.500.000 P/s)</span>
             </button>
 
-            <!-- POTENZIAMENTI AVANZATI (ENDGAME) -->
             <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">Livelli Avanzati</div>
             
             <button id="click_up_galaxy" class="game-btn" style="border: 1px solid #e0aaff; background: rgba(157, 78, 221, 0.4);" onclick="buyGalaxyClickUpgrade()">
@@ -531,10 +532,22 @@
                 <span class="btn-title">Universo M12ANO 🔮 <span class="btn-qty" id="qty-up12">x0</span></span>
                 <span class="price">Costa: 1.200.000.000 | (+750 Mln P/s)</span>
             </button>
+
+            <button id="up13" class="game-btn" onclick="buyUpgrade('up13', 15000000000, 8000000000)">
+                <span class="btn-title">Battito del Multiverso 🌌 <span class="btn-qty" id="qty-up13">x0</span></span>
+                <span class="price">Costa: 15 Mld | (+8 Mld P/s)</span>
+            </button>
+            <button id="up14" class="game-btn" onclick="buyUpgrade('up14', 120000000000, 70000000000)">
+                <span class="btn-title">Destino Assoluto ⏳ <span class="btn-qty" id="qty-up14">x0</span></span>
+                <span class="price">Costa: 120 Mld | (+70 Mld P/s)</span>
+            </button>
+            <button id="up15" class="game-btn" onclick="buyUpgrade('up15', 1500000000000, 950000000000)">
+                <span class="btn-title">Infinito M12ANO ♾️ <span class="btn-qty" id="qty-up15">x0</span></span>
+                <span class="price">Costa: 1,5 Trl | (+950 Mld P/s)</span>
+            </button>
         </div>
     </div>
 
-    <!-- ==================== TAB 3: PERSONALIZZAZIONI ESTETICHE ==================== -->
     <div id="view-custom" class="tab-view">
         <div class="menu-list-container">
             <div class="menu-title-header">Temi Visivi dello Sfondo</div>
@@ -567,7 +580,6 @@
         </div>
     </div>
 
-    <!-- ==================== TAB 4: PREMI REALI ==================== -->
     <div id="view-rewards" class="tab-view">
         <div class="menu-list-container">
             <div class="menu-title-header">I Tuoi Premi Reali</div>
@@ -586,7 +598,6 @@
         </div>
     </div>
 
-    <!-- ==================== BARRA DI NAVIGAZIONE MOBILE ==================== -->
     <nav class="bottom-nav">
         <button class="nav-item active-nav" onclick="switchTab('view-game', this)">
             <span class="nav-icon">💜</span>
@@ -614,7 +625,7 @@
         let clickPower = parseInt(localStorage.getItem('clicker_click_power')) || 1;
         
         let upgrades = JSON.parse(localStorage.getItem('clicker_upgrades')) || { 
-            click_up: 0, click_up_mega: 0, click_up_galaxy: 0, up1: 0, up2: 0, up3: 0, up4: 0, up5: 0, up6: 0, up7: 0, up8: 0, up9: 0, up10: 0, up11: 0, up12: 0 
+            click_up: 0, click_up_mega: 0, click_up_galaxy: 0, up1: 0, up2: 0, up3: 0, up4: 0, up5: 0, up6: 0, up7: 0, up8: 0, up9: 0, up10: 0, up11: 0, up12: 0, up13: 0, up14: 0, up15: 0 
         };
         let rewardsClaimed = JSON.parse(localStorage.getItem('clicker_rewards_claimed')) || { 
             premio1: 0, premio2: 0, premio3: 0 
@@ -678,14 +689,17 @@
             up2: { baseCost: 350, pps: 25 }, 
             up3: { baseCost: 1200, pps: 120 },
             up4: { baseCost: 4000, pps: 550 }, 
-            up5: { baseCost: 15000, pps: 2600 }, 
+            ui5: { baseCost: 15000, pps: 2600 }, 
             up6: { baseCost: 55000, pps: 14000 },
             up7: { baseCost: 200000, pps: 75000 }, 
             up8: { baseCost: 850000, pps: 430000 }, 
             up9: { baseCost: 4000000, pps: 2500000 },
             up10: { baseCost: 25000000, pps: 18000000 },
             up11: { baseCost: 180000000, pps: 110000000 },
-            up12: { baseCost: 1200000000, pps: 750000000 }
+            up12: { baseCost: 1200000000, pps: 750000000 },
+            up13: { baseCost: 15000000000, pps: 8000000000 },     // Costo: 15 Mld  | +8 Mld P/s
+            up14: { baseCost: 120000000000, pps: 70000000000 },   // Costo: 120 Mld | +70 Mld P/s
+            up15: { baseCost: 1500000000000, pps: 950000000000 }  // Costo: 1,5 Trl | +950 Mld P/s
         };
 
         // INIZIALIZZAZIONE STATO DI GIOCO CORRETTA
@@ -702,6 +716,9 @@
             }
             if (num >= 1000000000) { 
                 return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace('.', ',') + ' Mln';
             }
             return Math.floor(num).toLocaleString('it-IT');
         }
@@ -1003,7 +1020,7 @@
                 }
             });
 
-            const rewardsList = { premio1: 1000, premio2: 10000, premio3: 100000 };
+            const rewardsList = { premio1: 100000, premio2: 100000000, premio3: 100000000000 };
             for (let id in rewardsList) {
                 let btn = document.getElementById(id);
                 if (btn) {
@@ -1021,6 +1038,15 @@
             localStorage.setItem('clicker_upgrades', JSON.stringify(upgrades));
             localStorage.setItem('clicker_rewards_claimed', JSON.stringify(rewardsClaimed));
             localStorage.setItem('clicker_unlocked_customs', JSON.stringify(unlockedCustoms));
+        }
+
+        // REGISTRAZIONE DEL SERVICE WORKER OBBLIGATORIO PER PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registrato con successo!', reg))
+                    .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
+            });
         }
     </script>
 </body>
