@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link class="icon" type="image/x-icon" href="favicon.ico">
     <style>
         /* --- DESIGN PROFESSIONALE VIOLA --- */
         :root {
@@ -45,6 +45,56 @@
             --heart-color: #2ec4b6;
         }
 
+        body.theme-cyberpunk {
+            --bg-gradient: linear-gradient(135deg, #03001e, #120136);
+            --panel-border: rgba(0, 242, 254, 0.4);
+            --text-muted: #00f2fe;
+            --accent-neon: #4facfe;
+            --accent-purple: #7f00ff;
+            --btn-hover: #00f2fe;
+            --heart-color: #00f2fe;
+        }
+
+        body.theme-sunset {
+            --bg-gradient: linear-gradient(135deg, #1f051d, #3d0c1b);
+            --panel-border: rgba(255, 75, 43, 0.4);
+            --text-muted: #ff4b2b;
+            --accent-neon: #ff416c;
+            --accent-purple: #9a084a;
+            --btn-hover: #ff416c;
+            --heart-color: #ff416c;
+        }
+
+        body.theme-midnight {
+            --bg-gradient: linear-gradient(135deg, #020205, #08091a);
+            --panel-border: rgba(65, 105, 225, 0.3);
+            --text-muted: #4169e1;
+            --accent-neon: #a0c4ff;
+            --accent-purple: #1d3557;
+            --btn-hover: #4169e1;
+            --heart-color: #a0c4ff;
+        }
+
+        body.theme-matrix {
+            --bg-gradient: linear-gradient(135deg, #010802, #031405);
+            --panel-border: rgba(0, 255, 65, 0.3);
+            --text-muted: #00ff41;
+            --accent-neon: #003b46;
+            --accent-purple: #008000;
+            --btn-hover: #00ff41;
+            --heart-color: #00ff41;
+        }
+
+        body.theme-gold {
+            --bg-gradient: linear-gradient(135deg, #141108, #29220c);
+            --panel-border: rgba(212, 175, 55, 0.4);
+            --text-muted: #d4af37;
+            --accent-neon: #f3e5ab;
+            --accent-purple: #aa7c11;
+            --btn-hover: #d4af37;
+            --heart-color: #d4af37;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg-gradient);
@@ -52,14 +102,14 @@
             text-align: center;
             margin: 0;
             padding: 10px;
-            padding-bottom: 80px; /* Spazio per la barra fissa */
+            padding-bottom: 80px; 
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             letter-spacing: -0.3px;
-            overflow: hidden; /* IMPEDISCE LO SCROLL DELLA PAGINA INTERA */
+            overflow: hidden; 
             position: relative;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent; 
@@ -71,7 +121,6 @@
             user-select: none;
         }
 
-        /* --- INTESTAZIONE COMPATTA PER RISPARMIARE SPAZIO --- */
         h1 {
             font-size: 1.6rem;
             font-weight: 700;
@@ -122,7 +171,6 @@
             border-color: var(--accent-neon);
         }
 
-        /* --- CONTENITORE COMPATTO DI PUNTEGGIO E LIVELLI --- */
         .counter-container {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
@@ -193,7 +241,7 @@
             max-width: 450px;
             display: none;
             z-index: 10;
-            flex-grow: 1; /* Prende lo spazio rimanente senza strabordare */
+            flex-grow: 1; 
         }
 
         .tab-view.active-view { 
@@ -208,15 +256,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 180px;
+            min-height: 200px;
         }
 
-        .shape-heart, .shape-star, .shape-diamond {
+        /* --- STILI DI TUTTE LE FORME DEL PULSANTE --- */
+        .shape-heart, .shape-star, .shape-diamond, .shape-squircle, .shape-triangle, .shape-hexagon, .shape-shield, .shape-infinity {
             cursor: pointer;
             touch-action: manipulation;
+            transition: transform 0.05s ease, filter 0.3s ease;
         }
 
-        /* Stile 1: Cuore standard */
+        /* 1. Cuore */
         .shape-heart {
             background-color: var(--heart-color);
             display: inline-block;
@@ -224,9 +274,8 @@
             position: relative;
             transform: rotate(-45deg);
             width: 90px;
-            animation: pulse 1.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+            animation: pulseHeart 1.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
             filter: drop-shadow(0 0 20px var(--heart-color));
-            transition: transform 0.05s ease;
         }
         .shape-heart:before, .shape-heart:after {
             content: "";
@@ -240,7 +289,7 @@
         .shape-heart:after { top: 0; left: 45px; }
         .shape-heart:active { animation: none; transform: rotate(-45deg) scale(0.85); }
 
-        /* Stile 2: Stella */
+        /* 2. Stella */
         .shape-star {
             position: relative;
             display: inline-block;
@@ -259,42 +308,109 @@
             border-left: 27px solid transparent;
             border-right: 27px solid transparent;
             position: absolute;
-            height: 0;
-            width: 0;
-            top: -40px;
-            left: -58px;
-            content: '';
+            height: 0; width: 0; top: -40px; left: -58px; content: '';
             transform: rotate(-35deg);
         }
         .shape-star:after {
             position: absolute;
-            display: block;
+            display: block; content: '';
             color: var(--heart-color);
-            top: 2px;
-            left: -94px;
-            width: 0px;
-            height: 0px;
+            top: 2px; left: -94px; width: 0px; height: 0px;
             border-right: 90px solid transparent;
             border-bottom: 63px solid var(--heart-color);
             border-left: 90px solid transparent;
             transform: rotate(-70deg);
-            content: '';
         }
         .shape-star:active { animation: none; transform: rotate(35deg) scale(0.55); }
 
-        /* Stile 3: Diamante */
+        /* 3. Diamante */
         .shape-diamond {
-            width: 75px;
-            height: 75px;
+            width: 80px; height: 80px;
             background: var(--heart-color);
             transform: rotate(45deg);
             filter: drop-shadow(0 0 20px var(--heart-color));
             animation: pulseSimple 1.4s infinite ease-in-out;
-            transition: transform 0.05s ease;
         }
-        .shape-diamond:active { animation: none; transform: rotate(45deg) scale(0.75); }
+        .shape-diamond:active { animation: none; transform: rotate(45deg) scale(0.8); }
 
-        @keyframes pulse {
+        /* 4. Squircle (Quadrato Smussato) */
+        .shape-squircle {
+            width: 100px; height: 100px;
+            background: var(--heart-color);
+            border-radius: 35px;
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+        }
+        .shape-squircle:active { transform: scale(0.85); animation: none; }
+
+        /* 5. Triangolo */
+        .shape-triangle {
+            width: 0; height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-bottom: 100px solid var(--heart-color);
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+        }
+        .shape-triangle:active { transform: scale(0.83); animation: none; }
+
+        /* 6. Esagono */
+        .shape-hexagon {
+            width: 100px; height: 57.74px;
+            background-color: var(--heart-color);
+            position: relative;
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+            margin: 30px 0;
+        }
+        .shape-hexagon:before, .shape-hexagon:after {
+            content: "";
+            position: absolute; width: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+        }
+        .shape-hexagon:before { bottom: 100%; border-bottom: 28.87px solid var(--heart-color); left: 0; }
+        .shape-hexagon:after { top: 100%; border-top: 28.87px solid var(--heart-color); left: 0; }
+        .shape-hexagon:active { transform: scale(0.85); animation: none; }
+
+        /* 7. Scudo */
+        .shape-shield {
+            width: 90px; height: 100px;
+            background: var(--heart-color);
+            border-radius: 0 0 50px 50px;
+            position: relative;
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+        }
+        .shape-shield:before {
+            content: ""; position: absolute;
+            bottom: 100%; left: 0; width: 0; height: 0;
+            border-left: 45px solid transparent;
+            border-right: 45px solid transparent;
+            border-bottom: 20px solid var(--heart-color);
+        }
+        .shape-shield:active { transform: scale(0.85); animation: none; }
+
+        /* 8. Infinito */
+        .shape-infinity {
+            position: relative;
+            width: 120px; height: 60px;
+            filter: drop-shadow(0 0 20px var(--heart-color));
+            animation: pulseSimple 1.4s infinite ease-in-out;
+        }
+        .shape-infinity:before, .shape-infinity:after {
+            content: ""; position: absolute; top: 0;
+            width: 40px; height: 40px;
+            border: 12px solid var(--heart-color);
+            border-radius: 50px 50px 0 50px;
+            transform: rotate(-45deg);
+        }
+        .shape-infinity:before { left: 0; }
+        .shape-infinity:after { right: 0; transform: rotate(135deg); }
+        .shape-infinity:active { transform: scale(0.85); animation: none; }
+
+        /* --- ANIMAZIONI --- */
+        @keyframes pulseHeart {
             0% { transform: rotate(-45deg) scale(0.95); }
             40% { transform: rotate(-45deg) scale(1.08); }
             60% { transform: rotate(-45deg) scale(1.01); }
@@ -310,14 +426,14 @@
         .shape-diamond { --base-rot: 45deg; }
         .shape-star { --base-rot: 35deg; }
 
-        /* --- SCROLL INTERNO LIMITATO AI SOLI MENU DI GIOCO --- */
+        /* --- SCROLL INTERNO --- */
         .menu-list-container {
             background: rgba(20, 10, 35, 0.6);
             border: 1px solid var(--panel-border);
             border-radius: 20px;
             padding: 12px;
-            max-height: 42vh; /* Ptivilegia l'altezza massima del menu */
-            overflow-y: auto; /* Permette lo scroll solo dentro il box */
+            max-height: 42vh; 
+            overflow-y: auto; 
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
@@ -368,13 +484,23 @@
         .btn-qty { font-size: 0.75rem; color: var(--accent-neon); opacity: 0.8; }
         .price { font-size: 0.72rem; color: var(--accent-neon); font-weight: 400; }
 
-        /* --- BARRA DI NAVIGAZIONE IN BASSO BLOCCATA --- */
+        /* --- BOX INFORMAZIONI PRESTIGIO --- */
+        .prestige-info-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed var(--panel-border);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            text-align: left;
+            line-height: 1.3;
+            color: var(--text-main);
+        }
+
+        /* --- BARRA DI NAVIGAZIONE IN BASSO --- */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 65px;
+            bottom: 0; left: 0; width: 100%; height: 65px;
             background: rgba(15, 8, 29, 0.95);
             border-top: 1px solid var(--panel-border);
             backdrop-filter: blur(15px);
@@ -386,19 +512,10 @@
         }
 
         .nav-item {
-            background: none;
-            border: none;
+            background: none; border: none;
             color: rgba(243, 232, 255, 0.4);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            height: 100%;
-            width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 2px; font-size: 0.7rem; font-weight: 600; cursor: pointer; height: 100%; width: 100%;
         }
 
         .nav-item .nav-icon { font-size: 1.1rem; }
@@ -415,14 +532,9 @@
         }
 
         .floating-number {
-            position: fixed;
-            color: var(--accent-neon);
-            font-size: 1.2rem;
-            font-weight: 800;
-            pointer-events: none;
+            position: fixed; color: var(--accent-neon); font-size: 1.2rem; font-weight: 800; pointer-events: none;
             text-shadow: 0 0 10px var(--accent-neon);
-            animation: floatUp 0.8s ease-out forwards;
-            z-index: 9999;
+            animation: floatUp 0.8s ease-out forwards; z-index: 9999;
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
@@ -508,29 +620,29 @@
                 <span class="price">Costa: 4.000.000 | (+2.500.000 P/s)</span>
             </button>
 
-            <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">Livelli Avanzati</div>
+            <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">LivLevels Avanzati</div>
             
             <button id="click_up_galaxy" class="game-btn" style="border: 1px solid #e0aaff; background: rgba(157, 78, 221, 0.4);" onclick="buyGalaxyClickUpgrade()">
                 <span class="btn-title">✨ Click del Multiverso ✨ <span class="btn-qty" id="qty-click_up_galaxy">Liv. 0</span></span>
-                <span class="price" id="price-click_up_galaxy">Costa: 8.000.000.000 | (+5 Mld al Click)</span>
+                <span class="price" id="price-click_up_galaxy">Costa: 8 Mld | (+5 Mld al Click)</span>
             </button>
 
             <button id="click_up_mega" class="game-btn" onclick="buyMegaClickUpgrade()">
                 <span class="btn-title">Sguardo Supremo 🎆 <span class="btn-qty" id="qty-click_up_mega">Liv. 0</span></span>
-                <span class="price" id="price-click_up_mega">Costa: 1.500.000.000 | (+150 Mln al Click)</span>
+                <span class="price" id="price-click_up_mega">Costa: 1,5 Mld | (+150 Mln al Click)</span>
             </button>
 
             <button id="up10" class="game-btn" onclick="buyUpgrade('up10', 25000000, 18000000)">
                 <span class="btn-title">Connessione Profonda 🌐 <span class="btn-qty" id="qty-up10">x0</span></span>
-                <span class="price">Costa: 25.000.000 | (+18 Mln P/s)</span>
+                <span class="price">Costa: 25 Mln | (+18 Mln P/s)</span>
             </button>
             <button id="up11" class="game-btn" onclick="buyUpgrade('up11', 180000000, 110000000)">
                 <span class="btn-title">Realtà Condivisa 🌌 <span class="btn-qty" id="qty-up11">x0</span></span>
-                <span class="price">Costa: 180.000.000 | (+110 Mln P/s)</span>
+                <span class="price">Costa: 180 Mln | (+110 Mln P/s)</span>
             </button>
             <button id="up12" class="game-btn" onclick="buyUpgrade('up12', 1200000000, 750000000)">
                 <span class="btn-title">Universo M12ANO 🔮 <span class="btn-qty" id="qty-up12">x0</span></span>
-                <span class="price">Costa: 1.200.000.000 | (+750 Mln P/s)</span>
+                <span class="price">Costa: 1,2 Mld | (+750 Mln P/s)</span>
             </button>
 
             <button id="up13" class="game-btn" onclick="buyUpgrade('up13', 15000000000, 8000000000)">
@@ -563,6 +675,26 @@
                 <span class="btn-title">Cyber Menta Smeraldo 🧪 <span class="btn-qty" id="qty-skin-mint">Pronto</span></span>
                 <span class="price">Costa: 15.000</span>
             </button>
+            <button id="skin-cyberpunk" class="game-btn" onclick="setTheme('cyberpunk', 45000)">
+                <span class="btn-title">Cyberpunk Neon ⚡ <span class="btn-qty" id="qty-skin-cyberpunk">Pronto</span></span>
+                <span class="price">Costa: 45.000</span>
+            </button>
+            <button id="skin-sunset" class="game-btn" onclick="setTheme('sunset', 150000)">
+                <span class="btn-title">Tramonto Autunnale 🌅 <span class="btn-qty" id="qty-skin-sunset">Pronto</span></span>
+                <span class="price">Costa: 150.000</span>
+            </button>
+            <button id="skin-midnight" class="game-btn" onclick="setTheme('midnight', 850000)">
+                <span class="btn-title">Blu Notte Profonda 🌌 <span class="btn-qty" id="qty-skin-midnight">Pronto</span></span>
+                <span class="price">Costa: 850.000</span>
+            </button>
+            <button id="skin-matrix" class="game-btn" onclick="setTheme('matrix', 5000000)">
+                <span class="btn-title">Hacker Matrix 💻 <span class="btn-qty" id="qty-skin-matrix">Pronto</span></span>
+                <span class="price">Costa: 5.000.000</span>
+            </button>
+            <button id="skin-gold" class="game-btn" onclick="setTheme('gold', 75000000)">
+                <span class="btn-title">Edizione Oro Reale 👑 <span class="btn-qty" id="qty-skin-gold">Pronto</span></span>
+                <span class="price">Costa: 75 Mln</span>
+            </button>
 
             <div class="menu-title-header" style="margin-top:15px;">Forma del Pulsante</div>
             <button id="shape-heart-btn" class="game-btn" onclick="setShape('heart', 0)">
@@ -577,6 +709,43 @@
                 <span class="btn-title">Diamante Prezioso 💎 <span class="btn-qty" id="qty-shape-diamond">Pronto</span></span>
                 <span class="price">Costa: 50.000</span>
             </button>
+            <button id="shape-squircle-btn" class="game-btn" onclick="setShape('squircle', 350000)">
+                <span class="btn-title">Quadrato Smussato 🟩 <span class="btn-qty" id="qty-shape-squircle">Pronto</span></span>
+                <span class="price">Costa: 350.000</span>
+            </button>
+            <button id="shape-triangle-btn" class="game-btn" onclick="setShape('triangle', 1800000)">
+                <span class="btn-title">Triangolo Mistico 🔺 <span class="btn-qty" id="qty-shape-triangle">Pronto</span></span>
+                <span class="price">Costa: 1,8 Mln</span>
+            </button>
+            <button id="shape-hexagon-btn" class="game-btn" onclick="setShape('hexagon', 12000000)">
+                <span class="btn-title">Esagono Neon ⬡ <span class="btn-qty" id="qty-shape-hexagon">Pronto</span></span>
+                <span class="price">Costa: 12 Mln</span>
+            </button>
+            <button id="shape-shield-btn" class="game-btn" onclick="setShape('shield', 95000000)">
+                <span class="btn-title">Scudo di Luce 🛡️ <span class="btn-qty" id="qty-shape-shield">Pronto</span></span>
+                <span class="price">Costa: 95 Mln</span>
+            </button>
+            <button id="shape-infinity-btn" class="game-btn" onclick="setShape('infinity', 5000000000)">
+                <span class="btn-title">Simbolo Infinito ♾️ <span class="btn-qty" id="qty-shape-infinity">Pronto</span></span>
+                <span class="price">Costa: 5 Mld</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="view-prestige" class="tab-view">
+        <div class="menu-list-container">
+            <div class="menu-title-header" style="border-left-color: #ff70a6;">Ciclo di Rinascita 🔄</div>
+            <div class="prestige-info-box">
+                🧬 **Frammenti posseduti:** <span id="prestige-fragments">0</span><br>
+                🚀 **Bonus di Productione Totale:** <span id="prestige-bonus-pct">+0%</span><br>
+                <span style="font-size:0.75rem; opacity:0.8; display:block; margin-top:5px;">
+                    Rinasci per resettare i potenziamenti in cambio di Frammenti. Ogni frammento aumenta del <strong>+2%</strong> ogni click e punto al secondo per sempre! (Minimo richiesto: 1 Mld di punti totali guadagnati).
+                </span>
+            </div>
+            <button id="prestige-btn" class="game-btn" style="background: rgba(255, 71, 126, 0.2); border: 1px solid rgba(255, 71, 126, 0.4);" onclick="triggerPrestige()">
+                <span class="btn-title">✨ Attiva Rinascita ✨</span>
+                <span class="price" id="prestige-reward-estimate">Richiede 1 Mld totali</span>
+            </button>
         </div>
     </div>
 
@@ -589,11 +758,11 @@
             </button>
             <button id="premio2" class="game-btn" onclick="claimReward('premio2', 100000000)">
                 <span class="btn-title">Ascoltiamo Nayt insieme 🎧 <span class="btn-qty" id="qty-premio2">Riscattati: 0</span></span>
-                <span class="price">Costa: 100 mln</span>
+                <span class="price">Costa: 100 Mln</span>
             </button>
             <button id="premio3" class="game-btn" onclick="claimReward('premio3', 100000000000)">
                 <span class="btn-title">patatine fritte 🌌 <span class="btn-qty" id="qty-premio3">Riscattati: 0</span></span>
-                <span class="price">Costa: 100 mld</span>
+                <span class="price">Costa: 100 Mld</span>
             </button>
         </div>
     </div>
@@ -611,6 +780,10 @@
             <span class="nav-icon">✨</span>
             <span>Stile</span>
         </button>
+        <button class="nav-item" onclick="switchTab('view-prestige', this)">
+            <span class="nav-icon">🔄</span>
+            <span>Rinascita</span>
+        </button>
         <button class="nav-item" onclick="switchTab('view-rewards', this)">
             <span class="nav-icon">🎁</span>
             <span>Premi</span>
@@ -620,10 +793,12 @@
     <script>
         /* --- LOGICA DI GIOCO --- */
         let score = parseFloat(localStorage.getItem('clicker_score')) || 0;
-        let pps = 0; // Viene calcolato dinamicamente all'inizio
+        let pps = 0; 
         let totalScoreEarned = parseFloat(localStorage.getItem('clicker_total_earned')) || 0;
         let clickPower = parseInt(localStorage.getItem('clicker_click_power')) || 1;
         
+        let prestigeFragments = parseInt(localStorage.getItem('clicker_prestige_fragments')) || 0;
+
         let upgrades = JSON.parse(localStorage.getItem('clicker_upgrades')) || { 
             click_up: 0, click_up_mega: 0, click_up_galaxy: 0, up1: 0, up2: 0, up3: 0, up4: 0, up5: 0, up6: 0, up7: 0, up8: 0, up9: 0, up10: 0, up11: 0, up12: 0, up13: 0, up14: 0, up15: 0 
         };
@@ -633,76 +808,45 @@
 
         let unlockedCustoms = JSON.parse(localStorage.getItem('clicker_unlocked_customs')) || {
             theme_default: true, theme_pink: false, theme_mint: false,
-            shape_heart: true, shape_star: false, shape_diamond: false
+            theme_cyberpunk: false, theme_sunset: false, theme_midnight: false, theme_matrix: false, theme_gold: false,
+            shape_heart: true, shape_star: false, shape_diamond: false,
+            shape_squircle: false, shape_triangle: false, shape_hexagon: false, shape_shield: false, shape_infinity: false
         };
         let activeTheme = localStorage.getItem('clicker_active_theme') || 'default';
         let activeShape = localStorage.getItem('clicker_active_shape') || 'heart';
         
         let isMusicMuted = localStorage.getItem('clicker_music_muted') === 'true';
 
-        /* --- I TUOI 20 LIVELLI UNICI ORIGINALI --- */
         const baseLevelTitles = [
-            "Primi Sguardi 👀",       
-            "Spotted Vda ✨",         
-            "stessi pensieri 💬",     
-            "BFF 💭",                
-            "Vite simili 💜",         
-            "Legame Speciale 🔐",     
-            "Playlist In Loop 🎧",    
-            "Ore di Notte 🌙",        
-            "Sintonia Magnetica 🧲",  
-            "Custode dei Segreti 🗝️", 
-            "Intesa Mentale 🌌",      
-            "Telepatia Pura 🧠",      
-            "Connessione Stellare ☄️", 
-            "Oltre le Parole 🕊️",      
-            "Anime Sintonizzate 🧬",  
-            "Destini Incrociati 🗺️",  
-            "Realtà Condivisa ✨",     
-            "Spazio M12ANO 🔮",       
-            "Universo Indivisibile 🌌",
-            "Linked forever ♾️"       
+            "Primi Sguardi 👀", "Spotted Vda ✨", "stessi pensieri 💬", "BFF 💭", "Vite simili 💜", 
+            "Legame Speciale 🔐", "Playlist In Loop 🎧", "Ore di Notte 🌙", "Sintonia Magnetica 🧲", 
+            "Custode dei Segreti 🗝️", "Intesa Mentale 🌌", "Telepatia Pura 🧠", "Connessione Stellare ☄️", 
+            "Oltre le Parole 🕊️", "Anime Sintonizzate 🧬", "Destini Incrociati 🗺️", "Realtà Condivisa ✨", 
+            "Spazio M12ANO 🔮", "Universo Indivisibile 🌌", "Linked forever ♾️"       
         ];
 
-        /* --- GENERATORE DINAMICO PER GLI ALTRI 50 LIVELLI (TOTALE 70) --- */
         function getLevelTitle(levelIndex) {
-            if (levelIndex < baseLevelTitles.length) {
-                return baseLevelTitles[levelIndex];
-            }
-            
-            // Pool di parole per assemblare dinamicamente i livelli successivi dal 21 al 70
+            if (levelIndex < baseLevelTitles.length) return baseLevelTitles[levelIndex];
             const concepts = ["Sintonia", "Intesa", "Dimensione", "Frequenza", "Connessione", "Ecosistema", "Universo", "Galassia", "Alchimia", "Telepatia"];
             const attributes = ["Profonda", "Suprema", "Condivisa", "Stellare", "Indissolubile", "Eterna", "Magnetica", "Assoluta", "Astrale"];
             const icons = ["🌌", "🔮", "✨", "🧬", "💜", "♾️", "🪐", "🛡️", "🔗", "💬"];
             
-            // Algoritmo deterministico per generare nomi coerenti in base al numero del livello
-            let concept = concepts[(levelIndex) % concepts.length];
+            let concept = concepts[levelIndex % concepts.length];
             let attr = attributes[(levelIndex + 2) % attributes.length];
-            let icon = icons[(levelIndex) % icons.length];
+            let icon = icons[levelIndex % icons.length];
             let subIteration = Math.floor((levelIndex - 20) / 10) + 2;
             
             return `${concept} ${attr} v${subIteration} ${icon}`;
         }
         
         const upgradeConfig = {
-            up1: { baseCost: 50, pps: 4 }, 
-            up2: { baseCost: 350, pps: 25 }, 
-            up3: { baseCost: 1200, pps: 120 },
-            up4: { baseCost: 4000, pps: 550 }, 
-            ui5: { baseCost: 15000, pps: 2600 }, 
-            up6: { baseCost: 55000, pps: 14000 },
-            up7: { baseCost: 200000, pps: 75000 }, 
-            up8: { baseCost: 850000, pps: 430000 }, 
-            up9: { baseCost: 4000000, pps: 2500000 },
-            up10: { baseCost: 25000000, pps: 18000000 },
-            up11: { baseCost: 180000000, pps: 110000000 },
-            up12: { baseCost: 1200000000, pps: 750000000 },
-            up13: { baseCost: 15000000000, pps: 8000000000 },     // Costo: 15 Mld  | +8 Mld P/s
-            up14: { baseCost: 120000000000, pps: 70000000000 },   // Costo: 120 Mld | +70 Mld P/s
-            up15: { baseCost: 1500000000000, pps: 950000000000 }  // Costo: 1,5 Trl | +950 Mld P/s
+            up1: { baseCost: 50, pps: 4 }, up2: { baseCost: 350, pps: 25 }, up3: { baseCost: 1200, pps: 120 },
+            up4: { baseCost: 4000, pps: 550 }, up5: { baseCost: 15000, pps: 2600 }, up6: { baseCost: 55000, pps: 14000 },
+            up7: { baseCost: 200000, pps: 75000 }, up8: { baseCost: 850000, pps: 430000 }, up9: { baseCost: 4000000, pps: 2500000 },
+            up10: { baseCost: 25000000, pps: 18000000 }, up11: { baseCost: 180000000, pps: 110000000 }, up12: { baseCost: 1200000000, pps: 750000000 },
+            up13: { baseCost: 15000000000, pps: 8000000000 }, up14: { baseCost: 120000000000, pps: 70000000000 }, up15: { baseCost: 1500000000000, pps: 950000000000 }  
         };
 
-        // INIZIALIZZAZIONE STATO DI GIOCO CORRETTA
         initAmbientHearts();
         applyVisualStyleOnLoad();
         recalculateClickPower();
@@ -710,16 +854,12 @@
         updateUI();
         updateAudioButtonUI();
 
+        // FUNZIONE DI FORMATTAZIONE AVANZATA AGGIORNATA
         function formatNumber(num) {
-            if (num >= 1000000000000) { 
-                return (num / 1000000000000).toFixed(2).replace('.', ',') + ' Trl';
-            }
-            if (num >= 1000000000) { 
-                return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';
-            }
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(1).replace('.', ',') + ' Mln';
-            }
+            if (num >= 1000000000000000) return (num / 1000000000000000).toFixed(2).replace('.', ',') + ' Brl'; // Biliardi
+            if (num >= 1000000000000) return (num / 1000000000000).toFixed(2).replace('.', ',') + ' Trl';    // Trilioni
+            if (num >= 1000000000) return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';       // Miliardi
+            if (num >= 1000000) return (num / 1000000).toFixed(1).replace('.', ',') + ' Mln';          // Milioni
             return Math.floor(num).toLocaleString('it-IT');
         }
 
@@ -737,6 +877,32 @@
             btn.className = 'shape-' + activeShape;
         }
 
+        function calculatePendingFragments() {
+            if (totalScoreEarned < 1000000000) return 0;
+            return Math.floor(Math.pow(totalScoreEarned / 1000000000, 1/3) * 15);
+        }
+
+        function triggerPrestige() {
+            let pending = calculatePendingFragments();
+            if (pending < 1) return;
+
+            prestigeFragments += pending;
+            
+            score = 0;
+            totalScoreEarned = 0;
+            
+            for (let key in upgrades) {
+                upgrades[key] = 0;
+            }
+            
+            recalculateClickPower();
+            recalculatePPS();
+            saveGame();
+            updateUI();
+            
+            switchTab('view-game', document.querySelectorAll('.nav-item')[0]);
+        }
+
         function recalculateClickPower() {
             let basePower = 1;
             let clickUpCount = upgrades['click_up'] || 0;
@@ -746,7 +912,9 @@
             }
             basePower += (upgrades['click_up_mega'] || 0) * 150000000;
             basePower += (upgrades['click_up_galaxy'] || 0) * 5000000000;
-            clickPower = basePower;
+            
+            let prestigeMultiplier = 1 + (prestigeFragments * 0.02);
+            clickPower = Math.round(basePower * prestigeMultiplier);
         }
 
         function recalculatePPS() {
@@ -754,7 +922,8 @@
             for (let id in upgradeConfig) {
                 currentPPS += (upgrades[id] || 0) * upgradeConfig[id].pps;
             }
-            pps = currentPPS;
+            let prestigeMultiplier = 1 + (prestigeFragments * 0.02);
+            pps = currentPPS * prestigeMultiplier;
         }
 
         function setTheme(themeName, cost) {
@@ -907,8 +1076,8 @@
         function initAmbientHearts() {
             setInterval(() => {
                 let totalUpgrades = Object.values(upgrades).reduce((a, b) => a + b, 0);
-                if (totalUpgrades === 0) return;
-                let spawnAmount = Math.min(Math.ceil(totalUpgrades / 4), 4);
+                if (totalUpgrades === 0 && prestigeFragments === 0) return;
+                let spawnAmount = Math.min(Math.ceil((totalUpgrades + prestigeFragments) / 4), 5);
                 for (let i = 0; i < spawnAmount; i++) createAmbientHeart();
             }, 1200);
         }
@@ -918,7 +1087,16 @@
             if (container.childElementCount > 25) return; 
             const heart = document.createElement('div');
             heart.className = 'ambient-heart';
-            heart.innerHTML = activeShape === 'heart' ? '💜' : (activeShape === 'star' ? '⭐' : '💎');
+            
+            if (activeShape === 'heart') heart.innerHTML = '💜';
+            else if (activeShape === 'star') heart.innerHTML = '⭐';
+            else if (activeShape === 'diamond') heart.innerHTML = '💎';
+            else if (activeShape === 'squircle') heart.innerHTML = '🟩';
+            else if (activeShape === 'triangle') heart.innerHTML = '🔺';
+            else if (activeShape === 'hexagon') heart.innerHTML = '⬡';
+            else if (activeShape === 'shield') heart.innerHTML = '🛡️';
+            else if (activeShape === 'infinity') heart.innerHTML = '♾️';
+
             heart.style.left = Math.random() * 100 + 'vw';
             let size = (Math.random() * 10) + 10;
             heart.style.fontSize = size + 'px';
@@ -930,7 +1108,6 @@
             setTimeout(() => { heart.remove(); }, duration * 1000);
         }
 
-        // LOOP DI PRODUZIONE AUTOMATICA (Esegui ogni 100ms)
         setInterval(function() {
             if (pps > 0) {
                 let ppsFraction = pps / 10;
@@ -946,16 +1123,27 @@
             document.getElementById('score').innerText = formatNumber(score);
             document.getElementById('pps-display').innerText = `Punti al secondo: ${formatNumber(pps)}`;
 
-            // Formula calibrata per supportare fino a 70 livelli totali in modo uniforme
+            document.getElementById('prestige-fragments').innerText = prestigeFragments;
+            document.getElementById('prestige-bonus-pct').innerText = `+${prestigeFragments * 2}%`;
+            
+            let pendingFrags = calculatePendingFragments();
+            let prestigeBtn = document.getElementById('prestige-btn');
+            if (pendingFrags > 0) {
+                document.getElementById('prestige-reward-estimate').innerText = `Rinasci Ora: +${pendingFrags} Frammenti 🧬`;
+                prestigeBtn.disabled = false;
+            } else {
+                document.getElementById('prestige-reward-estimate').innerText = `Richiede 1 Mld di punti (Mancano: ${formatNumber(1000000000 - totalScoreEarned)})`;
+                prestigeBtn.disabled = true;
+            }
+
             let currentLevel = Math.floor(Math.log(totalScoreEarned / 100 + 1) / Math.log(1.58)) + 1;
             if (currentLevel < 1) currentLevel = 1;
-            if (currentLevel > 70) currentLevel = 70; // Hard cap a livello 70
+            if (currentLevel > 70) currentLevel = 70; 
             
             let pointsForCurrentLevel = 100 * (Math.pow(1.58, currentLevel - 1) - 1);
             let pointsForNextLevel = 100 * (Math.pow(1.58, currentLevel) - 1);
             let levelProgress = ((totalScoreEarned - pointsForCurrentLevel) / (pointsForNextLevel - pointsForCurrentLevel)) * 100;
             
-            // Carica o genera il titolo del livello
             let levelTitleText = getLevelTitle(currentLevel - 1);
             document.getElementById('level-title').innerText = `Livello ${currentLevel}: ${levelTitleText}`;
             document.getElementById('progress-bar').style.width = `${Math.min(100, Math.max(0, levelProgress))}%`;
@@ -963,19 +1151,22 @@
             let costClickUp = Math.round(25 * Math.pow(1.25, upgrades['click_up'] || 0));
             let nextClickBonus = Math.max(1, Math.round(costClickUp / 100));
             let btnClick = document.getElementById('click_up');
-            btnClick.querySelector('.price').innerText = `Costa: ${formatNumber(costClickUp)} | (+${formatNumber(nextClickBonus)} al Click)`;
+            let realClickBonus = Math.round(nextClickBonus * (1 + (prestigeFragments * 0.02)));
+            btnClick.querySelector('.price').innerText = `Costa: ${formatNumber(costClickUp)} | (+${formatNumber(realClickBonus)} al Click)`;
             document.getElementById('qty-click_up').innerText = `Liv. ${upgrades['click_up'] || 0}`;
             btnClick.disabled = (score < costClickUp);
 
             let costGalaxyClick = Math.round(8000000000 * Math.pow(1.45, upgrades['click_up_galaxy'] || 0));
             let btnGalaxyClick = document.getElementById('click_up_galaxy');
-            btnGalaxyClick.querySelector('.price').innerText = `Costa: ${formatNumber(costGalaxyClick)} | (+5 Mld al Click)`;
+            let realGalaxyBonus = Math.round(5000000000 * (1 + (prestigeFragments * 0.02)));
+            btnGalaxyClick.querySelector('.price').innerText = `Costa: ${formatNumber(costGalaxyClick)} | (+${formatNumber(realGalaxyBonus)} al Click)`;
             document.getElementById('qty-click_up_galaxy').innerText = `Liv. ${upgrades['click_up_galaxy'] || 0}`;
             btnGalaxyClick.disabled = (score < costGalaxyClick);
 
             let costMegaClick = Math.round(1500000000 * Math.pow(1.35, upgrades['click_up_mega'] || 0));
             let btnMegaClick = document.getElementById('click_up_mega');
-            btnMegaClick.querySelector('.price').innerText = `Costa: ${formatNumber(costMegaClick)} | (+150 Mln al Click)`;
+            let realMegaBonus = Math.round(1500000000 * (1 + (prestigeFragments * 0.02)));
+            btnMegaClick.querySelector('.price').innerText = `Costa: ${formatNumber(costMegaClick)} | (+${formatNumber(realMegaBonus)} al Click)`;
             document.getElementById('qty-click_up_mega').innerText = `Liv. ${upgrades['click_up_mega'] || 0}`;
             btnMegaClick.disabled = (score < costMegaClick);
 
@@ -983,7 +1174,8 @@
                 let btn = document.getElementById(id);
                 if (btn) {
                     let currentCost = Math.round(upgradeConfig[id].baseCost * Math.pow(1.15, upgrades[id] || 0));
-                    btn.querySelector('.price').innerText = `Costa: ${formatNumber(currentCost)} | (+${formatNumber(upgradeConfig[id].pps)} P/s)`;
+                    let realPpsBonus = upgradeConfig[id].pps * (1 + (prestigeFragments * 0.02));
+                    btn.querySelector('.price').innerText = `Costa: ${formatNumber(currentCost)} | (+${formatNumber(realPpsBonus)} P/s)`;
                     document.getElementById(`qty-${id}`).innerText = `x${upgrades[id] || 0}`;
                     btn.disabled = (score < currentCost);
                 }
@@ -993,9 +1185,20 @@
                 { id: 'skin-default', key: 'theme_default', cost: 0, lbl: 'Selezionato', labelNo: 'Sbloccato', act: activeTheme === 'default' },
                 { id: 'skin-pink', key: 'theme_pink', cost: 2500, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'pink' },
                 { id: 'skin-mint', key: 'theme_mint', cost: 15000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'mint' },
+                { id: 'skin-cyberpunk', key: 'theme_cyberpunk', cost: 45000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'cyberpunk' },
+                { id: 'skin-sunset', key: 'theme_sunset', cost: 150000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'sunset' },
+                { id: 'skin-midnight', key: 'theme_midnight', cost: 850000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'midnight' },
+                { id: 'skin-matrix', key: 'theme_matrix', cost: 5000000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'matrix' },
+                { id: 'skin-gold', key: 'theme_gold', cost: 75000000, lbl: 'Selezionato', labelNo: 'Usa Stile', act: activeTheme === 'gold' },
+                
                 { id: 'shape-heart-btn', key: 'shape_heart', cost: 0, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'heart' },
                 { id: 'shape-star-btn', key: 'shape_star', cost: 5000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'star' },
-                { id: 'shape-diamond-btn', key: 'shape_diamond', cost: 50000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'diamond' }
+                { id: 'shape-diamond-btn', key: 'shape_diamond', cost: 50000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'diamond' },
+                { id: 'shape-squircle-btn', key: 'shape_squircle', cost: 350000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'squircle' },
+                { id: 'shape-triangle-btn', key: 'shape_triangle', cost: 1800000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'triangle' },
+                { id: 'shape-hexagon-btn', key: 'shape_hexagon', cost: 12000000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'hexagon' },
+                { id: 'shape-shield-btn', key: 'shape_shield', cost: 95000000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'shield' },
+                { id: 'shape-infinity-btn', key: 'shape_infinity', cost: 5000000000, lbl: 'In Uso', labelNo: 'Equipaggia', act: activeShape === 'infinity' }
             ];
 
             customItems.forEach(item => {
@@ -1035,17 +1238,15 @@
             localStorage.setItem('clicker_pps', pps);
             localStorage.setItem('clicker_total_earned', totalScoreEarned);
             localStorage.setItem('clicker_click_power', clickPower);
+            localStorage.setItem('clicker_prestige_fragments', prestigeFragments);
             localStorage.setItem('clicker_upgrades', JSON.stringify(upgrades));
             localStorage.setItem('clicker_rewards_claimed', JSON.stringify(rewardsClaimed));
             localStorage.setItem('clicker_unlocked_customs', JSON.stringify(unlockedCustoms));
         }
 
-        // REGISTRAZIONE DEL SERVICE WORKER OBBLIGATORIO PER PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker registrato con successo!', reg))
-                    .catch(err => console.error('Errore nella registrazione del Service Worker:', err));
+                navigator.serviceWorker.register('sw.js').catch(err => {});
             });
         }
     </script>
