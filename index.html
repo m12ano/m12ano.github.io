@@ -171,12 +171,13 @@
             border-color: var(--accent-neon);
         }
 
+        /* --- CONTENITORE PUNTEGGIO --- */
         .counter-container {
             background: var(--panel-bg);
             border: 1px solid var(--panel-border);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 12px 25px;
+            padding: 12px 20px;
             border-radius: 18px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             margin-bottom: 10px;
@@ -184,16 +185,44 @@
             max-width: 400px;
             box-sizing: border-box;
             z-index: 10;
+            position: relative;
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
         }
 
         #score {
             font-size: 2.4rem;
             font-weight: 800;
             color: var(--text-main);
-            display: block;
             line-height: 1.1;
-            margin-bottom: 2px;
             text-shadow: 0 0 20px rgba(157, 78, 221, 0.4);
+        }
+
+        .achievements-toggle-btn {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #ffd700;
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+        .achievements-toggle-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 215, 0, 0.25);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
         }
 
         #pps-display {
@@ -202,6 +231,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             font-weight: 600;
+            margin-top: 4px;
             margin-bottom: 8px;
             display: block;
         }
@@ -236,6 +266,93 @@
             transition: width 0.3s ease;
         }
 
+        /* --- NOTIFICHE UI CUSTOM --- */
+        .ui-notification-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100000;
+            width: 90%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .ui-notification {
+            background: linear-gradient(135deg, #1f0e3d, #0f0620);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            color: var(--text-main);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 15px rgba(157, 78, 221, 0.2);
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: left;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(-50px);
+            opacity: 0;
+            animation: slideInNotify 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards,
+                      slideOutNotify 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) 5.5s forwards;
+        }
+
+        @keyframes slideInNotify {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideOutNotify {
+            to { transform: translateY(-30px); opacity: 0; }
+        }
+
+        .ui-notification-icon {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 8px var(--accent-neon));
+        }
+
+        .ui-notification-body {
+            flex-grow: 1;
+        }
+
+        /* --- MENU MODALE OVERLAY --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 5, 20, 0.85); backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); z-index: 10000;
+            display: none; align-items: center; justify-content: center;
+            padding: 20px; box-sizing: border-box;
+        }
+        .modal-overlay.modal-open { display: flex; }
+
+        .modal-content {
+            background: linear-gradient(145deg, #150b24, #0b0514);
+            border: 2px solid var(--panel-border);
+            border-radius: 24px; width: 100%; max-width: 400px;
+            padding: 20px; box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            position: relative; animation: modalAnim 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        @keyframes modalAnim { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+        .modal-close-btn {
+            position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--panel-border); color: var(--text-main); font-weight: bold;
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-close-btn:hover { background: rgba(255,0,0,0.2); border-color: #ff477e; }
+
+        .ach-item-row {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(157, 78, 221, 0.15);
+            border-radius: 14px; padding: 10px 14px; margin-bottom: 8px; text-align: left;
+            font-size: 0.78rem; transition: all 0.2s ease;
+        }
+
         .tab-view {
             width: 100%;
             max-width: 450px;
@@ -259,265 +376,134 @@
             min-height: 200px;
         }
 
-        /* --- STILI DI TUTTE LE FORME DEL PULSANTE --- */
+        /* --- FORME RITMICHE BPM --- */
         .shape-heart, .shape-star, .shape-diamond, .shape-squircle, .shape-triangle, .shape-hexagon, .shape-shield, .shape-infinity {
             cursor: pointer;
             touch-action: manipulation;
-            transition: transform 0.05s ease, filter 0.3s ease;
+            transition: filter 0.3s ease;
         }
 
-        /* 1. Cuore */
         .shape-heart {
-            background-color: var(--heart-color);
-            display: inline-block;
-            height: 90px;
-            position: relative;
-            transform: rotate(-45deg);
-            width: 90px;
-            animation: pulseHeart 1.4s infinite cubic-bezier(0.215, 0.610, 0.355, 1);
+            background-color: var(--heart-color); display: inline-block; height: 90px; position: relative;
+            transform: rotate(-45deg) scale(0.95); width: 90px;
+            animation: pulseBPM 0.46s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
             filter: drop-shadow(0 0 20px var(--heart-color));
         }
-        .shape-heart:before, .shape-heart:after {
-            content: "";
-            background-color: var(--heart-color);
-            border-radius: 50%;
-            height: 90px;
-            position: absolute;
-            width: 90px;
-        }
+        .shape-heart:before, .shape-heart:after { content: ""; background-color: var(--heart-color); border-radius: 50%; height: 90px; position: absolute; width: 90px; }
         .shape-heart:before { top: -45px; left: 0; }
         .shape-heart:after { top: 0; left: 45px; }
-        .shape-heart:active { animation: none; transform: rotate(-45deg) scale(0.85); }
+        .shape-heart:active { transform: rotate(-45deg) scale(0.8); animation: none; }
 
-        /* 2. Stella */
+        .shape-star, .shape-diamond, .shape-squircle, .shape-triangle, .shape-hexagon, .shape-shield, .shape-infinity {
+            animation: pulseBPMPlain 0.46s infinite alternate cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
         .shape-star {
-            position: relative;
-            display: inline-block;
-            color: var(--heart-color);
-            width: 0px;
-            height: 0px;
-            border-right: 90px solid transparent;
-            border-bottom: 63px solid var(--heart-color);
-            border-left: 90px solid transparent;
-            transform: rotate(35deg) scale(0.7);
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
+            position: relative; display: inline-block; color: var(--heart-color); width: 0px; height: 0px;
+            border-right: 90px solid transparent; border-bottom: 63px solid var(--heart-color); border-left: 90px solid transparent;
+            transform: rotate(35deg); filter: drop-shadow(0 0 20px var(--heart-color));
         }
         .shape-star:before {
-            border-bottom: 72px solid var(--heart-color);
-            border-left: 27px solid transparent;
-            border-right: 27px solid transparent;
-            position: absolute;
-            height: 0; width: 0; top: -40px; left: -58px; content: '';
-            transform: rotate(-35deg);
+            border-bottom: 72px solid var(--heart-color); border-left: 27px solid transparent; border-right: 27px solid transparent;
+            position: absolute; height: 0; width: 0; top: -40px; left: -58px; content: ''; transform: rotate(-35deg);
         }
         .shape-star:after {
-            position: absolute;
-            display: block; content: '';
-            color: var(--heart-color);
-            top: 2px; left: -94px; width: 0px; height: 0px;
-            border-right: 90px solid transparent;
-            border-bottom: 63px solid var(--heart-color);
-            border-left: 90px solid transparent;
-            transform: rotate(-70deg);
+            position: absolute; display: block; content: ''; color: var(--heart-color);
+            top: 2px; left: -94px; width: 0px; height: 0px; border-right: 90px solid transparent;
+            border-bottom: 63px solid var(--heart-color); border-left: 90px solid transparent; transform: rotate(-70deg);
         }
-        .shape-star:active { animation: none; transform: rotate(35deg) scale(0.55); }
+        .shape-star:active { transform: rotate(35deg) scale(0.7); animation: none; }
 
-        /* 3. Diamante */
-        .shape-diamond {
-            width: 80px; height: 80px;
-            background: var(--heart-color);
-            transform: rotate(45deg);
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-        }
-        .shape-diamond:active { animation: none; transform: rotate(45deg) scale(0.8); }
+        .shape-diamond { width: 80px; height: 80px; background: var(--heart-color); transform: rotate(45deg); filter: drop-shadow(0 0 20px var(--heart-color)); }
+        .shape-diamond:active { transform: rotate(45deg) scale(0.75); animation: none; }
 
-        /* 4. Squircle (Quadrato Smussato) */
-        .shape-squircle {
-            width: 100px; height: 100px;
-            background: var(--heart-color);
-            border-radius: 35px;
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-        }
-        .shape-squircle:active { transform: scale(0.85); animation: none; }
+        .shape-squircle { width: 100px; height: 100px; background: var(--heart-color); border-radius: 35px; filter: drop-shadow(0 0 20px var(--heart-color)); }
+        .shape-squircle:active { transform: scale(0.75); animation: none; }
 
-        /* 5. Triangolo */
-        .shape-triangle {
-            width: 0; height: 0;
-            border-left: 60px solid transparent;
-            border-right: 60px solid transparent;
-            border-bottom: 100px solid var(--heart-color);
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-        }
-        .shape-triangle:active { transform: scale(0.83); animation: none; }
+        .shape-triangle { width: 0; height: 0; border-left: 60px solid transparent; border-right: 60px solid transparent; border-bottom: 100px solid var(--heart-color); filter: drop-shadow(0 0 20px var(--heart-color)); }
+        .shape-triangle:active { transform: scale(0.75); animation: none; }
 
-        /* 6. Esagono */
-        .shape-hexagon {
-            width: 100px; height: 57.74px;
-            background-color: var(--heart-color);
-            position: relative;
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-            margin: 30px 0;
-        }
-        .shape-hexagon:before, .shape-hexagon:after {
-            content: "";
-            position: absolute; width: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-        }
+        .shape-hexagon { width: 100px; height: 57.74px; background-color: var(--heart-color); position: relative; filter: drop-shadow(0 0 20px var(--heart-color)); margin: 30px 0; }
+        .shape-hexagon:before, .shape-hexagon:after { content: ""; position: absolute; width: 0; border-left: 50px solid transparent; border-right: 50px solid transparent; }
         .shape-hexagon:before { bottom: 100%; border-bottom: 28.87px solid var(--heart-color); left: 0; }
         .shape-hexagon:after { top: 100%; border-top: 28.87px solid var(--heart-color); left: 0; }
-        .shape-hexagon:active { transform: scale(0.85); animation: none; }
+        .shape-hexagon:active { transform: scale(0.75); animation: none; }
 
-        /* 7. Scudo */
-        .shape-shield {
-            width: 90px; height: 100px;
-            background: var(--heart-color);
-            border-radius: 0 0 50px 50px;
-            position: relative;
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-        }
-        .shape-shield:before {
-            content: ""; position: absolute;
-            bottom: 100%; left: 0; width: 0; height: 0;
-            border-left: 45px solid transparent;
-            border-right: 45px solid transparent;
-            border-bottom: 20px solid var(--heart-color);
-        }
-        .shape-shield:active { transform: scale(0.85); animation: none; }
+        .shape-shield { width: 90px; height: 100px; background: var(--heart-color); border-radius: 0 0 50px 50px; position: relative; filter: drop-shadow(0 0 20px var(--heart-color)); }
+        .shape-shield:before { content: ""; position: absolute; bottom: 100%; left: 0; width: 0; height: 0; border-left: 45px solid transparent; border-right: 45px solid transparent; border-bottom: 20px solid var(--heart-color); }
+        .shape-shield:active { transform: scale(0.75); animation: none; }
 
-        /* 8. Infinito */
-        .shape-infinity {
-            position: relative;
-            width: 120px; height: 60px;
-            filter: drop-shadow(0 0 20px var(--heart-color));
-            animation: pulseSimple 1.4s infinite ease-in-out;
-        }
-        .shape-infinity:before, .shape-infinity:after {
-            content: ""; position: absolute; top: 0;
-            width: 40px; height: 40px;
-            border: 12px solid var(--heart-color);
-            border-radius: 50px 50px 0 50px;
-            transform: rotate(-45deg);
-        }
+        .shape-infinity { position: relative; width: 120px; height: 60px; filter: drop-shadow(0 0 20px var(--heart-color)); }
+        .shape-infinity:before, .shape-infinity:after { content: ""; position: absolute; top: 0; width: 40px; height: 40px; border: 12px solid var(--heart-color); border-radius: 50px 50px 0 50px; transform: rotate(-45deg); }
         .shape-infinity:before { left: 0; }
         .shape-infinity:after { right: 0; transform: rotate(135deg); }
-        .shape-infinity:active { transform: scale(0.85); animation: none; }
+        .shape-infinity:active { transform: scale(0.75); animation: none; }
 
-        /* --- ANIMAZIONI --- */
-        @keyframes pulseHeart {
-            0% { transform: rotate(-45deg) scale(0.95); }
-            40% { transform: rotate(-45deg) scale(1.08); }
-            60% { transform: rotate(-45deg) scale(1.01); }
-            80% { transform: rotate(-45deg) scale(1.12); }
-            100% { transform: rotate(-45deg) scale(0.95); }
+        @keyframes pulseBPM {
+            0% { transform: rotate(-45deg) scale(0.94); filter: drop-shadow(0 0 12px var(--heart-color)); }
+            100% { transform: rotate(-45deg) scale(1.1); filter: drop-shadow(0 0 28px var(--heart-color)); }
         }
-
-        @keyframes pulseSimple {
-            0% { transform: scale(0.95) rotate(var(--base-rot, 0deg)); }
-            50% { transform: scale(1.08) rotate(var(--base-rot, 0deg)); }
-            100% { transform: scale(0.95) rotate(var(--base-rot, 0deg)); }
+        @keyframes pulseBPMPlain {
+            0% { transform: scale(0.94) rotate(var(--base-rot, 0deg)); filter: drop-shadow(0 0 12px var(--heart-color)); }
+            100% { transform: scale(1.1) rotate(var(--base-rot, 0deg)); filter: drop-shadow(0 0 28px var(--heart-color)); }
         }
-        .shape-diamond { --base-rot: 45deg; }
-        .shape-star { --base-rot: 35deg; }
 
         /* --- SCROLL INTERNO --- */
         .menu-list-container {
-            background: rgba(20, 10, 35, 0.6);
-            border: 1px solid var(--panel-border);
-            border-radius: 20px;
-            padding: 12px;
-            max-height: 42vh; 
-            overflow-y: auto; 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            box-sizing: border-box;
+            background: rgba(20, 10, 35, 0.6); border: 1px solid var(--panel-border); border-radius: 20px;
+            padding: 12px; max-height: 42vh; overflow-y: auto; backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 20px rgba(0,0,0,0.5); box-sizing: border-box;
         }
 
         .menu-title-header {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            text-align: left;
-            padding-left: 5px;
-            border-left: 3px solid var(--accent-neon);
+            font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;
+            text-align: left; padding-left: 5px; border-left: 3px solid var(--accent-neon);
         }
 
         .game-btn {
-            background: rgba(123, 44, 191, 0.25);
-            border: 1px solid rgba(157, 78, 221, 0.3);
-            color: var(--text-main);
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-bottom: 8px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
+            background: rgba(123, 44, 191, 0.25); border: 1px solid rgba(157, 78, 221, 0.3);
+            color: var(--text-main); padding: 10px 14px; border-radius: 12px; font-weight: 600;
+            cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left;
+            display: flex; flex-direction: column; gap: 2px; transition: all 0.2s ease; box-sizing: border-box;
         }
 
-        .game-btn:hover:not(:disabled) {
-            background: var(--btn-hover);
-            border-color: var(--accent-neon);
-        }
-
-        .game-btn:disabled {
-            background: rgba(255, 255, 255, 0.02);
-            border-color: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.2);
-            cursor: not-allowed;
-        }
+        .game-btn:hover:not(:disabled) { background: var(--btn-hover); border-color: var(--accent-neon); }
+        .game-btn:disabled { background: rgba(255, 255, 255, 0.02); border-color: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.2); cursor: not-allowed; }
 
         .btn-title { font-size: 0.88rem; display: flex; justify-content: space-between; width: 100%; }
         .btn-qty { font-size: 0.75rem; color: var(--accent-neon); opacity: 0.8; }
         .price { font-size: 0.72rem; color: var(--accent-neon); font-weight: 400; }
 
-        /* --- BOX INFORMAZIONI PRESTIGIO --- */
         .prestige-info-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px dashed var(--panel-border);
-            border-radius: 12px;
-            padding: 10px;
-            margin-bottom: 12px;
-            font-size: 0.8rem;
-            text-align: left;
-            line-height: 1.3;
-            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.03); border: 1px dashed var(--panel-border);
+            border-radius: 12px; padding: 10px; margin-bottom: 12px; font-size: 0.8rem; text-align: left; line-height: 1.3; color: var(--text-main);
         }
+
+        /* --- NOTIFICHE CASUALI (FLASHBACK) --- */
+        .flashback-notification {
+            position: fixed; background: linear-gradient(135deg, #00f2fe, #7f00ff);
+            border: 2px solid #fff; border-radius: 50%; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            cursor: pointer; box-shadow: 0 0 20px rgba(0,242,254,0.8); z-index: 99999;
+            animation: spawnPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .backup-container { display: flex; gap: 8px; margin-top: 10px; }
+        .backup-input { flex-grow: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--panel-border); border-radius: 8px; color: #fff; padding: 6px; font-size: 0.7rem; }
 
         /* --- BARRA DI NAVIGAZIONE IN BASSO --- */
         .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%; height: 65px;
-            background: rgba(15, 8, 29, 0.95);
-            border-top: 1px solid var(--panel-border);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 999;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
+            background: rgba(15, 8, 29, 0.95); border-top: 1px solid var(--panel-border);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            display: flex; justify-content: space-around; align-items: center; z-index: 999;
         }
 
         .nav-item {
-            background: none; border: none;
-            color: rgba(243, 232, 255, 0.4);
+            background: none; border: none; color: rgba(243, 232, 255, 0.4);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             gap: 2px; font-size: 0.7rem; font-weight: 600; cursor: pointer; height: 100%; width: 100%;
         }
-
         .nav-item .nav-icon { font-size: 1.1rem; }
         .nav-item.active-nav { color: var(--accent-neon); }
 
@@ -533,22 +519,21 @@
 
         .floating-number {
             position: fixed; color: var(--accent-neon); font-size: 1.2rem; font-weight: 800; pointer-events: none;
-            text-shadow: 0 0 10px var(--accent-neon);
-            animation: floatUp 0.8s ease-out forwards; z-index: 9999;
+            text-shadow: 0 0 10px var(--accent-neon); animation: floatUp 0.8s ease-out forwards; z-index: 9999;
         }
-        @keyframes floatUp {
-            0% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: translateY(-60px) scale(1.1); }
-        }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-60px) scale(1.1); } }
     </style>
 </head>
 <body>
 
     <audio id="bg-music" src="audio.mp3" loop></audio>
     <div id="bg-hearts-container"></div>
+    
+    <!-- CONTENITORE NOTIFICHE UI -->
+    <div id="notification-zone" class="ui-notification-container"></div>
 
     <h1>M12ANO 💜</h1>
-    <div class="subtitle">Accumula punti e sblocca premi reali</div>
+    <div class="subtitle" id="frenzy-indicator">Accumula punti e sblocca premi reali</div>
 
     <div class="controls-wrapper">
         <button id="audio-toggle" class="audio-control-btn" onclick="toggleMusicAudio()">
@@ -560,12 +545,27 @@
     </div>
 
     <div class="counter-container">
-        <span id="score">0</span>
+        <div class="score-row">
+            <span id="score">0</span>
+            <button class="achievements-toggle-btn" onclick="openAchievementsModal()" title="Visualizza Obiettivi">🏆</button>
+        </div>
         <span id="pps-display">Punti al secondo: 0</span>
         <div class="level-section">
             <span id="level-title">Livello 1: Primi Sguardi 👀</span>
             <div class="progress-bar-container">
                 <div id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="achievements-modal" class="modal-overlay" onclick="closeAchievementsModalOutside(event)">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeAchievementsModal()">✕</button>
+            <div class="menu-title-header" style="border-left-color:#ffd700; font-size: 1.1rem; margin-bottom: 15px;">Obiettivi Storici 🏆</div>
+            <div id="modal-achievements-list" style="max-height: 50vh; overflow-y: auto; padding-right: 4px;">
+                <div id="ach-1" class="ach-item-row" style="opacity:0.4;">🔒 **Cliccatore Seriale:** Fai 500 click manuali. <br><span style="color:var(--accent-neon); font-size:0.7rem;">(Premio: +5% Click Power)</span></div>
+                <div id="ach-2" class="ach-item-row" style="opacity:0.4;">🔒 **Insonnia Produttiva:** Possiedi 10 livelli di 'Ore a Parlare'. <br><span style="color:var(--accent-neon); font-size:0.7rem;">(Premio: +5% PPS)</span></div>
+                <div id="ach-3" class="ach-item-row" style="opacity:0.4;">🔒 **Accumulatore folle:** Arriva a 1 Mld di punti totali. <br><span style="color:var(--accent-neon); font-size:0.7rem;">(Premio: +10% PPS)</span></div>
             </div>
         </div>
     </div>
@@ -578,6 +578,12 @@
 
     <div id="view-upgrades" class="tab-view">
         <div class="menu-list-container">
+            <div class="menu-title-header" style="border-left-color: #00f2fe;">Automazione Quantistica</div>
+            <button id="autobuyer_speed" class="game-btn" style="border: 1px solid #00f2fe; background: rgba(0, 242, 254, 0.15);" onclick="buyAutobuyer()">
+                <span class="btn-title">Automa dei Ricordi 🤖 <span class="btn-qty" id="qty-autobuyer">Disattivato</span></span>
+                <span class="price" id="price-autobuyer">Costa: 50 Mld | Compra da solo</span>
+            </button>
+
             <div class="menu-title-header">Miglioramenti Base</div>
             <button id="click_up" class="game-btn" onclick="buyClickUpgrade()">
                 <span class="btn-title">Sguardo Intenso 👀 <span class="btn-qty" id="qty-click_up">Liv. 0</span></span>
@@ -620,13 +626,26 @@
                 <span class="price">Costa: 4.000.000 | (+2.500.000 P/s)</span>
             </button>
 
-            <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">LivLevels Avanzati</div>
+            <div class="menu-title-header" style="margin-top:15px; border-left-color: #ff9e00;">Modificatori di Coscienza</div>
+            <button id="mod_frenzy_duration" class="game-btn" style="border: 1px solid #ff9e00; background: rgba(255, 158, 0, 0.1);" onclick="buyMod('mod_frenzy_duration', 1500000)">
+                <span class="btn-title">Ricordo Lucido 🧘 <span class="btn-qty" id="qty-mod_frenzy_duration">Liv. 0</span></span>
+                <span class="price" id="price-mod_frenzy_duration">Costa: 1,5 Mln | +4s Durata Frenesia</span>
+            </button>
+            <button id="mod_pps_multiplier" class="game-btn" style="border: 1px solid #ff9e00; background: rgba(255, 158, 0, 0.1);" onclick="buyMod('mod_pps_multiplier', 25000000)">
+                <span class="btn-title">Iper-Sintonia 🌌 <span class="btn-qty" id="qty-mod_pps_multiplier">Liv. 0</span></span>
+                <span class="price" id="price-mod_pps_multiplier">Costa: 25 Mln | Multiplo Global PPS +3%</span>
+            </button>
+            <button id="mod_prestige_boost" class="game-btn" style="border: 1px solid #ff9e00; background: rgba(255, 158, 0, 0.1);" onclick="buyMod('mod_prestige_boost', 500000000)">
+                <span class="btn-title">Anima Antica 🧬 <span class="btn-qty" id="qty-mod_prestige_boost">Liv. 0</span></span>
+                <span class="price" id="price-mod_prestige_boost">Costa: 500 Mln | Efficacia Frammenti +0.5%</span>
+            </button>
+
+            <div class="menu-title-header" style="margin-top:15px; border-left-color: var(--accent-purple);">Livelli Avanzati</div>
             
             <button id="click_up_galaxy" class="game-btn" style="border: 1px solid #e0aaff; background: rgba(157, 78, 221, 0.4);" onclick="buyGalaxyClickUpgrade()">
                 <span class="btn-title">✨ Click del Multiverso ✨ <span class="btn-qty" id="qty-click_up_galaxy">Liv. 0</span></span>
                 <span class="price" id="price-click_up_galaxy">Costa: 8 Mld | (+5 Mld al Click)</span>
             </button>
-
             <button id="click_up_mega" class="game-btn" onclick="buyMegaClickUpgrade()">
                 <span class="btn-title">Sguardo Supremo 🎆 <span class="btn-qty" id="qty-click_up_mega">Liv. 0</span></span>
                 <span class="price" id="price-click_up_mega">Costa: 1,5 Mld | (+150 Mln al Click)</span>
@@ -644,7 +663,6 @@
                 <span class="btn-title">Universo M12ANO 🔮 <span class="btn-qty" id="qty-up12">x0</span></span>
                 <span class="price">Costa: 1,2 Mld | (+750 Mln P/s)</span>
             </button>
-
             <button id="up13" class="game-btn" onclick="buyUpgrade('up13', 15000000000, 8000000000)">
                 <span class="btn-title">Battito del Multiverso 🌌 <span class="btn-qty" id="qty-up13">x0</span></span>
                 <span class="price">Costa: 15 Mld | (+8 Mld P/s)</span>
@@ -737,15 +755,22 @@
             <div class="menu-title-header" style="border-left-color: #ff70a6;">Ciclo di Rinascita 🔄</div>
             <div class="prestige-info-box">
                 🧬 **Frammenti posseduti:** <span id="prestige-fragments">0</span><br>
-                🚀 **Bonus di Productione Totale:** <span id="prestige-bonus-pct">+0%</span><br>
+                🚀 **Bonus di Produzione Totale:** <span id="prestige-bonus-pct">+0%</span><br>
                 <span style="font-size:0.75rem; opacity:0.8; display:block; margin-top:5px;">
-                    Rinasci per resettare i potenziamenti in cambio di Frammenti. Ogni frammento aumenta del <strong>+2%</strong> ogni click e punto al secondo per sempre! (Minimo richiesto: 1 Mld di punti totali guadagnati).
+                    Rinasci per resettare i potenziamenti in cambio di Frammenti. Ogni frammento aumenta del <strong id="frag-efficiency-display">+2%</strong> ogni click e punto al secondo per sempre!
                 </span>
             </div>
             <button id="prestige-btn" class="game-btn" style="background: rgba(255, 71, 126, 0.2); border: 1px solid rgba(255, 71, 126, 0.4);" onclick="triggerPrestige()">
                 <span class="btn-title">✨ Attiva Rinascita ✨</span>
                 <span class="price" id="prestige-reward-estimate">Richiede 1 Mld totali</span>
             </button>
+
+            <div class="menu-title-header" style="margin-top:20px; border-left-color: #fff;">Cloud Backup Locale</div>
+            <div class="backup-container">
+                <input id="backup-string-io" class="backup-input" type="text" placeholder="Stringa di backup salvataggio...">
+                <button class="audio-control-btn" style="padding:5px 10px;" onclick="exportSave()">Esporta</button>
+                <button class="audio-control-btn" style="padding:5px 10px; background:var(--accent-purple);" onclick="importSave()">Importa</button>
+            </div>
         </div>
     </div>
 
@@ -761,7 +786,7 @@
                 <span class="price">Costa: 100 Mln</span>
             </button>
             <button id="premio3" class="game-btn" onclick="claimReward('premio3', 100000000000)">
-                <span class="btn-title">patatine fritte 🌌 <span class="btn-qty" id="qty-premio3">Riscattati: 0</span></span>
+                <span class="btn-title">patatine fritte 🍟 <span class="btn-qty" id="qty-premio3">Riscattati: 0</span></span>
                 <span class="price">Costa: 100 Mld</span>
             </button>
         </div>
@@ -769,24 +794,19 @@
 
     <nav class="bottom-nav">
         <button class="nav-item active-nav" onclick="switchTab('view-game', this)">
-            <span class="nav-icon">💜</span>
-            <span>Clicker</span>
+            <span class="nav-icon">💜</span><span>Clicker</span>
         </button>
         <button class="nav-item" onclick="switchTab('view-upgrades', this)">
-            <span class="nav-icon">⚡</span>
-            <span>Potenzia</span>
+            <span class="nav-icon">⚡</span><span>Potenzia</span>
         </button>
         <button class="nav-item" onclick="switchTab('view-custom', this)">
-            <span class="nav-icon">✨</span>
-            <span>Stile</span>
+            <span class="nav-icon">✨</span><span>Stile</span>
         </button>
         <button class="nav-item" onclick="switchTab('view-prestige', this)">
-            <span class="nav-icon">🔄</span>
-            <span>Rinascita</span>
+            <span class="nav-icon">🔄</span><span>Rinascita</span>
         </button>
         <button class="nav-item" onclick="switchTab('view-rewards', this)">
-            <span class="nav-icon">🎁</span>
-            <span>Premi</span>
+            <span class="nav-icon">🎁</span><span>Premi</span>
         </button>
     </nav>
 
@@ -796,25 +816,31 @@
         let pps = 0; 
         let totalScoreEarned = parseFloat(localStorage.getItem('clicker_total_earned')) || 0;
         let clickPower = parseInt(localStorage.getItem('clicker_click_power')) || 1;
+        let totalManualClicks = parseInt(localStorage.getItem('clicker_manual_clicks')) || 0;
         
         let prestigeFragments = parseInt(localStorage.getItem('clicker_prestige_fragments')) || 0;
+        let autobuyerUnlocked = localStorage.getItem('clicker_autobuyer') === 'true';
+        let lastSaveTime = parseInt(localStorage.getItem('clicker_last_save_time')) || Date.now();
+
+        let frenzyTimer = 0;
 
         let upgrades = JSON.parse(localStorage.getItem('clicker_upgrades')) || { 
             click_up: 0, click_up_mega: 0, click_up_galaxy: 0, up1: 0, up2: 0, up3: 0, up4: 0, up5: 0, up6: 0, up7: 0, up8: 0, up9: 0, up10: 0, up11: 0, up12: 0, up13: 0, up14: 0, up15: 0 
         };
+        
+        let mods = JSON.parse(localStorage.getItem('clicker_mods')) || {
+            mod_frenzy_duration: 0, mod_pps_multiplier: 0, mod_prestige_boost: 0
+        };
+
         let rewardsClaimed = JSON.parse(localStorage.getItem('clicker_rewards_claimed')) || { 
             premio1: 0, premio2: 0, premio3: 0 
         };
-
         let unlockedCustoms = JSON.parse(localStorage.getItem('clicker_unlocked_customs')) || {
-            theme_default: true, theme_pink: false, theme_mint: false,
-            theme_cyberpunk: false, theme_sunset: false, theme_midnight: false, theme_matrix: false, theme_gold: false,
-            shape_heart: true, shape_star: false, shape_diamond: false,
-            shape_squircle: false, shape_triangle: false, shape_hexagon: false, shape_shield: false, shape_infinity: false
+            theme_default: true, theme_pink: false, theme_mint: false, theme_cyberpunk: false, theme_sunset: false, theme_midnight: false, theme_matrix: false, theme_gold: false,
+            shape_heart: true, shape_star: false, shape_diamond: false, shape_squircle: false, shape_triangle: false, shape_hexagon: false, shape_shield: false, shape_infinity: false
         };
         let activeTheme = localStorage.getItem('clicker_active_theme') || 'default';
         let activeShape = localStorage.getItem('clicker_active_shape') || 'heart';
-        
         let isMusicMuted = localStorage.getItem('clicker_music_muted') === 'true';
 
         const baseLevelTitles = [
@@ -825,20 +851,6 @@
             "Spazio M12ANO 🔮", "Universo Indivisibile 🌌", "Linked forever ♾️"       
         ];
 
-        function getLevelTitle(levelIndex) {
-            if (levelIndex < baseLevelTitles.length) return baseLevelTitles[levelIndex];
-            const concepts = ["Sintonia", "Intesa", "Dimensione", "Frequenza", "Connessione", "Ecosistema", "Universo", "Galassia", "Alchimia", "Telepatia"];
-            const attributes = ["Profonda", "Suprema", "Condivisa", "Stellare", "Indissolubile", "Eterna", "Magnetica", "Assoluta", "Astrale"];
-            const icons = ["🌌", "🔮", "✨", "🧬", "💜", "♾️", "🪐", "🛡️", "🔗", "💬"];
-            
-            let concept = concepts[levelIndex % concepts.length];
-            let attr = attributes[(levelIndex + 2) % attributes.length];
-            let icon = icons[levelIndex % icons.length];
-            let subIteration = Math.floor((levelIndex - 20) / 10) + 2;
-            
-            return `${concept} ${attr} v${subIteration} ${icon}`;
-        }
-        
         const upgradeConfig = {
             up1: { baseCost: 50, pps: 4 }, up2: { baseCost: 350, pps: 25 }, up3: { baseCost: 1200, pps: 120 },
             up4: { baseCost: 4000, pps: 550 }, up5: { baseCost: 15000, pps: 2600 }, up6: { baseCost: 55000, pps: 14000 },
@@ -847,20 +859,84 @@
             up13: { baseCost: 15000000000, pps: 8000000000 }, up14: { baseCost: 120000000000, pps: 70000000000 }, up15: { baseCost: 1500000000000, pps: 950000000000 }  
         };
 
-        initAmbientHearts();
-        applyVisualStyleOnLoad();
-        recalculateClickPower();
-        recalculatePPS(); 
-        updateUI();
-        updateAudioButtonUI();
+        const modConfig = {
+            mod_frenzy_duration: { baseCost: 1500000, scale: 1.5 },
+            mod_pps_multiplier: { baseCost: 25000000, scale: 1.6 },
+            mod_prestige_boost: { baseCost: 500000000, scale: 1.8 }
+        };
 
-        // FUNZIONE DI FORMATTAZIONE AVANZATA AGGIORNATA
+        function getLevelTitle(levelIndex) {
+            if (levelIndex < baseLevelTitles.length) return baseLevelTitles[levelIndex];
+            const concepts = ["Sintonia", "Intesa", "Dimensione", "Frequenza", "Connessione"];
+            let concept = concepts[levelIndex % concepts.length];
+            return `${concept} Astrale v${Math.floor(levelIndex/10)} ✨`;
+        }
+
         function formatNumber(num) {
-            if (num >= 1000000000000000) return (num / 1000000000000000).toFixed(2).replace('.', ',') + ' Brl'; // Biliardi
-            if (num >= 1000000000000) return (num / 1000000000000).toFixed(2).replace('.', ',') + ' Trl';    // Trilioni
-            if (num >= 1000000000) return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';       // Miliardi
-            if (num >= 1000000) return (num / 1000000).toFixed(1).replace('.', ',') + ' Mln';          // Milioni
+            if (num >= 1000000000000000000) return (num / 1000000000000000000).toFixed(2).replace('.', ',') + ' Qdr';
+            if (num >= 1000000000000000) return (num / 1000000000000000).toFixed(2).replace('.', ',') + ' Brl';
+            if (num >= 1000000000000) return (num / 1000000000000).toFixed(2).replace('.', ',') + ' Trl';
+            if (num >= 1000000000) return (num / 1000000000).toFixed(1).replace('.', ',') + ' Mld';
+            if (num >= 1000000) return (num / 1000000).toFixed(1).replace('.', ',') + ' Mln';
             return Math.floor(num).toLocaleString('it-IT');
+        }
+
+        /* --- MOTORE DI NOTIFICHE UI IN-APP --- */
+        function showUiNotification(icon, message) {
+            const container = document.getElementById('notification-zone');
+            
+            const notification = document.createElement('div');
+            notification.className = 'ui-notification';
+            
+            notification.innerHTML = `
+                <div class="ui-notification-icon">${icon}</div>
+                <div class="ui-notification-body">${message}</div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Rimozione automatica dal DOM a fine animazione (6 secondi totali)
+            setTimeout(() => {
+                notification.remove();
+            }, 6000);
+        }
+
+        function openAchievementsModal() {
+            document.getElementById('achievements-modal').classList.add('modal-open');
+        }
+        function closeAchievementsModal() {
+            document.getElementById('achievements-modal').classList.remove('modal-open');
+        }
+        function closeAchievementsModalOutside(e) {
+            if (e.target.id === 'achievements-modal') closeAchievementsModal();
+        }
+
+        window.addEventListener('load', () => {
+            initAmbientHearts();
+            applyVisualStyleOnLoad();
+            recalculateClickPower();
+            recalculatePPS(); 
+            processOfflineProgress();
+            updateUI();
+            updateAudioButtonUI();
+            startFlashbackSpawning();
+        });
+
+        function processOfflineProgress() {
+            let now = Date.now();
+            let elapsedSeconds = Math.floor((now - lastSaveTime) / 1000);
+            if (elapsedSeconds > 30 && pps > 0) {
+                let maxOfflineTime = 12 * 3600;
+                if (elapsedSeconds > maxOfflineTime) elapsedSeconds = maxOfflineTime;
+                let offlineEarnings = elapsedSeconds * pps * 0.50;
+                score += offlineEarnings;
+                totalScoreEarned += offlineEarnings;
+                
+                // SOSTITUITO ALERT CON NOTIFICA UI ELEGANTE
+                setTimeout(() => {
+                    showUiNotification('💤', `<strong>Bentornato!</strong> Sei stato via per ${Math.floor(elapsedSeconds/60)} min. Il tuo cuore ha prodotto il 50%: <strong>+${formatNumber(offlineEarnings)}</strong> punti!`);
+                }, 800);
+            }
         }
 
         function switchTab(viewId, navButton) {
@@ -873,8 +949,7 @@
         function applyVisualStyleOnLoad() {
             document.body.className = '';
             if (activeTheme !== 'default') document.body.classList.add('theme-' + activeTheme);
-            const btn = document.getElementById('main-button');
-            btn.className = 'shape-' + activeShape;
+            document.getElementById('main-button').className = 'shape-' + activeShape;
         }
 
         function calculatePendingFragments() {
@@ -885,21 +960,11 @@
         function triggerPrestige() {
             let pending = calculatePendingFragments();
             if (pending < 1) return;
-
             prestigeFragments += pending;
-            
-            score = 0;
-            totalScoreEarned = 0;
-            
-            for (let key in upgrades) {
-                upgrades[key] = 0;
-            }
-            
-            recalculateClickPower();
-            recalculatePPS();
-            saveGame();
-            updateUI();
-            
+            score = 0; totalScoreEarned = 0; totalManualClicks = 0;
+            for (let key in upgrades) { upgrades[key] = 0; }
+            for (let key in mods) { mods[key] = 0; }
+            recalculateClickPower(); recalculatePPS(); saveGame(); updateUI();
             switchTab('view-game', document.querySelectorAll('.nav-item')[0]);
         }
 
@@ -913,103 +978,182 @@
             basePower += (upgrades['click_up_mega'] || 0) * 150000000;
             basePower += (upgrades['click_up_galaxy'] || 0) * 5000000000;
             
-            let prestigeMultiplier = 1 + (prestigeFragments * 0.02);
+            if (totalManualClicks >= 500) basePower *= 1.05;
+
+            let currentPrestigeEfficiency = 0.02 + ((mods['mod_prestige_boost'] || 0) * 0.005);
+            let prestigeMultiplier = 1 + (prestigeFragments * currentPrestigeEfficiency);
             clickPower = Math.round(basePower * prestigeMultiplier);
         }
 
         function recalculatePPS() {
             let currentPPS = 0;
-            for (let id in upgradeConfig) {
-                currentPPS += (upgrades[id] || 0) * upgradeConfig[id].pps;
+            for (let id in upgradeConfig) { currentPPS += (upgrades[id] || 0) * upgradeConfig[id].pps; }
+            
+            let currentPrestigeEfficiency = 0.02 + ((mods['mod_prestige_boost'] || 0) * 0.005);
+            let prestigeMultiplier = 1 + (prestigeFragments * currentPrestigeEfficiency);
+            
+            if (upgrades['up7'] >= 10) prestigeMultiplier += 0.05; 
+            if (totalScoreEarned >= 1000000000) prestigeMultiplier += 0.10; 
+            
+            let modMultiplier = 1 + ((mods['mod_pps_multiplier'] || 0) * 0.03);
+            
+            pps = currentPPS * prestigeMultiplier * modMultiplier;
+        }
+
+        function clickMainButton(e) {
+            totalManualClicks++;
+            let isPerfect = false;
+
+            let ms = Date.now() % 460;
+            if (ms > 180 && ms < 320) { isPerfect = true; }
+
+            let finalPower = clickPower;
+            if (isPerfect) finalPower *= 2;
+
+            score += finalPower;
+            totalScoreEarned += finalPower;
+
+            createFloatingNumber(e, isPerfect ? `PERFETTO! ✨ +${formatNumber(finalPower)}` : `+${formatNumber(finalPower)}`);
+            
+            if (totalManualClicks % 10 === 0) { recalculateClickPower(); }
+            updateUI();
+            saveGame();
+        }
+
+        function startFlashbackSpawning() {
+            setInterval(() => {
+                if (Math.random() > 0.4 && !document.querySelector('.flashback-notification')) {
+                    spawnFlashbackItem();
+                }
+            }, 75000);
+        }
+
+        function spawnFlashbackItem() {
+            let item = document.createElement('div');
+            item.className = 'flashback-notification';
+            item.innerHTML = Math.random() > 0.5 ? '💬' : '💜';
+            item.style.left = `${Math.random() * 80 + 10}vw`;
+            item.style.top = `${Math.random() * 60 + 20}vh`;
+            
+            item.onclick = function() {
+                let baseDuration = 20;
+                let bonusDuration = (mods['mod_frenzy_duration'] || 0) * 4;
+                frenzyTimer = baseDuration + bonusDuration;
+                item.remove();
+                
+                // SOSTITUITO ALERT CON NOTIFICA UI ELEGANTE E COINVOLGENTE
+                showUiNotification('⚡', `<strong>FLASHBACK ATTIVATO!</strong> Il ritmo dei ricordi accelera! Produzione PPS <strong>RADDOPPIATA</strong> per ${frenzyTimer} secondi!`);
+            };
+            document.body.appendChild(item);
+            setTimeout(() => { item.remove(); }, 6000);
+        }
+
+        function exportSave() {
+            saveGame();
+            let stateData = {
+                score, totalScoreEarned, totalManualClicks, prestigeFragments, autobuyerUnlocked, upgrades, mods, rewardsClaimed, unlockedCustoms, activeTheme, activeShape
+            };
+            let b64 = btoa(unescape(encodeURIComponent(JSON.stringify(stateData))));
+            document.getElementById('backup-string-io').value = b64;
+            navigator.clipboard.writeText(b64);
+            showUiNotification('💾', 'Salvataggio esportato e copiato negli appunti con successo!');
+        }
+
+        function importSave() {
+            try {
+                let b64 = document.getElementById('backup-string-io').value;
+                let str = decodeURIComponent(escape(atob(b64)));
+                let parsed = JSON.parse(str);
+                if(parsed.score !== undefined) {
+                    score = parsed.score; totalScoreEarned = parsed.totalScoreEarned;
+                    totalManualClicks = parsed.totalManualClicks || 0; prestigeFragments = parsed.prestigeFragments || 0;
+                    autobuyerUnlocked = parsed.autobuyerUnlocked || false; upgrades = parsed.upgrades;
+                    mods = parsed.mods || { mod_frenzy_duration: 0, mod_pps_multiplier: 0, mod_prestige_boost: 0 };
+                    rewardsClaimed = parsed.rewardsClaimed; unlockedCustoms = parsed.unlockedCustoms;
+                    activeTheme = parsed.activeTheme; activeShape = parsed.activeShape;
+                    saveGame(); window.location.reload();
+                } else { showUiNotification('❌', 'Errore: Stringa corrotta o non valida.'); }
+            } catch(e) { showUiNotification('❌', 'Impossibile importare il codice inserito.'); }
+        }
+
+        function buyUpgrade(id, baseCost, ppsValue) {
+            let currentCost = Math.round(baseCost * Math.pow(1.15, upgrades[id] || 0));
+            if (score >= currentCost) {
+                score -= currentCost; upgrades[id] = (upgrades[id] || 0) + 1;
+                recalculatePPS(); updateUI(); saveGame();
             }
-            let prestigeMultiplier = 1 + (prestigeFragments * 0.02);
-            pps = currentPPS * prestigeMultiplier;
+        }
+
+        function buyMod(id, baseCost) {
+            let currentCost = Math.round(baseCost * Math.pow(modConfig[id].scale, mods[id] || 0));
+            if (score >= currentCost) {
+                score -= currentCost;
+                mods[id] = (mods[id] || 0) + 1;
+                recalculatePPS();
+                recalculateClickPower();
+                updateUI();
+                saveGame();
+            }
+        }
+
+        function buyAutobuyer() {
+            let cost = 50000000000;
+            if (!autobuyerUnlocked && score >= cost) {
+                score -= cost; autobuyerUnlocked = true;
+                localStorage.setItem('clicker_autobuyer', 'true');
+                updateUI(); saveGame();
+            }
+        }
+
+        function executeSmartAutobuyer() {
+            if (!autobuyerUnlocked) return;
+            let bestUpgradeId = null; let bestEfficiency = Infinity; let bestUpgradeCost = 0;
+            for (let id in upgradeConfig) {
+                let currentCost = Math.round(upgradeConfig[id].baseCost * Math.pow(1.15, upgrades[id] || 0));
+                let efficiency = currentCost / upgradeConfig[id].pps; 
+                if (efficiency < bestEfficiency) { bestEfficiency = efficiency; bestUpgradeId = id; bestUpgradeCost = currentCost; }
+            }
+            if (bestUpgradeId && score >= bestUpgradeCost) {
+                score -= bestUpgradeCost; upgrades[bestUpgradeId] = (upgrades[bestUpgradeId] || 0) + 1;
+                recalculatePPS();
+            }
         }
 
         function setTheme(themeName, cost) {
             let key = 'theme_' + themeName;
-            if (unlockedCustoms[key]) {
-                activeTheme = themeName;
-                localStorage.setItem('clicker_active_theme', activeTheme);
-                applyVisualStyleOnLoad();
-                updateUI();
-            } else if (score >= cost) {
-                score -= cost;
-                unlockedCustoms[key] = true;
-                activeTheme = themeName;
-                localStorage.setItem('clicker_active_theme', activeTheme);
-                applyVisualStyleOnLoad();
-                updateUI();
-                saveGame();
-            }
+            if (unlockedCustoms[key]) { activeTheme = themeName; localStorage.setItem('clicker_active_theme', activeTheme); applyVisualStyleOnLoad(); updateUI(); }
+            else if (score >= cost) { score -= cost; unlockedCustoms[key] = true; activeTheme = themeName; localStorage.setItem('clicker_active_theme', activeTheme); applyVisualStyleOnLoad(); updateUI(); saveGame(); }
         }
 
         function setShape(shapeName, cost) {
             let key = 'shape_' + shapeName;
-            if (unlockedCustoms[key]) {
-                activeShape = shapeName;
-                localStorage.setItem('clicker_active_shape', activeShape);
-                applyVisualStyleOnLoad();
-                updateUI();
-            } else if (score >= cost) {
-                score -= cost;
-                unlockedCustoms[key] = true;
-                activeShape = shapeName;
-                localStorage.setItem('clicker_active_shape', activeShape);
-                applyVisualStyleOnLoad();
-                updateUI();
-                saveGame();
-            }
+            if (unlockedCustoms[key]) { activeShape = shapeName; localStorage.setItem('clicker_active_shape', activeShape); applyVisualStyleOnLoad(); updateUI(); }
+            else if (score >= cost) { score -= cost; unlockedCustoms[key] = true; activeShape = shapeName; localStorage.setItem('clicker_active_shape', activeShape); applyVisualStyleOnLoad(); updateUI(); saveGame(); }
         }
-
-        function initMusic() {
-            const music = document.getElementById('bg-music');
-            if (!isMusicMuted) music.play().catch(err => {});
-        }
-        document.body.addEventListener('click', initMusic, { once: true });
 
         function toggleMusicAudio() {
             const music = document.getElementById('bg-music');
-            isMusicMuted = !isMusicMuted;
-            localStorage.setItem('clicker_music_muted', isMusicMuted);
+            isMusicMuted = !isMusicMuted; localStorage.setItem('clicker_music_muted', isMusicMuted);
             if (isMusicMuted) music.pause(); else music.play().catch(err => {});
             updateAudioButtonUI();
         }
 
         function updateAudioButtonUI() {
-            const icon = document.getElementById('audio-icon');
-            const text = document.getElementById('audio-text');
-            if (isMusicMuted) { icon.innerText = '🔇'; text.innerText = 'Audio'; }
-            else { icon.innerText = '🔊'; text.innerText = 'Audio'; }
-        }
-
-        if (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen) {
-            document.getElementById('fullscreen-toggle').style.display = 'flex';
+            const icon = document.getElementById('audio-icon'); const text = document.getElementById('audio-text');
+            if (isMusicMuted) { icon.innerText = '🔇'; text.innerText = 'Audio'; } else { icon.innerText = '🔊'; text.innerText = 'Audio'; }
         }
 
         function toggleFullscreen() {
             if (!document.fullscreenElement && !document.webkitFullscreenElement) {
                 const docEl = document.documentElement;
-                if (docEl.requestFullscreen) docEl.requestFullscreen();
-                else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+                if (docEl.requestFullscreen) docEl.requestFullscreen(); else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
             } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                if (document.exitFullscreen) document.exitFullscreen(); else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
             }
         }
 
-        function clickMainButton(e) {
-            score += clickPower;
-            totalScoreEarned += clickPower;
-            createFloatingNumber(e, `+${formatNumber(clickPower)}`);
-            updateUI();
-            saveGame();
-        }
-
         function createFloatingNumber(e, text) {
-            const floating = document.createElement('div');
-            floating.className = 'floating-number';
-            floating.innerText = text;
+            const floating = document.createElement('div'); floating.className = 'floating-number'; floating.innerText = text;
             let x, y;
             if (e && e.clientX) { x = e.clientX; y = e.clientY; } else {
                 const rect = document.getElementById('main-button').getBoundingClientRect();
@@ -1022,55 +1166,18 @@
 
         function buyClickUpgrade() {
             let currentCost = Math.round(25 * Math.pow(1.25, upgrades['click_up'] || 0));
-            if (score >= currentCost) {
-                score -= currentCost;
-                upgrades['click_up'] = (upgrades['click_up'] || 0) + 1;
-                recalculateClickPower();
-                updateUI();
-                saveGame();
-            }
+            if (score >= currentCost) { score -= currentCost; upgrades['click_up'] = (upgrades['click_up'] || 0) + 1; recalculateClickPower(); updateUI(); saveGame(); }
         }
-
         function buyMegaClickUpgrade() {
             let currentCost = Math.round(1500000000 * Math.pow(1.35, upgrades['click_up_mega'] || 0));
-            if (score >= currentCost) {
-                score -= currentCost;
-                upgrades['click_up_mega'] = (upgrades['click_up_mega'] || 0) + 1;
-                recalculateClickPower();
-                updateUI();
-                saveGame();
-            }
+            if (score >= currentCost) { score -= currentCost; upgrades['click_up_mega'] = (upgrades['click_up_mega'] || 0) + 1; recalculateClickPower(); updateUI(); saveGame(); }
         }
-
         function buyGalaxyClickUpgrade() {
             let currentCost = Math.round(8000000000 * Math.pow(1.45, upgrades['click_up_galaxy'] || 0));
-            if (score >= currentCost) {
-                score -= currentCost;
-                upgrades['click_up_galaxy'] = (upgrades['click_up_galaxy'] || 0) + 1;
-                recalculateClickPower();
-                updateUI();
-                saveGame();
-            }
+            if (score >= currentCost) { score -= currentCost; upgrades['click_up_galaxy'] = (upgrades['click_up_galaxy'] || 0) + 1; recalculateClickPower(); updateUI(); saveGame(); }
         }
-
-        function buyUpgrade(id, baseCost, ppsValue) {
-            let currentCost = Math.round(baseCost * Math.pow(1.15, upgrades[id] || 0));
-            if (score >= currentCost) {
-                score -= currentCost;
-                upgrades[id] = (upgrades[id] || 0) + 1;
-                recalculatePPS();
-                updateUI();
-                saveGame();
-            }
-        }
-
         function claimReward(id, cost) {
-            if (score >= cost) {
-                score -= cost;
-                rewardsClaimed[id] = (rewardsClaimed[id] || 0) + 1;
-                updateUI();
-                saveGame();
-            }
+            if (score >= cost) { score -= cost; rewardsClaimed[id] = (rewardsClaimed[id] || 0) + 1; updateUI(); saveGame(); }
         }
 
         function initAmbientHearts() {
@@ -1085,34 +1192,36 @@
         function createAmbientHeart() {
             const container = document.getElementById('bg-hearts-container');
             if (container.childElementCount > 25) return; 
-            const heart = document.createElement('div');
-            heart.className = 'ambient-heart';
-            
-            if (activeShape === 'heart') heart.innerHTML = '💜';
-            else if (activeShape === 'star') heart.innerHTML = '⭐';
-            else if (activeShape === 'diamond') heart.innerHTML = '💎';
-            else if (activeShape === 'squircle') heart.innerHTML = '🟩';
-            else if (activeShape === 'triangle') heart.innerHTML = '🔺';
-            else if (activeShape === 'hexagon') heart.innerHTML = '⬡';
-            else if (activeShape === 'shield') heart.innerHTML = '🛡️';
-            else if (activeShape === 'infinity') heart.innerHTML = '♾️';
-
+            const heart = document.createElement('div'); heart.className = 'ambient-heart';
+            const shapeIcons = { heart:'💜', star:'⭐', diamond:'💎', squircle:'🟩', triangle:'🔺', hexagon:'⬡', shield:'🛡️', infinity:'♾️' };
+            heart.innerHTML = shapeIcons[activeShape] || '💜';
             heart.style.left = Math.random() * 100 + 'vw';
-            let size = (Math.random() * 10) + 10;
-            heart.style.fontSize = size + 'px';
+            let size = (Math.random() * 10) + 10; heart.style.fontSize = size + 'px';
             heart.style.setProperty('--random-x', (Math.random() * 60 - 30) + 'px');
             heart.style.setProperty('--random-rot', (Math.random() * 180 + 90) + 'deg');
-            let duration = (Math.random() * 4) + 4;
-            heart.style.animationDuration = duration + 's';
+            let duration = (Math.random() * 4) + 4; heart.style.animationDuration = duration + 's';
             container.appendChild(heart);
             setTimeout(() => { heart.remove(); }, duration * 1000);
         }
 
+        // TICK PRINCIPALE LOOP ECONOMICO
         setInterval(function() {
-            if (pps > 0) {
-                let ppsFraction = pps / 10;
-                score += ppsFraction;
-                totalScoreEarned += ppsFraction;
+            let activePPS = pps;
+            
+            if (frenzyTimer > 0) {
+                frenzyTimer -= 0.1;
+                activePPS *= 2;
+                document.getElementById('frenzy-indicator').innerText = `🔥 MODALITÀ FRENESIA: ${frenzyTimer.toFixed(1)}s (PPS Raddoppiato!)`;
+                document.getElementById('frenzy-indicator').style.color = '#00f2fe';
+            } else {
+                document.getElementById('frenzy-indicator').innerText = "Accumula punti e sblocca premi reali";
+                document.getElementById('frenzy-indicator').style.color = 'var(--accent-neon)';
+            }
+
+            if (activePPS > 0) {
+                let ppsFraction = activePPS / 10;
+                score += ppsFraction; totalScoreEarned += ppsFraction;
+                executeSmartAutobuyer();
                 updateUI();
             }
         }, 100);
@@ -1120,11 +1229,16 @@
         setInterval(saveGame, 5000);
 
         function updateUI() {
-            document.getElementById('score').innerText = formatNumber(score);
-            document.getElementById('pps-display').innerText = `Punti al secondo: ${formatNumber(pps)}`;
+            let activePPS = pps;
+            if (frenzyTimer > 0) activePPS *= 2;
 
+            document.getElementById('score').innerText = formatNumber(score);
+            document.getElementById('pps-display').innerText = `Punti al secondo: ${formatNumber(activePPS)}`;
             document.getElementById('prestige-fragments').innerText = prestigeFragments;
-            document.getElementById('prestige-bonus-pct').innerText = `+${prestigeFragments * 2}%`;
+            
+            let currentPrestigeEfficiency = 2 + ((mods['mod_prestige_boost'] || 0) * 0.5);
+            document.getElementById('prestige-bonus-pct').innerText = `+ ${(prestigeFragments * currentPrestigeEfficiency).toFixed(1)}%`;
+            document.getElementById('frag-efficiency-display').innerText = `+${currentPrestigeEfficiency}%`;
             
             let pendingFrags = calculatePendingFragments();
             let prestigeBtn = document.getElementById('prestige-btn');
@@ -1136,45 +1250,92 @@
                 prestigeBtn.disabled = true;
             }
 
+            let btnAutobuyer = document.getElementById('autobuyer_speed');
+            if (autobuyerUnlocked) {
+                document.getElementById('qty-autobuyer').innerText = "Attivo ⚡";
+                btnAutobuyer.querySelector('.price').innerText = "Sbloccato Permanente";
+                btnAutobuyer.disabled = true;
+            } else {
+                document.getElementById('qty-autobuyer').innerText = "Disattivato";
+                btnAutobuyer.querySelector('.price').innerText = `Costa: ${formatNumber(50000000000)}`;
+                btnAutobuyer.disabled = (score < 50000000000);
+            }
+
+            let ach1 = document.getElementById('ach-1');
+            if(totalManualClicks >= 500) { 
+                ach1.style.opacity = "1"; ach1.style.borderColor = "#00ff41";
+                ach1.innerHTML = "✅ **Cliccatore Seriale:** Sbloccato!<br><span style='color:#00ff41;'>Bonus attivo: +5% Click power</span>"; 
+            } else { 
+                ach1.innerHTML = `🔒 **Cliccatore Seriale:** Fai 500 click manuali.<br><span style='color:var(--text-muted);'>Progressi: ${totalManualClicks}/500</span>`; 
+            }
+
+            let ach2 = document.getElementById('ach-2');
+            if(upgrades['up7'] >= 10) { 
+                ach2.style.opacity = "1"; ach2.style.borderColor = "#00ff41";
+                ach2.innerHTML = "✅ **Insonnia Produttiva:** Sbloccato!<br><span style='color:#00ff41;'>Bonus attivo: +5% PPS Permanente</span>"; 
+            } else { 
+                ach2.innerHTML = `🔒 **Insonnia Produttiva:** Possiedi 10 livelli di 'Ore a Parlare'.<br><span style='color:var(--text-muted);'>Posseduti: ${upgrades['up7'] || 0}/10</span>`; 
+            }
+
+            let ach3 = document.getElementById('ach-3');
+            if(totalScoreEarned >= 1000000000) { 
+                ach3.style.opacity = "1"; ach3.style.borderColor = "#00ff41";
+                ach3.innerHTML = "✅ **Accumulatore Folle:** Sbloccato!<br><span style='color:#00ff41;'>Bonus attivo: +10% PPS Permanente</span>"; 
+            } else { 
+                ach3.innerHTML = `🔒 **Accumulatore Folle:** Accumula 1 Mld totali storici.<br><span style='color:var(--text-muted);'>Mancano: ${formatNumber(1000000000 - totalScoreEarned)}</span>`; 
+            }
+
             let currentLevel = Math.floor(Math.log(totalScoreEarned / 100 + 1) / Math.log(1.58)) + 1;
-            if (currentLevel < 1) currentLevel = 1;
-            if (currentLevel > 70) currentLevel = 70; 
+            if (currentLevel < 1) currentLevel = 1; if (currentLevel > 150) currentLevel = 150; 
             
             let pointsForCurrentLevel = 100 * (Math.pow(1.58, currentLevel - 1) - 1);
             let pointsForNextLevel = 100 * (Math.pow(1.58, currentLevel) - 1);
             let levelProgress = ((totalScoreEarned - pointsForCurrentLevel) / (pointsForNextLevel - pointsForCurrentLevel)) * 100;
             
-            let levelTitleText = getLevelTitle(currentLevel - 1);
-            document.getElementById('level-title').innerText = `Livello ${currentLevel}: ${levelTitleText}`;
+            document.getElementById('level-title').innerText = `Livello ${currentLevel}: ${getLevelTitle(currentLevel - 1)}`;
             document.getElementById('progress-bar').style.width = `${Math.min(100, Math.max(0, levelProgress))}%`;
 
             let costClickUp = Math.round(25 * Math.pow(1.25, upgrades['click_up'] || 0));
-            let nextClickBonus = Math.max(1, Math.round(costClickUp / 100));
             let btnClick = document.getElementById('click_up');
-            let realClickBonus = Math.round(nextClickBonus * (1 + (prestigeFragments * 0.02)));
-            btnClick.querySelector('.price').innerText = `Costa: ${formatNumber(costClickUp)} | (+${formatNumber(realClickBonus)} al Click)`;
+            btnClick.querySelector('.price').innerText = `Costa: ${formatNumber(costClickUp)} | (+Bonus al Click)`;
             document.getElementById('qty-click_up').innerText = `Liv. ${upgrades['click_up'] || 0}`;
             btnClick.disabled = (score < costClickUp);
 
             let costGalaxyClick = Math.round(8000000000 * Math.pow(1.45, upgrades['click_up_galaxy'] || 0));
             let btnGalaxyClick = document.getElementById('click_up_galaxy');
-            let realGalaxyBonus = Math.round(5000000000 * (1 + (prestigeFragments * 0.02)));
-            btnGalaxyClick.querySelector('.price').innerText = `Costa: ${formatNumber(costGalaxyClick)} | (+${formatNumber(realGalaxyBonus)} al Click)`;
+            btnGalaxyClick.querySelector('.price').innerText = `Costa: ${formatNumber(costGalaxyClick)}`;
             document.getElementById('qty-click_up_galaxy').innerText = `Liv. ${upgrades['click_up_galaxy'] || 0}`;
             btnGalaxyClick.disabled = (score < costGalaxyClick);
 
             let costMegaClick = Math.round(1500000000 * Math.pow(1.35, upgrades['click_up_mega'] || 0));
             let btnMegaClick = document.getElementById('click_up_mega');
-            let realMegaBonus = Math.round(1500000000 * (1 + (prestigeFragments * 0.02)));
-            btnMegaClick.querySelector('.price').innerText = `Costa: ${formatNumber(costMegaClick)} | (+${formatNumber(realMegaBonus)} al Click)`;
+            btnMegaClick.querySelector('.price').innerText = `Costa: ${formatNumber(costMegaClick)}`;
             document.getElementById('qty-click_up_mega').innerText = `Liv. ${upgrades['click_up_mega'] || 0}`;
             btnMegaClick.disabled = (score < costMegaClick);
+
+            for (let id in modConfig) {
+                let btn = document.getElementById(id);
+                if (btn) {
+                    let currentCost = Math.round(modConfig[id].baseCost * Math.pow(modConfig[id].scale, mods[id] || 0));
+                    btn.disabled = (score < currentCost);
+                    document.getElementById(`qty-${id}`).innerText = `Liv. ${mods[id] || 0}`;
+                    
+                    let priceLabel = btn.querySelector('.price');
+                    if (id === 'mod_frenzy_duration') {
+                        priceLabel.innerText = `Costa: ${formatNumber(currentCost)} | +4s Durata Frenesia`;
+                    } else if (id === 'mod_pps_multiplier') {
+                        priceLabel.innerText = `Costa: ${formatNumber(currentCost)} | Multiplo Global PPS +3%`;
+                    } else if (id === 'mod_prestige_boost') {
+                        priceLabel.innerText = `Costa: ${formatNumber(currentCost)} | Efficacia Frammenti +0.5%`;
+                    }
+                }
+            }
 
             for (let id in upgradeConfig) {
                 let btn = document.getElementById(id);
                 if (btn) {
                     let currentCost = Math.round(upgradeConfig[id].baseCost * Math.pow(1.15, upgrades[id] || 0));
-                    let realPpsBonus = upgradeConfig[id].pps * (1 + (prestigeFragments * 0.02));
+                    let realPpsBonus = upgradeConfig[id].pps * (1 + (prestigeFragments * currentPrestigeEfficiency)) * (1 + ((mods['mod_pps_multiplier'] || 0) * 0.03));
                     btn.querySelector('.price').innerText = `Costa: ${formatNumber(currentCost)} | (+${formatNumber(realPpsBonus)} P/s)`;
                     document.getElementById(`qty-${id}`).innerText = `x${upgrades[id] || 0}`;
                     btn.disabled = (score < currentCost);
@@ -1204,22 +1365,10 @@
             customItems.forEach(item => {
                 let btn = document.getElementById(item.id);
                 if (btn) {
-                    let qtySpan = btn.querySelector('.btn-qty');
-                    let priceSpan = btn.querySelector('.price');
-                    
-                    if (item.act) {
-                        qtySpan.innerText = item.lbl;
-                        priceSpan.innerText = "Attivo";
-                        btn.disabled = false;
-                    } else if (unlockedCustoms[item.key]) {
-                        qtySpan.innerText = "Sbloccato";
-                        priceSpan.innerText = item.labelNo;
-                        btn.disabled = false;
-                    } else {
-                        qtySpan.innerText = "Bloccato 🔒";
-                        priceSpan.innerText = `Costa: ${formatNumber(item.cost)}`;
-                        btn.disabled = (score < item.cost);
-                    }
+                    let qtySpan = btn.querySelector('.btn-qty'); let priceSpan = btn.querySelector('.price');
+                    if (item.act) { qtySpan.innerText = item.lbl; priceSpan.innerText = "Attivo"; btn.disabled = false; }
+                    else if (unlockedCustoms[item.key]) { qtySpan.innerText = "Sbloccato"; priceSpan.innerText = item.labelNo; btn.disabled = false; }
+                    else { qtySpan.innerText = "Bloccato 🔒"; priceSpan.innerText = `Costa: ${formatNumber(item.cost)}`; btn.disabled = (score < item.cost); }
                 }
             });
 
@@ -1238,16 +1387,17 @@
             localStorage.setItem('clicker_pps', pps);
             localStorage.setItem('clicker_total_earned', totalScoreEarned);
             localStorage.setItem('clicker_click_power', clickPower);
+            localStorage.setItem('clicker_manual_clicks', totalManualClicks);
             localStorage.setItem('clicker_prestige_fragments', prestigeFragments);
+            localStorage.setItem('clicker_last_save_time', Date.now());
             localStorage.setItem('clicker_upgrades', JSON.stringify(upgrades));
+            localStorage.setItem('clicker_mods', JSON.stringify(mods));
             localStorage.setItem('clicker_rewards_claimed', JSON.stringify(rewardsClaimed));
             localStorage.setItem('clicker_unlocked_customs', JSON.stringify(unlockedCustoms));
         }
 
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => {});
-            });
+            window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(err => {}); });
         }
     </script>
 </body>
