@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Nostro Spazio</title>
+    <style>
+        :root {
+            /* Palette viola scuro e riposante */
+            --bg-main: #0d081b;
+            --bg-gradient: linear-gradient(135deg, #0d081b 0%, #1a103c 100%);
+            --card-bg: rgba(30, 20, 60, 0.4);
+            --card-border: rgba(157, 78, 221, 0.2);
+            --card-border-hover: rgba(255, 117, 151, 0.6);
+            --text-primary: #f3effa;
+            --text-secondary: #b3a7d2;
+            --accent-glow: #9d4ede;
+            --accent-romantic: #ff7597;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--bg-main);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            color: var(--text-primary);
+        }
+
+        /* Bagliori soffusi sullo sfondo (effetto nebulosa) */
+        .nebula-1 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: -10%;
+            left: -10%;
+            z-index: 0;
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite alternate;
+        }
+
+        .nebula-2 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 117, 151, 0.1) 0%, rgba(0,0,0,0) 70%);
+            bottom: -20%;
+            right: -10%;
+            z-index: 0;
+            pointer-events: none;
+            animation: pulse 12s ease-in-out infinite alternate-reverse;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            color: var(--text-primary);
+            text-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        /* Griglia dei Link */
+        .links-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            padding: 45px 35px;
+            border-radius: 24px;
+            width: 320px;
+            text-decoration: none;
+            color: var(--text-primary);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Cuore al neon nascosto che si accende all'hover */
+        .card::before {
+            content: '💜';
+            position: absolute;
+            font-size: 6rem;
+            opacity: 0;
+            bottom: -30px;
+            right: -30px;
+            transition: all 0.5s ease;
+            transform: rotate(-20deg);
+            pointer-events: none;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--card-border-hover);
+            background: rgba(45, 30, 85, 0.5);
+            box-shadow: 0 15px 40px rgba(157, 78, 221, 0.25), 
+                        0 0 20px rgba(255, 117, 151, 0.15);
+        }
+
+        .card:hover::before {
+            opacity: 0.12;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .icon-wrapper {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px rgba(157, 78, 221, 0.5));
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .icon-wrapper {
+            transform: scale(1.18) rotate(8deg);
+            filter: drop-shadow(0 0 15px var(--accent-romantic));
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Animazioni fluide */
+        @keyframes pulse {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(30px) scale(1.05); }
+        }
+
+        /* Ottimizzazione Mobile */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.4rem; }
+            .links-grid { gap: 30px; }
+            .card { width: 100%; max-width: 310px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sfondo con sfumature dinamiche rilassanti -->
+    <div class="nebula-1"></div>
+    <div class="nebula-2"></div>
+
+    <div class="container">
+        <header>
+            <h1>Il Nostro Spazio</h1>
+            <p>Due mondi diversi, uniti nello stesso pezzetto di pixel...</p>
+        </header>
+
+        <main class="links-grid">
+            
+            <!-- PRIMO SITO -->
+            <a href="lettere.html" target="_blank" class="card">
+                <div class="icon-wrapper">🔮</div>
+                <h2>I Nostri Ricordi</h2>
+                <p>tutte le mie lettere per te.</p>
+            </a>
+
+            <!-- SECONDO SITO -->
+            <a href="clicker/index.html" target="_blank" class="card">
+                <div class="icon-wrapper">👾</div>
+                <h2>Il Tuo Gioco</h2>
+                <p>Un'esperienza interattiva e personale creata apposta per farti battere il cuore.</p>
+            </a>
+
+        </main>
+    </div>
+
+</body>
+</html>

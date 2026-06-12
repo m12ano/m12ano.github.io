@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per Te</title>
+    <style>
+        :root {
+            --bg-color: #0f0c1b;
+            --accent-pink: #ff7597;
+            --envelope-bg: #ffffff;
+            --envelope-inside: #fbe3e8;
+            --text-color: #2b2b2b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c20 0%, #150a18 50%, #241026 100%);
+            color: #fbe3e8;
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 40px 20px;
+        }
+
+        #canvas-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 60px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: var(--accent-pink);
+            text-shadow: 0 0 15px rgba(255, 117, 151, 0.4);
+            margin-bottom: 15px;
+        }
+
+        header p {
+            font-style: italic;
+            color: rgba(251, 227, 232, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .letters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 60px 40px;
+            justify-items: center;
+            padding-top: 20px;
+        }
+
+        /* --- CONTENITORE BUSTA --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 220px;
+            height: 140px;
+            background-color: var(--envelope-inside);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            transition: transform 0.3s;
+            overflow: hidden; 
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-10px);
+        }
+
+        .envelope-wrapper.open {
+            overflow: visible;
+        }
+
+        /* Corpo frontale della busta */
+        .envelope {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-top: 70px solid transparent;
+            border-bottom: 70px solid var(--envelope-bg);
+        }
+
+        .envelope::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-left: 110px solid var(--envelope-bg);
+            border-right: 110px solid transparent;
+            border-top: 70px solid transparent;
+            border-bottom: 70px solid transparent;
+            opacity: 0.95;
+        }
+
+        /* Lembo superiore */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-top: 75px solid var(--envelope-bg);
+            border-bottom: 75px solid transparent;
+            transform-origin: top;
+            transition: transform 0.4s ease, z-index 0.2s;
+            z-index: 4;
+        }
+
+        /* Cuore/Sigillo */
+        .heart-seal {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 24px;
+            background-color: var(--accent-pink);
+            z-index: 5;
+            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
+            transition: opacity 0.3s ease;
+        }
+
+        /* Data esterna sotto la busta */
+        .envelope-label {
+            position: absolute;
+            bottom: -35px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(251, 227, 232, 0.6);
+            letter-spacing: 1px;
+            font-family: sans-serif;
+            transition: color 0.3s;
+            z-index: 6;
+        }
+
+        .envelope-wrapper:hover .envelope-label {
+            color: var(--accent-pink);
+        }
+
+        /* --- FOGLIETTO INTERNO (Mostra solo il titolo, protetto da overflow) --- */
+        .letter-preview-card {
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            right: 15px;
+            height: 75px;
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 12px 8px;
+            z-index: 1;
+            transition: transform 0.4s ease;
+            opacity: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .letter-preview-card h4 {
+            color: var(--accent-pink);
+            font-size: 0.85rem;
+            font-weight: bold;
+            line-height: 1.2;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        /* --- EFFETTI DI APERTURA --- */
+        .envelope-wrapper.open .flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.open .heart-seal {
+            opacity: 0;
+        }
+
+        .envelope-wrapper.open .letter-preview-card {
+            transform: translateY(-65px);
+            z-index: 2;
+            opacity: 1;
+        }
+
+        /* --- PERGAMENA DELLA LETTERA APERTA (MODAL) --- */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 5, 15, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 20px;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: #fffdf9;
+            color: var(--text-color);
+            max-width: 600px;
+            width: 100%;
+            /* Gestione altezze per lettere lunghissime */
+            max-height: 80vh; 
+            overflow-y: auto; 
+            border-radius: 6px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.05);
+            transform: translateY(50px) scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            border: 1px solid #eae5d8;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.8rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 11;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-pink);
+        }
+
+        .modal-date {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .modal-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+            color: #1a1a1a;
+        }
+
+        .modal-body {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word; /* Evita che parole lunghissime escano a destra */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Scrollbar nascosta ma attiva per mantenere l'estetica pulita */
+        .modal-content::-webkit-scrollbar {
+            width: 5px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 117, 151, 0.3);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-particles"></canvas>
+
+    <div class="container">
+        <header>
+            <h1>Per i Tuoi Occhi Soltanto</h1>
+            <p>Clicca sulle buste per aprirle e leggere cosa custodiscono.</p>
+        </header>
+
+        <div class="letters-grid" id="letters-container"></div>
+    </div>
+
+    <div class="modal" id="letter-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div class="modal-date" id="modal-date"></div>
+            <h2 class="modal-title" id="modal-title"></h2>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        //  QUI INSERISCI LE TUE LETTERE GIÀ SCRITTE
+        // ==========================================
+        const myLetters = [
+            {
+                id: 1,
+                date: "6 Marzo",
+                title: "Il primo sguardo",
+                text: "Cara Mia, Da quando ti conosco la mia vita è migliorata molto, tu riesci a rendermi felice e riesci a darmi consigli utilissimi per essere una persona migliore. Quando ti ho vista per la prima volta a scuola, mi sono subito innamorato di te, solamente guardando i tuoi meravigliosi occhi. Ogni giorno sono grato per essere diventata mia amica e per avermi migliorato la vita, grazie a te esco sempre in giro ed ho nuovi amici, cosa che non sarebbe accaduta se noi non fossimo stati in chiamata e non avessimo creato un gruppo. Sei l'unico motivo per cui vado a scuola e ogni giorno riesci a rendermi felice e farmi sorridere. Credo che se non mi fossi mai innamorato di te e non avrei mai chiesto il tuo Instagram sulle storie, oggi starei molto male. Ti voglio davvero un mondo di bene, anzi vorrei... (Cantico dei Cantici 8:6)"
+            },
+            {
+                id: 2,
+                date: "6 Aprile",
+                title: "Sotto le stelle",
+                text: "Carissima Mia,\n\Sei la persona più importante nella mia vita, tu sei la migliore amica che potessi avere ed ogni momento con te è meraviglioso.\n\Giovedì sera mi hai ascoltato, mi hai capito e soprattutto ti sei fidata di dirmi cose private che non hai mai detto a nessuno prima di me.\n\Mi voglio davvero scusare sinceramente con te per averti dato un bacio sulla fronte giovedì perché sono sicuro che ti ha dato molto fastidio e volevo dirti che l'ho dato perché guardarti piangere mercoledì in videochiamata mi ha fatto molto stare male e soprattutto volevo farti stare bene a te, quindi pensavo che un bacio sulla fronte potesse farti stare meglio.\n\Mi ricordo benissimo la serata a guardare le stelle e sono davvero molto contento di non essere entrato a teatro perché non avrei avuto questa esperienza bellissima.\n\È stato davvero fantastico guardare le stelle mentre ascoltavo ThaSupreme con te e mi sento di aver trovato la persona che mi migliorerà la vita.\n\Tu sei unica e riesci a fare stare bene tutti, hai un cuore d'oro e fai qualsiasi cosa per tutti, questo mi fa' capire che ci tieni davvero alle persone.\n\Al parco di gressan mi sono divertito un botto e sembrava di aver trovato la pace.\n\Lo so che può sembrare una cosa strana da dire però volevo dirti che sembriamo davvero molto simili e noto molto che ci stiamo legando un sacco perché a volte pensiamo e diciamo le stesse cose nello stesso momento come se fossimo telepatici... O forse lo siamo...\n\Lo so che può sembrare una bugia però volevo dirti che prego per te, perché ti amo tantissimo e voglio che tu stai sempre bene e che non avrai mai giornate brutte.\n\Questa lettera la sto scrivendo ascoltando ovviamente ThaSup e ogni volta che ascolto carattere speciale penso ai momenti bellissimi con te, davvero ogni istante con te è meraviglioso e ti darei il mondo.\n\Mi manchi davvero tantissimo e quando mi non sono con te il tempo passa MOLTO LENTAMENTE.\n\Ora che sei nei planes, mi cambi tutti i planes te lo giuro mi fai stare meglio.\n\Recentemente ho capito che non devo andare a cercare di fidanzarmi con qualcuna per poi stare male, perché tanto ho te come migliore amica che mi fai davvero stare bene e sono sicuro al 100% che la nostra amicizia non finirà mai, ne sono davvero certo e lo spero perché non saprei più che fare senza di te.\n\Questa lettera può sembrare un po' lunga ma è davvero il minimo delle cose che ti direi, tu mi fai capire cos'è l'amore e cosa vuol dire amare una persona, non ho mai voluto così tanto bene ad una persona, farei di tutto per te e per farti stare meglio anche allontanarmi se fosse necessario...\n\La mia paura più grande è perderti e ci rimarrei malissimo se ti perdo, non saprei più cosa fare senza di te e tu sei la mia ragione di esistenza.\n\Tu hai fatto tanto per me e io te ne sono debitore, anche solo che tu ci sei sempre per me mi fa' capire quanto tu ci tieni a me.\n\Se avessi 1540 euro li spenderei tutti per regalarti quella collana bellissima che mi hai mandato su Instagram, spenderei ogni centesimo per te.\n\Ah mi dimenticavo che volevo dirti una cosa che mi dimentico sempre di dirti perché è un po' ovvio\n\Sei bellissimissimissimissimissimissimissima\n\Ti voglio un mondo di bene e spero che rimarremo amici per il resto della nostra vita.\n\Ogni volta che ascolterò !ly e molecole anzi tutte le canzoni di Thasup penserò sempre a te e sono felicissimo che sono riuscito a fare piacere la musica di Davide Sattei o Thavide o yungestmoonstar o offline dreadkho o Thasup o Thasupreme o ilsupremo o gospel tipster o per noi ThaSupSickSup. (forse l'ho già scritto prima, ma è passato tanto tempo)\n\Non capirò mai come fai a volermi così tanto bene e sei l'unica che mi ha mai voluto così tanto bene.\n\Ogni giorno per il resto della mia vita ascolterò ogni tuo problema e mi assicurerò che tu riuscirai a non averne.\n\Spero che capisci quanto ci tengo a te e quanto sogno di avere un futuro con te per il resto della vita legati insieme.\n\Può sembrare un pò sbagliata la scelta che ho fatto di importarmi solo di te e di nessun altro ma sono sicuro di aver fatto la scelta giusta perchè sei la persona giusta ed hai un cuore enorme.\n\Non devi ascoltare le cose che pensano gli altri stronzi del gruppo perchè tu sei una persona matura e forte, cosa che gli altri stupidi non sanno, perchè credono di essere grandi quando invece non lo sono.\n\Sei l'unica persona che tiene a me e me lo hai dimostrato facendo tantissime cose che nessuno ha mai fatto, non mi aspettavo di riuscire ad avere una amica che mi facesse il tiramisù e sopratutto bene (sei bravissima a farlo).\n\Non mi aspettavo nemmeno che trovassi una amica che mi facesse conoscere i parenti (adoro tua madre).\n\Non ci posso credere che stai facendo un altro tiramisù per me, SEI TROPPO GENTILE E CARINAAAAAAA.\n\SEI DAVVERO Buona, Bella, Brava, Vera, Dolce, Cara, Allegra, Forte, Felice, Paziente, Aperta, Gentile, Calma, Onesta, Fedele, Simpatica, Attenta, Unica, Sicura, Pronta, Viva, Curiosa, Libera, Attiva, Dolce, Semplice, Preziosa  E LO DEVI SAPERE BENE.\n\Sono le 22:50 del 05/03/2026 e credo che ti sei addormentata o che ti stai per addormentare in chiamata, sei carinissima e non vorrei svegliarti. Ore 22:56 ti sei appena svegliata e non volevo che ti svegliavi :/\n\E' 00:07 e non ci posso credere che sto leggendo la bibbia mentre sono in videochiamata con te che dormi.\n\E' 00:37 non voglio chiudere la chiamata e andare a dormire, ti vorrei lasciare dormire così nel chill mentre ti sento. (siamo a 8 ore e 23 di chiamata)\n\E' mezzanotte e 47 e il tempo sta passando MOLTO LENTAMENTE, vorrei essere con te a dormire in questo momento... mi sto per addormentare ma provo a rimanere sveglio.\n\E' 00:55 e ti sei svegliata credo, hai spostato il telefono e boh... idk cosa sta succedendo.\n\Sono le 1am precise e credo che aspetterò ANCORA E ANCORA finchè non ti sveglierai... ti amo. \n\son le 1:32 e ho il counter dei like di ig aperto e sono appena arrivato a 90k like\n\Non ho mai scritto una lettera così lunga e così sincera, con scritte così tante cose che penso di una persona e sei la persona a cui penso più cose.\n\Sono le 1:52 ed ho deciso che alle 2:14 chiudo la chiamata perchè arriviamo a 10 ore di chiamata.\n\Mancano 10 minuti e ti giuro che per nessuna ragazza oltre a te ho mai fatto e farò una cosa così.\n\Sono esattamente le 2:14 e vado a dormire, spero che stai dormendo bene.\n\Finisco dicendo che ti amo da morire e che spero che questa lettera ti sia piaciuta."
+            },
+            {
+                id: 3,
+                date: "20 Maggio",
+                title: "Oltre il tempo",
+                text: "Pt.1:\n\Ormai sono passati 6/7 mesi da quando mi sono innamorato di te e 4 mesi da quando siamo migliori amici.\n\Io vorrei dirtelo con tutto il cuore che ti amo da morire e che vorrei mettermi con te ma so benissimo che tu mi daresti palo perché vuoi avere solo un amicizia con me e niente di più...\n\Però c'è un altra parte di me che pensa il contrario, che crede che tu mi ami davvero.\n\Guardando come ti comporti con me a volte sembra come se sei innamorata di me e a volte sembri distaccata, ciò mi fa stare molto male e bene nello stesso momento.\n\Io in te provo cose che per nessuna ho mai provato, sei l'unica che amo e non mi sei solo piaciuta.\n\Mi ricordo ancora il momento in cui mi sono promesso di amare solo te e nessun'altra per tutta la vita dopo averti accompagnata all'arco d'Augusto, proprio il 21/03, il giorno in cui abbiamo parlato dei nostri problemi familiari.\n\Io per te spero solo il meglio e spero che trovi un ragazzo che ti sappia amare davvero e che riesce a mostrarti affetto.\n\Io anche se voglio che tu ti fidanzi con me ho cercato di trovare l'instragram di nyat perché se tu un giorno deciderai di volerci provare con lui, tu lo avrai.\n\Ogni tuo abbraccio mi fa' stare molto meglio e mi fa' sentire come se non ci sono motivi per stare male, davvero mi sento come se fossi in un altro universo in cui ci siamo solo noi due e la pace."
+            }
+        ];
+
+        const container = document.getElementById('letters-container');
+
+        myLetters.forEach(letter => {
+            const outerWrapper = document.createElement('div');
+            outerWrapper.style.position = 'relative';
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'envelope-wrapper';
+            
+            wrapper.innerHTML = `
+                <div class="flap"></div>
+                <div class="heart-seal"></div>
+                <div class="letter-preview-card">
+                    <h4>${letter.title}</h4>
+                </div>
+                <div class="envelope"></div>
+            `;
+
+            const label = document.createElement('div');
+            label.className = 'envelope-label';
+            label.innerText = letter.date;
+            outerWrapper.appendChild(wrapper);
+            outerWrapper.appendChild(label);
+
+            wrapper.onclick = () => {
+                wrapper.classList.add('open');
+                setTimeout(() => {
+                    openModal(letter);
+                }, 600);
+            };
+
+            container.appendChild(outerWrapper);
+        });
+
+        function openModal(letter) {
+            document.getElementById('modal-date').innerText = letter.date;
+            document.getElementById('modal-title').innerText = letter.title;
+            document.getElementById('modal-body').innerText = letter.text;
+            
+            const modal = document.getElementById('letter-modal');
+            modal.classList.add('active');
+            
+            // Fa resettare lo scroll all'inizio ogni volta che apre una nuova lettera
+            document.querySelector('.modal-content').scrollTop = 0;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('letter-modal');
+            modal.classList.remove('active');
+            
+            const allEnvelopes = document.querySelectorAll('.envelope-wrapper');
+            allEnvelopes.forEach(env => env.classList.remove('open'));
+        }
+
+        // --- SFONDO ANIMATO ---
+        const canvas = document.getElementById('canvas-particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.2 - 0.1;
+                this.speedY = Math.random() * -0.3 - 0.1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.fadeRate = Math.random() * 0.003 + 0.001;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= this.fadeRate;
+                if (this.opacity <= 0 || this.y < 0) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 10;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 182, 193, ${this.opacity})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#ff7597';
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        for (let i = 0; i < 50; i++) { particles.push(new Particle()); }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
