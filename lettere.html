@@ -25,7 +25,7 @@
             font-family: 'Georgia', serif;
             min-height: 100vh;
             overflow-x: hidden;
-            padding: 40px 20px;
+            padding: 30px 15px; /* Margini leggermente ridotti per i bordi mobile */
         }
 
         #canvas-particles {
@@ -47,40 +47,42 @@
 
         header {
             text-align: center;
-            padding-bottom: 60px;
+            padding-bottom: 40px;
             animation: fadeIn 2s ease-in-out;
         }
 
         header h1 {
-            font-size: 3rem;
+            font-size: 2.2rem; /* Scalato per mobile */
             font-weight: 300;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--accent-pink);
             text-shadow: 0 0 15px rgba(255, 117, 151, 0.4);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         header p {
             font-style: italic;
             color: rgba(251, 227, 232, 0.7);
-            font-size: 1.1rem;
+            font-size: 1rem;
+            padding: 0 10px;
         }
 
         .letters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 60px 40px;
+            /* Layout flessibile: si adatta nativamente da schermi piccolissimi a desktop */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 50px 20px;
             justify-items: center;
-            padding-top: 20px;
+            padding-top: 10px;
         }
 
         /* --- CONTENITORE BUSTA --- */
         .envelope-wrapper {
             position: relative;
-            width: 220px;
-            height: 140px;
+            width: 200px; /* Arrotondato per centrare meglio sui display stretti */
+            height: 130px;
             background-color: var(--envelope-inside);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
             cursor: pointer;
             border-bottom-left-radius: 6px;
             border-bottom-right-radius: 6px;
@@ -89,7 +91,7 @@
         }
 
         .envelope-wrapper:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
 
         .envelope-wrapper.open {
@@ -112,10 +114,10 @@
             position: absolute;
             top: 0;
             z-index: 2;
-            border-left: 110px solid transparent;
-            border-right: 110px solid transparent;
-            border-top: 70px solid transparent;
-            border-bottom: 70px solid var(--envelope-bg);
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-top: 65px solid transparent;
+            border-bottom: 65px solid var(--envelope-bg);
         }
 
         .envelope::after {
@@ -123,10 +125,10 @@
             position: absolute;
             top: 0;
             z-index: 2;
-            border-left: 110px solid var(--envelope-bg);
-            border-right: 110px solid transparent;
-            border-top: 70px solid transparent;
-            border-bottom: 70px solid transparent;
+            border-left: 100px solid var(--envelope-bg);
+            border-right: 100px solid transparent;
+            border-top: 65px solid transparent;
+            border-bottom: 65px solid transparent;
             opacity: 0.95;
         }
 
@@ -137,10 +139,10 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 110px solid transparent;
-            border-right: 110px solid transparent;
-            border-top: 75px solid var(--envelope-bg);
-            border-bottom: 75px solid transparent;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-top: 70px solid var(--envelope-bg);
+            border-bottom: 70px solid transparent;
             transform-origin: top;
             transition: transform 0.4s ease, z-index 0.2s;
             z-index: 4;
@@ -149,11 +151,11 @@
         /* Cuore/Sigillo */
         .heart-seal {
             position: absolute;
-            top: 60px;
+            top: 55px;
             left: 50%;
             transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             background-color: var(--accent-pink);
             z-index: 5;
             clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
@@ -163,11 +165,11 @@
         /* Data esterna sotto la busta */
         .envelope-label {
             position: absolute;
-            bottom: -35px;
+            bottom: -30px;
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(251, 227, 232, 0.6);
             letter-spacing: 1px;
             font-family: sans-serif;
@@ -179,16 +181,16 @@
             color: var(--accent-pink);
         }
 
-        /* --- FOGLIETTO INTERNO (Mostra solo il titolo, protetto da overflow) --- */
+        /* --- FOGLIETTO INTERNO --- */
         .letter-preview-card {
             position: absolute;
             bottom: 0;
-            left: 15px;
-            right: 15px;
-            height: 75px;
+            left: 12px;
+            right: 12px;
+            height: 70px;
             background-color: #fff;
             border-radius: 4px;
-            padding: 12px 8px;
+            padding: 10px 6px;
             z-index: 1;
             transition: transform 0.4s ease;
             opacity: 0;
@@ -201,7 +203,7 @@
 
         .letter-preview-card h4 {
             color: var(--accent-pink);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: bold;
             line-height: 1.2;
             word-wrap: break-word;
@@ -219,28 +221,29 @@
         }
 
         .envelope-wrapper.open .letter-preview-card {
-            transform: translateY(-65px);
+            transform: translateY(-60px);
             z-index: 2;
             opacity: 1;
         }
 
-        /* --- PERGAMENA DELLA LETTERA APERTA (MODAL) --- */
+        /* --- SCHERMO LETTERA APERTA (MODAL RESPONSIVE) --- */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(10, 5, 15, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 5, 15, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
-            padding: 20px;
+            transition: opacity 0.4s ease;
+            padding: 12px;
         }
 
         .modal.active {
@@ -251,16 +254,16 @@
         .modal-content {
             background: #fffdf9;
             color: var(--text-color);
-            max-width: 600px;
-            width: 100%;
-            /* Gestione altezze per lettere lunghissime */
-            max-height: 80vh; 
+            width: 95%; /* Più largo su mobile rispetto a prima per non stringere il testo */
+            max-width: 580px;
+            max-height: 85vh; 
             overflow-y: auto; 
-            border-radius: 6px;
-            padding: 50px 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.05);
-            transform: translateY(50px) scale(0.95);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-overflow-scrolling: touch; /* Rende lo scroll fluidissimo su iPhone/iOS */
+            border-radius: 8px;
+            padding: 40px 25px 35px 25px; /* Spazio interno bilanciato */
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,0,0,0.03);
+            transform: translateY(30px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             border: 1px solid #eae5d8;
         }
@@ -271,13 +274,14 @@
 
         .modal-close {
             position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 1.8rem;
-            color: #aaa;
+            top: 12px;
+            right: 18px;
+            font-size: 2.2rem; /* Più grande per essere cliccato comodamente da touch */
+            color: #bbb;
             cursor: pointer;
             transition: color 0.2s;
-            z-index: 11;
+            z-index: 12;
+            line-height: 1;
         }
 
         .modal-close:hover {
@@ -286,24 +290,27 @@
 
         .modal-date {
             color: #888;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
             font-style: italic;
+            font-family: sans-serif;
         }
 
         .modal-title {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
+            font-size: 1.7rem; /* Scalato per mobile */
+            margin-bottom: 20px;
             font-weight: 400;
             color: #1a1a1a;
+            line-height: 1.3;
+            padding-right: 20px; /* Evita sovrapposizione con la X */
         }
 
         .modal-body {
-            font-size: 1.15rem;
-            line-height: 1.9;
+            font-size: 1.05rem; /* Ottimizzato per la lettura da smartphone */
+            line-height: 1.8;
             color: #333;
             white-space: pre-wrap;
-            word-wrap: break-word; /* Evita che parole lunghissime escano a destra */
+            word-wrap: break-word;
         }
 
         @keyframes fadeIn {
@@ -311,16 +318,27 @@
             to { opacity: 1; }
         }
 
-        /* Scrollbar nascosta ma attiva per mantenere l'estetica pulita */
+        /* Scrollbar sottile ma visibile */
         .modal-content::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
         .modal-content::-webkit-scrollbar-track {
             background: transparent;
         }
         .modal-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 117, 151, 0.3);
-            border-radius: 10px;
+            background: rgba(255, 117, 151, 0.4);
+            border-radius: 4px;
+        }
+
+        /* Ottimizzazioni per schermi medi/grandi (Tablet e Desktop) */
+        @media (min-width: 600px) {
+            body { padding: 40px 20px; }
+            header h1 { font-size: 3rem; }
+            header p { font-size: 1.1rem; }
+            .letters-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 60px 30px; }
+            .modal-content { padding: 50px 40px; }
+            .modal-title { font-size: 2.2rem; }
+            .modal-body { font-size: 1.15rem; }
         }
     </style>
 </head>
@@ -361,13 +379,19 @@
                 id: 2,
                 date: "6 Aprile",
                 title: "Sotto le stelle",
-                text: "Carissima Mia,\n\Sei la persona più importante nella mia vita, tu sei la migliore amica che potessi avere ed ogni momento con te è meraviglioso.\n\Giovedì sera mi hai ascoltato, mi hai capito e soprattutto ti sei fidata di dirmi cose private che non hai mai detto a nessuno prima di me.\n\Mi voglio davvero scusare sinceramente con te per averti dato un bacio sulla fronte giovedì perché sono sicuro che ti ha dato molto fastidio e volevo dirti che l'ho dato perché guardarti piangere mercoledì in videochiamata mi ha fatto molto stare male e soprattutto volevo farti stare bene a te, quindi pensavo che un bacio sulla fronte potesse farti stare meglio.\n\Mi ricordo benissimo la serata a guardare le stelle e sono davvero molto contento di non essere entrato a teatro perché non avrei avuto questa esperienza bellissima.\n\È stato davvero fantastico guardare le stelle mentre ascoltavo ThaSupreme con te e mi sento di aver trovato la persona che mi migliorerà la vita.\n\Tu sei unica e riesci a fare stare bene tutti, hai un cuore d'oro e fai qualsiasi cosa per tutti, questo mi fa' capire che ci tieni davvero alle persone.\n\Al parco di gressan mi sono divertito un botto e sembrava di aver trovato la pace.\n\Lo so che può sembrare una cosa strana da dire però volevo dirti che sembriamo davvero molto simili e noto molto che ci stiamo legando un sacco perché a volte pensiamo e diciamo le stesse cose nello stesso momento come se fossimo telepatici... O forse lo siamo...\n\Lo so che può sembrare una bugia però volevo dirti che prego per te, perché ti amo tantissimo e voglio che tu stai sempre bene e che non avrai mai giornate brutte.\n\Questa lettera la sto scrivendo ascoltando ovviamente ThaSup e ogni volta che ascolto carattere speciale penso ai momenti bellissimi con te, davvero ogni istante con te è meraviglioso e ti darei il mondo.\n\Mi manchi davvero tantissimo e quando mi non sono con te il tempo passa MOLTO LENTAMENTE.\n\Ora che sei nei planes, mi cambi tutti i planes te lo giuro mi fai stare meglio.\n\Recentemente ho capito che non devo andare a cercare di fidanzarmi con qualcuna per poi stare male, perché tanto ho te come migliore amica che mi fai davvero stare bene e sono sicuro al 100% che la nostra amicizia non finirà mai, ne sono davvero certo e lo spero perché non saprei più che fare senza di te.\n\Questa lettera può sembrare un po' lunga ma è davvero il minimo delle cose che ti direi, tu mi fai capire cos'è l'amore e cosa vuol dire amare una persona, non ho mai voluto così tanto bene ad una persona, farei di tutto per te e per farti stare meglio anche allontanarmi se fosse necessario...\n\La mia paura più grande è perderti e ci rimarrei malissimo se ti perdo, non saprei più cosa fare senza di te e tu sei la mia ragione di esistenza.\n\Tu hai fatto tanto per me e io te ne sono debitore, anche solo che tu ci sei sempre per me mi fa' capire quanto tu ci tieni a me.\n\Se avessi 1540 euro li spenderei tutti per regalarti quella collana bellissima che mi hai mandato su Instagram, spenderei ogni centesimo per te.\n\Ah mi dimenticavo che volevo dirti una cosa che mi dimentico sempre di dirti perché è un po' ovvio\n\Sei bellissimissimissimissimissimissimissima\n\Ti voglio un mondo di bene e spero che rimarremo amici per il resto della nostra vita.\n\Ogni volta che ascolterò !ly e molecole anzi tutte le canzoni di Thasup penserò sempre a te e sono felicissimo che sono riuscito a fare piacere la musica di Davide Sattei o Thavide o yungestmoonstar o offline dreadkho o Thasup o Thasupreme o ilsupremo o gospel tipster o per noi ThaSupSickSup. (forse l'ho già scritto prima, ma è passato tanto tempo)\n\Non capirò mai come fai a volermi così tanto bene e sei l'unica che mi ha mai voluto così tanto bene.\n\Ogni giorno per il resto della mia vita ascolterò ogni tuo problema e mi assicurerò che tu riuscirai a non averne.\n\Spero che capisci quanto ci tengo a te e quanto sogno di avere un futuro con te per il resto della vita legati insieme.\n\Può sembrare un pò sbagliata la scelta che ho fatto di importarmi solo di te e di nessun altro ma sono sicuro di aver fatto la scelta giusta perchè sei la persona giusta ed hai un cuore enorme.\n\Non devi ascoltare le cose che pensano gli altri stronzi del gruppo perchè tu sei una persona matura e forte, cosa che gli altri stupidi non sanno, perchè credono di essere grandi quando invece non lo sono.\n\Sei l'unica persona che tiene a me e me lo hai dimostrato facendo tantissime cose che nessuno ha mai fatto, non mi aspettavo di riuscire ad avere una amica che mi facesse il tiramisù e sopratutto bene (sei bravissima a farlo).\n\Non mi aspettavo nemmeno che trovassi una amica che mi facesse conoscere i parenti (adoro tua madre).\n\Non ci posso credere che stai facendo un altro tiramisù per me, SEI TROPPO GENTILE E CARINAAAAAAA.\n\SEI DAVVERO Buona, Bella, Brava, Vera, Dolce, Cara, Allegra, Forte, Felice, Paziente, Aperta, Gentile, Calma, Onesta, Fedele, Simpatica, Attenta, Unica, Sicura, Pronta, Viva, Curiosa, Libera, Attiva, Dolce, Semplice, Preziosa  E LO DEVI SAPERE BENE.\n\Sono le 22:50 del 05/03/2026 e credo che ti sei addormentata o che ti stai per addormentare in chiamata, sei carinissima e non vorrei svegliarti. Ore 22:56 ti sei appena svegliata e non volevo che ti svegliavi :/\n\E' 00:07 e non ci posso credere che sto leggendo la bibbia mentre sono in videochiamata con te che dormi.\n\E' 00:37 non voglio chiudere la chiamata e andare a dormire, ti vorrei lasciare dormire così nel chill mentre ti sento. (siamo a 8 ore e 23 di chiamata)\n\E' mezzanotte e 47 e il tempo sta passando MOLTO LENTAMENTE, vorrei essere con te a dormire in questo momento... mi sto per addormentare ma provo a rimanere sveglio.\n\E' 00:55 e ti sei svegliata credo, hai spostato il telefono e boh... idk cosa sta succedendo.\n\Sono le 1am precise e credo che aspetterò ANCORA E ANCORA finchè non ti sveglierai... ti amo. \n\son le 1:32 e ho il counter dei like di ig aperto e sono appena arrivato a 90k like\n\Non ho mai scritto una lettera così lunga e così sincera, con scritte così tante cose che penso di una persona e sei la persona a cui penso più cose.\n\Sono le 1:52 ed ho deciso che alle 2:14 chiudo la chiamata perchè arriviamo a 10 ore di chiamata.\n\Mancano 10 minuti e ti giuro che per nessuna ragazza oltre a te ho mai fatto e farò una cosa così.\n\Sono esattamente le 2:14 e vado a dormire, spero che stai dormendo bene.\n\Finisco dicendo che ti amo da morire e che spero che questa lettera ti sia piaciuta."
+                text: "Carissima Mia,\n\nSei la persona più importante nella mia vita, tu sei la migliore amica che potessi avere ed ogni momento con te è meraviglioso.\n\nGiovedì sera mi hai ascoltato, mi hai capito e soprattutto ti sei fidata di dirmi cose private che non hai mai detto a nessuno prima di me.\n\nMi voglio davvero scusare sinceramente con te per averti dato un bacio sulla fronte giovedì perché sono sicuro che ti ha dato molto fastidio e volevo dirti che l'ho dato perché guardarti piangere mercoledì in videochiamata mi ha fatto molto stare male e soprattutto volevo farti stare bene a te, quindi pensavo che un bacio sulla fronte potesse farti stare meglio.\n\nMi ricordo benissimo la serata a guardare le stelle e sono davvero molto contento di non essere entrato a teatro perché non avrei avuto questa esperienza bellissima.\n\nÈ stato davvero fantastico guardare le stelle mentre ascoltavo ThaSupreme con te e mi sento di aver trovato la persona che mi migliorerà la vita.\n\nTu sei unica e riesci a fare stare bene tutti, hai un cuore d'oro e fai qualsiasi cosa per tutti, questo mi fa' capire che ci tieni davvero alle persone.\n\nAl parco di gressan mi sono divertito un botto e sembrava di aver trovato la pace.\n\nLo so che può sembrare una cosa strana da dire però volevo dirti che sembriamo davvero molto simili e noto molto che ci stiamo legando un sacco perché a volte pensiamo e diciamo le Legislative cose nello stesso momento come se fossimo telepatici... O forse lo siamo...\n\nLo so che può sembrare una bugia però volevo dirti che prego per te, perché ti amo tantissimo e voglio che tu stai sempre bene e che non avrai mai giornate brutte.\n\nQuesta lettera la sto scrivendo ascoltando ovviamente ThaSup e ogni volta che ascolto carattere speciale penso dei momenti bellissimi con te, davvero ogni istante con te è meraviglioso e ti darei il mondo.\n\nMi manchi davvero tantissimo e quando mi non sono con te il tempo passa MOLTO LENTAMENTE.\n\nOra che sei nei planes, mi cambi tutti i planes te lo giuro mi fai stare meglio.\n\nRecentemente ho capito che non devo andare a cercare di fidanzarmi con qualcuna per poi stare male, perché tanto ho te come migliore amica che mi fai davvero stare bene e sono sicuro al 100% che la nostra amicizia non finirà mai, ne sono davvero certo e lo spero perché non saprei più che fare senza di te.\n\nQuesta lettera può sembrare un po' lunga ma è davvero il minimo delle cose che ti direi, tu mi fai capire cos'è l'amore e cosa vuol dire amare una persona, non ho mai voluto così tanto bene ad una persona, farei di tutto per te e per farti stare meglio anche allontanarmi se fosse necessario...\n\nLa mia paura più grande è perderti e ci rimarrei malissimo se ti perdo, non saprei più cosa fare senza di te e tu sei la mia ragione di esistenza.\n\nTu hai fatto tanto per me e io te ne sono debitore, anche solo che tu ci sei sempre per me mi fa' capire quanto tu ci tieni a me.\n\nSe avessi 1540 euro li spenderei tutti per regalarti quella collana bellissima che mi hai mandato su Instagram, spenderei ogni centesimo per te.\n\nAh mi dimenticavo che volevo dirti una cosa che mi dimentico sempre di dirti perché è un po' ovvio\n\nSei bellissimissimissimissimissimissimissima\n\nTi voglio un mondo di bene e spero che rimarremo amici per il resto della nostra vita.\n\nOgni volta che ascolterò !ly e molecole anzi tutte le canzoni di Thasup penserò sempre a te e sono felicissimo che sono riuscito a fare piacere la musica di Davide Sattei o Thavide o yungestmoonstar o offline dreadkho o Thasup o Thasupreme o ilsupremo o gospel tipster o per noi ThaSupSickSup. (forse l'ho già scritto prima, ma è passato tanto tempo)\n\nNon capirò mai come fai a volermi così tanto bene e sei l'unica che mi ha mai voluto così tanto bene.\n\nOgni giorno per il resto della mia vita ascolterò ogni tuo problema e mi assicurerò che tu riuscirai a non averne.\n\nSpero che capisci quanto ci tengo a te e quanto sogno di avere un futuro con te per il resto della vita legati insieme.\n\nPuò sembrare un pò sbagliata la scelta che ho fatto di importarmi solo di te e di nessun altro ma sono sicuro di aver fatto la scelta giusta perchè sei la persona giusta ed hai un cuore enorme.\n\nNon devi ascoltare le cose che pensano gli altri stronzi del gruppo perchè tu sei una persona matura e forte, cosa che gli altri stupidi non sanno, perchè credono di essere grandi quando invece non lo sono.\n\nSei l'unica persona che tiene a me e me lo hai dimostrato facendo tantissime cose che nessuno ha mai fatto, non mi aspettavo di riuscire ad avere una amica che mi facesse il tiramisù e sopratutto bene (sei bravissima a farlo).\n\nNon mi aspettavo nemmeno che trovassi una amica che mi facesse conoscere i parenti (adoro tua madre).\n\nNon ci posso credere che stai facendo un altro tiramisù per me, SEI TROPPO GENTILE E CARINAAAAAAA.\n\nSEI DAVVERO Buona, Bella, Brava, Vera, Dolce, Cara, Allegra, Forte, Felice, Paziente, Aperta, Gentile, Calma, Onesta, Fedele, Simpatica, Attenta, Unica, Sicura, Pronta, Viva, Curiosa, Libera, Attiva, Dolce, Semplice, Preziosa  E LO DEVI SAPERE BENE.\n\nSono le 22:50 del 05/03/2026 e credo che ti sei addormentata o che ti stai per addormentare in chiamata, sei carinissima e non vorrei svegliarti. Ore 22:56 ti sei appena svegliata e non volevo che ti svegliavi :/\n\nE' 00:07 e non ci posso credere che sto leggendo la bibbia mentre sono in videochiamata con te che dormi.\n\nE' 00:37 non voglio chiudere la chiamata e andare a dormire, ti vorrei lasciare dormire così nel chill mentre ti sento. (siamo a 8 ore e 23 di chiamata)\n\nE' mezzanotte e 47 e il tempo sta passando MOLTO LENTAMENTE, vorrei essere con te a dormire in questo momento... mi sto per addormentare ma provo a rimanere sveglio.\n\nE' 00:55 e ti sei svegliata credo, hai spostato il telefono e boh... idk cosa sta succedendo.\n\nSono le 1am precise e credo che aspetterò ANCORA E ANCORA finchè non ti sveglierai... ti amo. \n\nson le 1:32 e ho il counter dei like di ig aperto e sono appena arrivato a 90k like\n\nNon ho mai scritto una lettera così lunga e così sincera, con scritte così tante cose che penso di una persona e sei la persona a cui penso più cose.\n\nSono le 1:52 ed ho deciso che alle 2:14 chiudo la chiamata perchè arriviamo a 10 ore di chiamata.\n\nMancano 10 minuti e ti giuro che per nessuna ragazza oltre a te ho mai fatto e farò una cosa così.\n\nSono esattamente le 2:14 e vado a dormire, spero che stai dormendo bene.\n\nFinisco dicendo che ti amo da morire e che spero che questa lettera ti sia piaciuta."
             },
             {
                 id: 3,
                 date: "20 Maggio",
                 title: "Oltre il tempo",
-                text: "Pt.1:\n\Ormai sono passati 6/7 mesi da quando mi sono innamorato di te e 4 mesi da quando siamo migliori amici.\n\Io vorrei dirtelo con tutto il cuore che ti amo da morire e che vorrei mettermi con te ma so benissimo che tu mi daresti palo perché vuoi avere solo un amicizia con me e niente di più...\n\Però c'è un altra parte di me che pensa il contrario, che crede che tu mi ami davvero.\n\Guardando come ti comporti con me a volte sembra come se sei innamorata di me e a volte sembri distaccata, ciò mi fa stare molto male e bene nello stesso momento.\n\Io in te provo cose che per nessuna ho mai provato, sei l'unica che amo e non mi sei solo piaciuta.\n\Mi ricordo ancora il momento in cui mi sono promesso di amare solo te e nessun'altra per tutta la vita dopo averti accompagnata all'arco d'Augusto, proprio il 21/03, il giorno in cui abbiamo parlato dei nostri problemi familiari.\n\Io per te spero solo il meglio e spero che trovi un ragazzo che ti sappia amare davvero e che riesce a mostrarti affetto.\n\Io anche se voglio che tu ti fidanzi con me ho cercato di trovare l'instragram di nyat perché se tu un giorno deciderai di volerci provare con lui, tu lo avrai.\n\Ogni tuo abbraccio mi fa' stare molto meglio e mi fa' sentire come se non ci sono motivi per stare male, davvero mi sento come se fossi in un altro universo in cui ci siamo solo noi due e la pace."
+                text: "Pt.1:\n\nOrmai sono passati 6/7 mesi da quando mi sono innamorato di te e 4 mesi da quando siamo migliori amici.\n\nIo vorrei dirtelo con tutto il cuore che ti amo da morire e che vorrei mettermi con te ma so benissimo che tu mi daresti palo perché vuoi avere solo un amicizia con me e niente di più...\n\nPerò c'è un altra parte di me che pensa il contrario, che crede che tu mi ami davvero.\n\nGuardando come ti comporti con me a volte sembra come se sei innamorata di me e a volte sembri distaccata, ciò mi fa stare molto male e bene nello stesso momento.\n\nIo in te provo cose che per nessuna ho mai provato, sei l'unica che amo e non mi sei solo piaciuta.\n\nMi ricordo ancora il momento in cui mi sono promesso di amare solo te e nessun'altra per tutta la vita dopo averti accompagnata all'arco d'Augusto, proprio il 21/03, il giorno in cui abbiamo parlato dei nostri problemi familiari.\n\nIo per te spero solo il meglio e spero che trovi un ragazzo che ti sappia amare davvero e che riesce a mostrarto affetto.\n\nIo anche se voglio che tu ti fidanzi con me ho cercato di trovare l'instragram di nyat perché se tu un giorno deciderai di volerci provare con lui, tu lo avrai.\n\nOgni tuo abbraccio mi fa' stare molto meglio e mi fa' sentire come se non ci sono motivi per stare male, davvero mi sento come se fossi in un altro universo in cui ci siamo solo noi due e la pace."
+            },
+            {
+                id: 4,
+                date: "26 Maggio",
+                title: "Oltre il tempo pt.2",
+                text: "Io speravo che tu non leggessi questa nota perché ho paura che dal momento che tu l'hai letta, la nostra amicizia possa essere cambiata o finita.\n\nÈ stata davvero una cazzata assurda quella che ho fatto, non dovevo fare questa nota...\n\nMi spaventa pensare che dovrò aspettarti 20 anni e non vorrei portami sfiga ma credo che sarò già morto, sapendo come mi sta andando male la vita ora.\n\nIo probabilmente ti aspetterei pure così tanto tempo ma ti conosco solamente da 6 mesi e sto male al pensiero che voglio che tu diventi la mia ragazza.\n\nIo penso che da questo momento dovrei iniziare a perdere un po' le speranze perché sennò starò solo sempre più male.\n\nComunque sto iniziando a capire che è giusto che tu non ti voglia fidanzare con me perché non sono il tuo tipo ideale, ceh sò di essere brutto e tu ti meriteresti un ragazzo molto più bello.\n\nIo vorrei fidanzarmi con te e non con tipe a caso perché ti conosco e sono sicuro che tu non mi faresti mai del male.\n\nIo questo mese ho provato a farti credere che mi piacessero altre ragazze ma non è vero perché in te provo qualcosa che in nessuna riesco a provare, io ti amo maggiormente per come sei internamente, non esternamente.\n\nTu sei una ragazza simpatica, hai un cuore d'oro e riesci a farmi sorridere in ogni momento anche quando mi sento male e nessuna è riuscita a farmi provare dei sentimenti non pensando alla bellezza.\n\nTu sei anche davvero bellissima però in te percepisco maggiormente come mi fai stare bene quando mi parli e come riesci a farmi credere di aver trovato la pace quando sei vicina a me.\n\nSe il mio destino sarà rimanere solo migliore amico con te, io ne sarò consapevole anche se farà molto male.\n\nAnche se ci sono tanti pesci nel mare, io vorrei solo te...\n\n26/05/2026:\n\nSono passati un po' di giorni e mi ero dimenticato di continuare la nota.\n\nIeri ho parlato con te della cosa dei 20 anni che devo aspettare per avere te e sinceramente li aspetterò tutti anche farà molto male...\n\nHo capito che ti sei rotta di cercare di trovare una relazione da adolescenti e ti capisco benissimo ma sono sicuro che non ti lascerei mai, io non sono come gli altri e ci tengo davvero da morire a te.\n\nOvviamente capisco anche benissimo che tu non ti voglia mettere con me per la paura che io ti possa lasciare anche se ti dico ora che non ti lascerei mai.\n\nMi fa' ridere che sto ancora scrivendo cose che leggerò solo io perché vorrei esprimermi ma non so con chi parlarne.\n\nMolte persone pensano che io tutte le cose che faccio a te le faccio solo per volermi mettere con te ma non è vero perché le avrei fatte comunque con qualsiasi altra persona con cui mi sarei legato così tanto.\n\nTu ti meriti tutto l'amore del mondo e spero che riuscirai ad ottenerlo, tu sei speciale lo vedo dai tuoi occhi che tu sei diversa dalle altre. Sei molto meglio delle altre.\n\nSolo tu riesci a farmi scrivere così tanto...\n\nTu sei riuscita a farmi amare una persona, non piacere. L'amare te mi fa' fare cose che nella mia vita non avrei mai fatto prima di conoscerti"
             }
         ];
 
@@ -413,7 +437,6 @@
             const modal = document.getElementById('letter-modal');
             modal.classList.add('active');
             
-            // Fa resettare lo scroll all'inizio ogni volta che apre una nuova lettera
             document.querySelector('.modal-content').scrollTop = 0;
         }
 
